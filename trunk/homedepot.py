@@ -155,7 +155,7 @@ def seg_words(str1, str2):
             s.append(word)
     return (" ".join(s))
 
-def feature_extraction(df_all):
+def feature_extraction(df_all, df_brand):
     # stemming the raw input
     df_all['search_term'] = df_all['search_term'].map(lambda x:str_stem(x))
     df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x))
@@ -170,13 +170,31 @@ def feature_extraction(df_all):
     df_all['len_of_brand'] = df_all['brand'].map(lambda x:len(x.split())).astype(np.int64)
 
     df_all['search_term'] = df_all['product_info'].map(lambda x:seg_words(x.split('\t')[0],x.split('\t')[1]))
+    
+    df_all['word_in_title'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[1]))
+    df_all['word_in_description'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[2]))
+    df_all['ratio_title'] = df_all['word_in_title']/df_all['len_of_query']
+    df_all['ratio_description'] = df_all['word_in_description']/df_all['len_of_query']
+    df_all['attr'] = df_all['search_term']+"\t"+df_all['brand']
+    df_all['word_in_brand'] = df_all['attr'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[1]))
+    df_all['ratio_brand'] = df_all['word_in_brand']/df_all['len_of_brand']
+    df_brand = pd.unique(df_all.brand.ravel())
+    
+    d={}
+    i = 1000
+    for s in df_brand:
+        d[s]=i
+        i+=3
+    df_all['brand_feature'] = df_all['brand'].map(lambda x:d[x])
+    df_all['search_term_len'] = df_all['search_term'].map(lambda x:len(x))
+    
     return df_all
 
 def test():
     df_train, df_test, df_pro_desc, df_attr, df_brand, num_train = load_data()
     df_all = merge_data(df_train, df_test)
     df_all = join_data(df_all, df_pro_desc, df_brand)
-    df_all = feature_extraction(df_all)
+    df_all = feature_extraction(df_all, df_brand)
 
     #print(df_all['search_term'])
     f = open("search_term.csv", "w")
@@ -185,3 +203,13 @@ def test():
         f.write(df_all['search_term'][i]+"\n")
     f.close()
 test()
+
+# meet with advisor
+# bag of word, text->vector, tf-idf  vectorA vectorB, similarity between two vectors 
+# word vectorize, text->sparse text
+# text mining
+# try all the techniques
+# bigram
+# scikilearn package
+# 1. test set, 
+# 2. start from baseline model. different feature transformation, different regression model
