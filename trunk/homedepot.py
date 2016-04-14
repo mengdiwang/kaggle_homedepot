@@ -1,6 +1,6 @@
 # This Python 3 environment comes with many helpful analytics libraries installed
 # It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
-# For example, here's several helpful packages to load in 
+# For example, here's several helpful packages to load in
 
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
@@ -20,12 +20,24 @@ import pandas as pd
 import re
 import random
 
+from sklearn.metrics import mean_squared_error, make_scorer
+from nltk.stem.porter import *
+stemmer = PorterStemmer()
+
 path_train = "../input/train.csv"
 path_test = "../input/test.csv"
 path_attr = "../input/attributes.csv"
 path_product = "../input/product_descriptions.csv"
 
 stop_words = ['for', 'xbi', 'and', 'in', 'th','on','sku','with','what','from','that','less','er','ing']
+strNum = {'zero':0,'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':0}
+
+# RMSE score methord
+def fmean_squared_error(ground_truth, predictions):
+    fmean_squared_error_ = mean_squared_error(ground_truth, predictions)**0.5
+    return fmean_squared_error_
+
+RMSE  = make_scorer(fmean_squared_error, greater_is_better=False)
 
 def load_data():
     df_train = pd.read_csv(path_train, encoding="ISO-8859-1")
@@ -33,106 +45,143 @@ def load_data():
     df_pro_desc = pd.read_csv(path_product)
     df_attr = pd.read_csv(path_attr)
     df_brand = df_attr[df_attr.name == "MFG Brand Name"][["product_uid", "value"]].rename(columns={"value": "brand"})
-    
+
     num_train = df_train.shape[0]
     print("--- Files Loaded: %s minutes ---" % round(((time.time() - start_time)/60),2))
-    
+
     return df_train, df_test, df_pro_desc, df_attr, df_brand, num_train
-    
+
 def merge_data(df_train, df_test):
     df_all = pd.concat((df_train, df_test), axis=0, ignore_index=True)
     return df_all
 
-def join_data(df_all, df_pro_desc, df_attr):
+def join_data(df_all, df_pro_desc, df_brand):
     df_all = pd.merge(df_all, df_pro_desc, how='left', on='product_uid')
     df_all = pd.merge(df_all, df_brand, how='left', on='product_uid')
     return df_all
-    
-def str_cleaing(s):
+
+def str_stem(s):
     if isinstance(s, str):
+        s = re.sub(r"(\w)\.([A-Z])", r"\1 \2", s) #Split words with a.A
         s = s.lower()
-        s = s.replace("'","in.") # character
-        s = s.replace("inches","in.") # whole word
-        s = s.replace("inch","in.") # whole word
-        s = s.replace(" in ","in. ") # no period
-        s = s.replace(" in.","in.") # prefix space
-
-        s = s.replace("''","ft.") # character
-        s = s.replace(" feet ","ft. ") # whole word
-        s = s.replace("feet","ft.") # whole word
-        s = s.replace("foot","ft.") # whole word
-        s = s.replace(" ft ","ft. ") # no period
-        s = s.replace(" ft.","ft.") # prefix space
-    
-        s = s.replace(" pounds ","lb. ") # character
-        s = s.replace(" pound ","lb. ") # whole word
-        s = s.replace("pound","lb.") # whole word
-        s = s.replace(" lb ","lb. ") # no period
-        s = s.replace(" lb.","lb.") 
-        s = s.replace(" lbs ","lb. ") 
-        s = s.replace("lbs.","lb.") 
-    
-        s = s.replace("*"," xby ")
-        s = s.replace(" by"," xby")
-        s = s.replace("x0"," xby 0")
-        s = s.replace("x1"," xby 1")
-        s = s.replace("x2"," xby 2")
-        s = s.replace("x3"," xby 3")
-        s = s.replace("x4"," xby 4")
-        s = s.replace("x5"," xby 5")
-        s = s.replace("x6"," xby 6")
-        s = s.replace("x7"," xby 7")
-        s = s.replace("x8"," xby 8")
-        s = s.replace("x9"," xby 9")
-    
-        s = s.replace(" sq ft","sq.ft. ") 
-        s = s.replace("sq ft","sq.ft. ")
-        s = s.replace("sqft","sq.ft. ")
-        s = s.replace(" sqft ","sq.ft. ") 
-        s = s.replace("sq. ft","sq.ft. ") 
-        s = s.replace("sq ft.","sq.ft. ") 
-        s = s.replace("sq feet","sq.ft. ") 
-        s = s.replace("square feet","sq.ft. ") 
-    
-        s = s.replace(" gallons ","gal. ") # character
-        s = s.replace(" gallon ","gal. ") # whole word
-        s = s.replace("gallons","gal.") # character
-        s = s.replace("gallon","gal.") # whole word
-        s = s.replace(" gal ","gal. ") # character
-        s = s.replace(" gal","gal") # whole word
-
-        s = s.replace(" ounces","oz.")
-        s = s.replace(" ounce","oz.")
-        s = s.replace("ounce","oz.")
-        s = s.replace(" oz ","oz. ")
-
-        s = s.replace(" centimeters","cm.")    
-        s = s.replace(" cm.","cm.")
-        s = s.replace(" cm ","cm. ")
-        
-        s = s.replace(" milimeters","mm.")
-        s = s.replace(" mm.","mm.")
-        s = s.replace(" mm ","mm. ")
-        
-        s = s.replace("whirpool","whirlpool")
-        s = s.replace("whirlpoolga", "whirlpool")
-        s = s.replace("whirlpoolstainless","whirlpool stainless")
-        
+        s = s.replace("  "," ")
+        s = s.replace(",","") #could be number / segment later
+        s = s.replace("$"," ")
+        s = s.replace("?"," ")
+        s = s.replace("-"," ")
+        s = s.replace("//","/")
+        s = s.replace("..",".")
+        s = s.replace(" / "," ")
+        s = s.replace(" \\ "," ")
+        s = s.replace("."," . ")
+        s = re.sub(r"(^\.|/)", r"", s)
+        s = re.sub(r"(\.|/)$", r"", s)
+        s = re.sub(r"([0-9])([a-z])", r"\1 \2", s)
+        s = re.sub(r"([a-z])([0-9])", r"\1 \2", s)
+        s = s.replace(" x "," xbi ")
+        s = re.sub(r"([a-z])( *)\.( *)([a-z])", r"\1 \4", s)
+        s = re.sub(r"([a-z])( *)/( *)([a-z])", r"\1 \4", s)
+        s = s.replace("*"," xbi ")
+        s = s.replace(" by "," xbi ")
+        s = re.sub(r"([0-9])( *)\.( *)([0-9])", r"\1.\4", s)
+        s = re.sub(r"([0-9]+)( *)(inches|inch|in|')\.?", r"\1in. ", s)
+        s = re.sub(r"([0-9]+)( *)(foot|feet|ft|'')\.?", r"\1ft. ", s)
+        s = re.sub(r"([0-9]+)( *)(pounds|pound|lbs|lb)\.?", r"\1lb. ", s)
+        s = re.sub(r"([0-9]+)( *)(square|sq) ?\.?(feet|foot|ft)\.?", r"\1sq.ft. ", s)
+        s = re.sub(r"([0-9]+)( *)(cubic|cu) ?\.?(feet|foot|ft)\.?", r"\1cu.ft. ", s)
+        s = re.sub(r"([0-9]+)( *)(gallons|gallon|gal)\.?", r"\1gal. ", s)
+        s = re.sub(r"([0-9]+)( *)(ounces|ounce|oz)\.?", r"\1oz. ", s)
+        s = re.sub(r"([0-9]+)( *)(centimeters|cm)\.?", r"\1cm. ", s)
+        s = re.sub(r"([0-9]+)( *)(milimeters|mm)\.?", r"\1mm. ", s)
+        s = s.replace("°"," degrees ")
+        s = re.sub(r"([0-9]+)( *)(degrees|degree)\.?", r"\1deg. ", s)
+        s = s.replace(" v "," volts ")
+        s = re.sub(r"([0-9]+)( *)(volts|volt)\.?", r"\1volt. ", s)
+        s = re.sub(r"([0-9]+)( *)(watts|watt)\.?", r"\1watt. ", s)
+        s = re.sub(r"([0-9]+)( *)(amperes|ampere|amps|amp)\.?", r"\1amp. ", s)
+        s = s.replace("  "," ")
+        s = s.replace(" . "," ")
+        #s = (" ").join([z for z in s.split(" ") if z not in stop_w])
+        s = (" ").join([str(strNum[z]) if z in strNum else z for z in s.split(" ")])
         s = (" ").join([stemmer.stem(z) for z in s.split(" ")])
-        #volts, watts, amps
-        return s.lower()
+
+        s = s.lower()
+        s = s.replace("toliet","toilet")
+        s = s.replace("airconditioner","air conditioner")
+        s = s.replace("vinal","vinyl")
+        s = s.replace("vynal","vinyl")
+        s = s.replace("skill","skil")
+        s = s.replace("snowbl","snow bl")
+        s = s.replace("plexigla","plexi gla")
+        s = s.replace("rustoleum","rust-oleum")
+        s = s.replace("whirpool","whirlpool")
+        s = s.replace("whirlpoolga", "whirlpool ga")
+        s = s.replace("whirlpoolstainless","whirlpool stainless")
+        return s
     else:
         return "null"
-        
-def clean_str(df_all):
+
+def segmentit(s, txt_arr, t):
+    st = s
+    r = []
+    for j in range(len(s)):
+        for word in txt_arr:
+            if word == s[:-j]:
+                r.append(s[:-j])
+                #print(s[:-j],s[len(s)-j:])
+                s=s[len(s)-j:]
+                r += segmentit(s, txt_arr, False)
+    if t:
+        i = len(("").join(r))
+        if not i==len(st):
+            r.append(st[i:])
+    return r
+
+def seg_words(str1, str2):
+    str2 = str2.lower()
+    str2 = re.sub("[^a-z0-9./]"," ", str2)
+    str2 = [z for z in set(str2.split()) if len(z)>2]
+    words = str1.lower().split(" ")
+    s = []
+    for word in words:
+        if len(word)>3:
+            s1 = []
+            s1 += segmentit(word,str2,True)
+            if len(s)>1:
+                s += [z for z in s1 if z not in ['er','ing','s','less'] and len(z)>1]
+            else:
+                s.append(word)
+        else:
+            s.append(word)
+    return (" ".join(s))
+
+def feature_extraction(df_all):
+    # stemming the raw input
     df_all['search_term'] = df_all['search_term'].map(lambda x:str_stem(x))
     df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x))
     df_all['product_description'] = df_all['product_description'].map(lambda x:str_stem(x))
+    df_all['brand'] = df_all['brand'].map(lambda x:str_stem(x))
+    df_all['product_info'] = df_all['search_term']+"\t"+df_all['product_title'] +"\t"+df_all['product_description']
+
+    # word number of query, title, description, brand
+    df_all['len_of_query'] = df_all['search_term'].map(lambda x:len(x.split())).astype(np.int64)
+    df_all['len_of_title'] = df_all['product_title'].map(lambda x:len(x.split())).astype(np.int64)
+    df_all['len_of_description'] = df_all['product_description'].map(lambda x:len(x.split())).astype(np.int64)
+    df_all['len_of_brand'] = df_all['brand'].map(lambda x:len(x.split())).astype(np.int64)
+
+    df_all['search_term'] = df_all['product_info'].map(lambda x:seg_words(x.split('\t')[0],x.split('\t')[1]))
     return df_all
-    
+
 def test():
     df_train, df_test, df_pro_desc, df_attr, df_brand, num_train = load_data()
     df_all = merge_data(df_train, df_test)
-    df_all = join_data(df_all, df_pro_desc, df_attr)
-    df_all = clean_str(df_all)
-    print(df_all)
+    df_all = join_data(df_all, df_pro_desc, df_brand)
+    df_all = feature_extraction(df_all)
+
+    #print(df_all['search_term'])
+    f = open("search_term.csv", "w")
+    f.write("search_term\n")
+    for i in range(len(df_all['search_term'])):
+        f.write(df_all['search_term'][i]+"\n")
+    f.close()
+test()
