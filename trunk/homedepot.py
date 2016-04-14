@@ -1,3 +1,17 @@
+# This Python 3 environment comes with many helpful analytics libraries installed
+# It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
+# For example, here's several helpful packages to load in 
+
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+
+# Input data files are available in the "../input/" directory.
+# For example, running this (by clicking run or pressing Shift+Enter) will list the files in the input directory
+
+from subprocess import check_output
+print(check_output(["ls", "../input"]).decode("utf8"))
+
+# Any results you write to the current directory are saved as output.
 import time
 start_time = time.time()
 
@@ -18,12 +32,12 @@ def load_data():
     df_test = pd.read_csv(path_test, encoding="ISO-8859-1")
     df_pro_desc = pd.read_csv(path_product)
     df_attr = pd.read_csv(path_attr)
-
-    df_all = pd.merge(df_all, df_pro_desc, how='left', on='product_uid')
-    df_all = pd.merge(df_all, df_brand, how='left', on='product_uid')
+    df_brand = df_attr[df_attr.name == "MFG Brand Name"][["product_uid", "value"]].rename(columns={"value": "brand"})
+    
+    num_train = df_train.shape[0]
     print("--- Files Loaded: %s minutes ---" % round(((time.time() - start_time)/60),2))
     
-    return df_train, df_test, df_pro_desc, df_attr
+    return df_train, df_test, df_pro_desc, df_attr, df_brand, num_train
     
 def merge_data(df_train, df_test):
     df_all = pd.concat((df_train, df_test), axis=0, ignore_index=True)
@@ -115,3 +129,10 @@ def clean_str(df_all):
     df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x))
     df_all['product_description'] = df_all['product_description'].map(lambda x:str_stem(x))
     return df_all
+    
+def test():
+    df_train, df_test, df_pro_desc, df_attr, df_brand, num_train = load_data()
+    df_all = merge_data(df_train, df_test)
+    df_all = join_data(df_all, df_pro_desc, df_attr)
+    df_all = clean_str(df_all)
+    print(df_all)
