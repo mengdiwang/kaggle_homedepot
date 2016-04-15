@@ -137,6 +137,7 @@ def segmentit(s, txt_arr, t):
             r.append(st[i:])
     return r
 
+# search term, product title
 def seg_words(str1, str2):
     str2 = str2.lower()
     str2 = re.sub("[^a-z0-9./]"," ", str2)
@@ -155,12 +156,32 @@ def seg_words(str1, str2):
             s.append(word)
     return (" ".join(s))
 
+def str_common_word(str1, str2):
+    words, cnt = str1.split(), 0
+    for word in words:
+        if str2.find(word) >= 0:
+            cnt += 1
+    return cnt
+    
+def str_whole_word(str1, str2, i_):
+    cnt = 0
+    while i_ < len(str2):
+        i_ = str2.find(str1, i_)
+        if i_ == -1:
+            return cnt
+        else
+            cnt += 1
+            i_ += len(str1)
+    return cnt
+
 def feature_extraction(df_all, df_brand):
     # stemming the raw input
-    df_all['search_term'] = df_all['search_term'].map(lambda x:str_stem(x))
-    df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x))
-    df_all['product_description'] = df_all['product_description'].map(lambda x:str_stem(x))
-    df_all['brand'] = df_all['brand'].map(lambda x:str_stem(x))
+    df_all['search_term'] = df_all['search_term'].map(lambda x:str_stem(x)) # stemmed search term
+    df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x)) # stemmed product title
+    df_all['product_description'] = df_all['product_description'].map(lambda x:str_stem(x)) # stemmed product description
+    df_all['brand'] = df_all['brand'].map(lambda x:str_stem(x)) # stemmed brand
+    
+    # product_info = search term + product title + product description
     df_all['product_info'] = df_all['search_term']+"\t"+df_all['product_title'] +"\t"+df_all['product_description']
 
     # word number of query, title, description, brand
@@ -169,8 +190,10 @@ def feature_extraction(df_all, df_brand):
     df_all['len_of_description'] = df_all['product_description'].map(lambda x:len(x.split())).astype(np.int64)
     df_all['len_of_brand'] = df_all['brand'].map(lambda x:len(x.split())).astype(np.int64)
 
+    # how many word
     df_all['search_term'] = df_all['product_info'].map(lambda x:seg_words(x.split('\t')[0],x.split('\t')[1]))
     
+    # 
     df_all['word_in_title'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[1]))
     df_all['word_in_description'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[2]))
     df_all['ratio_title'] = df_all['word_in_title']/df_all['len_of_query']
