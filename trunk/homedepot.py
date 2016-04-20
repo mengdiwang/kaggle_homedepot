@@ -1,3 +1,5 @@
+# -*- coding: utf-8
+
 # This Python 3 environment comes with many helpful analytics libraries installed
 # It is defined by the kaggle/python docker image: https://github.com/kaggle/docker-python
 # For example, here's several helpful packages to load in
@@ -169,7 +171,7 @@ def str_whole_word(str1, str2, i_):
         i_ = str2.find(str1, i_)
         if i_ == -1:
             return cnt
-        else
+        else:
             cnt += 1
             i_ += len(str1)
     return cnt

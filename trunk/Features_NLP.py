@@ -1,15 +1,18 @@
 
 # coding: utf-8
 
+# In[1]:
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 #tf-idf
-search_term = "this is bullshit"
-text = "I got a prince so I can't deny this is bullshit"
-tfidf = TfidfVectorizer().fit_transform([search_term, text])
-print (tfidf * tfidf.T)[0,1]
+def get_similarity(search_term, text):    
+    tfidf = TfidfVectorizer().fit_transform([search_term, text])
+    return (tfidf * tfidf.T)[0,1]
+ 
 
 
+# In[ ]:
 
 
 
