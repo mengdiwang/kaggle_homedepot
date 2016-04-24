@@ -58,10 +58,8 @@ def kaggle_test_output(df_all, y, N = 74067):
         outfile.write('\n')
     outfile.close
     
-
-
 df_all = read_input('../input/df_all.p')
-#X, y = build_features(df_all)
+#X, y = build_tfidf_sim_features(df_all)
 #pickle.dump([X, y], open('saved_features', 'wb'))
 X, y = pickle.load(open('saved_features', 'rb'))
 X_train, y_train, X_test = split_train_test(X, y)
@@ -70,10 +68,6 @@ y_test = get_ridge_regression_prediction(X_train, y_train, X_test)
 print (y_test)
 kaggle_test_output(df_all, y_test)
 
-
-
-
-
 # In[6]:
 
 print (max(y_test))
@@ -81,14 +75,6 @@ print (min(y_test))
 
 print (max(y_train))
 print (min(y_train))
-
-
-# In[ ]:
-
-
-
-
-# In[ ]:
 
 
 
