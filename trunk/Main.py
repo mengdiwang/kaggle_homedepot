@@ -7,6 +7,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from Basic_Model import *
 from Features_NLP import *
 
+saved_features = "/Users/Mdwang/Downloads/saved_features"
+saved_models = "/Users/Mdwang/Downloads/df_all.p"
+
 def read_input(file_name):    
     df_all = pd.read_pickle(file_name)
     return df_all
@@ -56,10 +59,11 @@ def kaggle_test_output(df_all, y, N = 74067):
 def build_sim_features():
     #X, y = build_tfidf_sim_features(df_all)
     #pickle.dump([X, y], open('saved_features', 'wb'))
+    pass
     
 def load_saved_features():
-    df_all = read_input('../input/df_all.p')
-    X, y = pickle.load(open('saved_features', 'rb'))
+    df_all = read_input(saved_models)
+    X, y = pickle.load(open(saved_features, 'rb'))
     return df_all, X, y
 
 def training(X, y):
@@ -73,3 +77,4 @@ def training(X, y):
     #print (min(y_train))
     
 df_all, X, y = load_saved_features()
+print(df_all[])

@@ -1,0 +1,8 @@
+*/./idea/*
+*.csv
+*.xml
+*.iml
+Icon
+*.name
+*/Icon
+*.pyc

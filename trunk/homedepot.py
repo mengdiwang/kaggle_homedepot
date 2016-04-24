@@ -26,6 +26,8 @@ from sklearn.metrics import mean_squared_error, make_scorer
 from nltk.stem.porter import *
 stemmer = PorterStemmer()
 
+from spell_checker import correct
+
 path_train = "../input/train.csv"
 path_test = "../input/test.csv"
 path_attr = "../input/attributes.csv"
@@ -65,6 +67,7 @@ def join_data(df_all, df_pro_desc, df_brand):
 
 def str_stem(s):
     if isinstance(s, str):
+        s = correct(s) ## correct spell typo
         s = re.sub(r"(\w)\.([A-Z])", r"\1 \2", s) #Split words with a.A
         s = s.lower()
         s = s.replace("  "," ")
@@ -194,31 +197,38 @@ def feature_extraction(df_all, df_brand):
     df_all['len_of_title'] = df_all['product_title'].map(lambda x:len(x.split())).astype(np.int64)
     df_all['len_of_description'] = df_all['product_description'].map(lambda x:len(x.split())).astype(np.int64)
     df_all['len_of_brand'] = df_all['brand'].map(lambda x:len(x.split())).astype(np.int64)
-    print("--- Len of: %s minutes ---" % round(((time.time() - start_time)/60),2))
+    print("--- Len of: %s minutes ---" % round(((time.time() - start_time)/60), 2))
 
-    # how many word
-    df_all['search_term'] = df_all['product_info'].map(lambda x:seg_words(x.split('\t')[0],x.split('\t')[1]))
-    print("--- Search Term Segment: %s minutes ---" % round(((time.time() - start_time)/60),2))
+    # how many word, ie term segment
+    df_all['search_term'] = df_all['product_info'].map(lambda x:seg_words(x.split('\t')[0], x.split('\t')[1]))
+    print("--- Search Term Segment: %s minutes ---" % round(((time.time() - start_time)/60), 2))
     
-    # query words occurence in title and description
-    df_all['query_in_title'] = df_all['product_info'].map(lambda x:str_whole_word(x.split('\t')[0],x.split('\t')[1],0))
-    df_all['query_in_description'] = df_all['product_info'].map(lambda x:str_whole_word(x.split('\t')[0],x.split('\t')[2],0))
-    print("--- Query In: %s minutes ---" % round(((time.time() - start_time)/60),2))
-     
-    df_all['word_in_title'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[1]))
-    df_all['word_in_description'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[2]))
+    # count query words occurrence in title and description
+    df_all['query_in_title'] = df_all['product_info'].map(lambda x:str_whole_word(x.split('\t')[0], x.split('\t')[1],0))
+    df_all['query_in_description'] = df_all['product_info'].map(lambda x:str_whole_word(x.split('\t')[0], x.split('\t')[2],0))
+    print("--- Query In: %s minutes ---" % round(((time.time() - start_time)/60), 2))
+
+    # product attribute
+    df_all['attr'] = df_all['search_term']+"\t"+df_all['brand']
+
+    # Find common words number
+    df_all['word_in_title'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0], x.split('\t')[1]))
+    df_all['word_in_description'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0], x.split('\t')[2]))
+    df_all['word_in_brand'] = df_all['attr'].map(lambda x:str_common_word(x.split('\t')[0], x.split('\t')[1]))
+    print("--- Find common words In: %s minutes ---" % round(((time.time() - start_time)/60), 2))
+
     df_all['ratio_title'] = df_all['word_in_title']/df_all['len_of_query']
     df_all['ratio_description'] = df_all['word_in_description']/df_all['len_of_query']
-    df_all['attr'] = df_all['search_term']+"\t"+df_all['brand']
-    df_all['word_in_brand'] = df_all['attr'].map(lambda x:str_common_word(x.split('\t')[0],x.split('\t')[1]))
     df_all['ratio_brand'] = df_all['word_in_brand']/df_all['len_of_brand']
-    df_brand = pd.unique(df_all.brand.ravel())
-    
+    print("--- Get Ratio In: %s minutes ---" % round(((time.time() - start_time)/60), 2))
+
     # query last word
-    df_all['query_last_word_in_title'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0].split(" ")[-1],x.split('\t')[1]))
-    df_all['query_last_word_in_description'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0].split(" ")[-1],x.split('\t')[2]))
-    print("--- Query Last Word In: %s minutes ---" % round(((time.time() - start_time)/60),2))
-    
+    df_all['query_last_word_in_title'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0].split(" ")[-1], x.split('\t')[1]))
+    df_all['query_last_word_in_description'] = df_all['product_info'].map(lambda x:str_common_word(x.split('\t')[0].split(" ")[-1], x.split('\t')[2]))
+    df_all['query_last_word_in_brand'] = df_all['attr'].map(lambda x:str_common_word(x.split('\t')[0].split(" ")[-1], x.split('\t')[1]))
+    print("--- Query Last Word In: %s minutes ---" % round(((time.time() - start_time)/60), 2))
+
+    df_brand = pd.unique(df_all.brand.ravel())
     d={}
     i = 1000
     for s in df_brand:
