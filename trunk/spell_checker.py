@@ -3368,6 +3368,6 @@ spell_check_dict={
 
 
 def correct(s):
-	for k, v in spell_check_dict.iteritems():
+	for k, v in spell_check_dict.items():
 		s = s.replace(k, v)
 	return s
