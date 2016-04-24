@@ -28,7 +28,7 @@ def split_train_test(X, y, N = 74067):
     return X_train, y, X_test
 
 
-def build_features(df_all):    
+def build_tfidf_sim_features(df_all):    
 #     train_features['search_term'] = df_train['search_term']
 #     test_features['search_term'] = df_test['search_term']
     print ('building features 1...')
