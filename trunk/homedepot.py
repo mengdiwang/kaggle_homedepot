@@ -222,10 +222,15 @@ def test():
     df_all = feature_extraction(df_all, df_brand)
 
     #print(df_all['search_term'])
+'''
     f = open("search_term.csv", "w")
     f.write("search_term\n")
     for i in range(len(df_all['search_term'])):
         f.write(df_all['search_term'][i]+"\n")
+    f.close()
+'''
+    f = open('all_data.p', 'w')
+    pickle.dump(df_all, f)
     f.close()
 test()
 
