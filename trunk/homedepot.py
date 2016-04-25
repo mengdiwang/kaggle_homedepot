@@ -180,7 +180,7 @@ def str_whole_word(str1, str2, i_):
             i_ += len(str1)
     return cnt
 
-def feature_extraction(df_all, df_brand):
+def feature_extraction(df_all, df_brand, num_train):
     # stemming the raw input
     df_all['search_term'] = df_all['search_term'].map(lambda x:str_stem(x)) # stemmed search term
     df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x)) # stemmed product title
@@ -251,7 +251,7 @@ def build_feature():
     df_train, df_test, df_pro_desc, df_attr, df_brand, num_train = load_data()
     df_all = merge_data(df_train, df_test)
     df_all = join_data(df_all, df_pro_desc, df_brand)
-    df_all = feature_extraction(df_all, df_brand)
+    df_all = feature_extraction(df_all, df_brand, num_train)
     return df_all
     
 '''
