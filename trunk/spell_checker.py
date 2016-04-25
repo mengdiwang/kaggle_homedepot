@@ -3366,7 +3366,6 @@ spell_check_dict={
 'sissors': 'scissors'
 }
 
-
 def correct(s):
 	for k, v in spell_check_dict.items():
 		s = s.replace(k, v)
