@@ -47,7 +47,7 @@ def kaggle_test_output(df_all, y, N = 74067):
     n = len(y)
     outfile = open("kaggle_test.csv", 'w')
     outfile.write("id,relevance\n")
-    print (output_id[100], y[100])    
+    #print (output_id[100], y[100])    
     for i in range(n):                        
         outfile.write(str(output_id[N + i]))
         outfile.write(",")
@@ -56,15 +56,18 @@ def kaggle_test_output(df_all, y, N = 74067):
         outfile.write('\n')
     outfile.close
     
-def build_sim_features():
-    #X, y = build_tfidf_sim_features(df_all)
-    #pickle.dump([X, y], open('saved_features', 'wb'))
-    pass
-    
-def load_saved_features():
+def build_sim_features(df_all):
+    X, y = build_tfidf_sim_features(df_all)
+    pickle.dump([X, y], open('saved_features', 'wb'))
+    return X, y
+
+def load_saved_dfall():
     df_all = read_input(saved_models)
+    return df_all
+
+def load_saved_features():
     X, y = pickle.load(open(saved_features, 'rb'))
-    return df_all, X, y
+    return X, y
 
 def training(X, y):
     X_train, y_train, X_test = split_train_test(X, y)
@@ -76,5 +79,6 @@ def training(X, y):
     #print (max(y_train))
     #print (min(y_train))
     
-df_all, X, y = load_saved_features()
-print(df_all[])
+df_all = load_saved_dfall()
+X, y = build_sim_features(df_all)
+training(X, y)
