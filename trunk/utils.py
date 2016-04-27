@@ -1,6 +1,7 @@
 import pandas as pd
 import pickle
 import numpy as np
+import time
 
 
 def split_train_test(df_all, num_train=74067):
@@ -70,3 +71,7 @@ def kaggle_test_output(df_all, y, N = 74067):
 def load_saved_features(saved_features):
     X, y = pickle.load(open(saved_features, 'rb'))
     return X, y
+
+
+def show_time(start_time):
+    return round(((time.time() - start_time) / 60), 2)

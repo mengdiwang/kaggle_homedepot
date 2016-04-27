@@ -8,19 +8,30 @@ from Basic_Model import *
 from Features_NLP import *
 from utils import *
 
-saved_features = "saved_features"
-saved_models = "df_all.p"
+import time
+start_time = time.time()
+
+saved_features = "saved_features.p"
+saved_models = "all_data.p"
 
 
 ## TO TEST
 def build_tfidf_sim_features(df_all):    
     print ('building features 1: tf-idf between search_term and product title...')
     df_all['tf-idf_term_title'] = build_similarity(df_all['search_term'], df_all['product_title'])
+    print ("-- use %s minutes --", show_time(start_time))
+
     print ('building features 2: tf-idf between search_term and product description...')
     df_all['tf-idf_term_desc'] = build_similarity(df_all['search_term'], df_all['product_description'])
+    print ("-- use %s minutes --", show_time(start_time))
+
     print ('building features 3: tf-idf between search_term and brand...')
     df_all['tf-idf_term_brand'] = build_similarity(df_all['search_term'], df_all['brand'])
+    print ("-- use %s minutes --", show_time(start_time))
+
     print ('tf-idf features build finished')
+    print ("-- use %s minutes --", show_time(start_time))
+
     return df_all
 
 
@@ -29,8 +40,8 @@ def build_sim_features(df_all):
     df_all = build_tfidf_sim_features(df_all)
     X = [df_all['tf-idf_term_title'], df_all['tf-idf_term_desc'], df_all['tf-idf_term_brand']]
     y = df_all['relevance']
-    pickle.dump([X, y], open('saved_features', 'wb'))
-
+    pickle.dump([X, y], open('tf-idf_features.p', 'wb'))
+    print (X[:10])
     return X, y
 
 
