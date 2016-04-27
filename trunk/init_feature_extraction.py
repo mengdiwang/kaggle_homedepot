@@ -22,9 +22,10 @@ import pandas as pd
 import re
 import random
 
-from sklearn.metrics import mean_squared_error, make_scorer
 from nltk.stem.porter import *
 stemmer = PorterStemmer()
+
+from utils import *
 
 from spell_checker import correct
 
@@ -37,12 +38,6 @@ all_data_pickle = "all_data.p"
 stop_words = ['for', 'xbi', 'and', 'in', 'th','on','sku','with','what','from','that','less','er','ing']
 strNum = {'zero':0,'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':0}
 
-# RMSE score methord
-def fmean_squared_error(ground_truth, predictions):
-    fmean_squared_error_ = mean_squared_error(ground_truth, predictions)**0.5
-    return fmean_squared_error_
-
-RMSE  = make_scorer(fmean_squared_error, greater_is_better=False)
 
 def load_data():
     df_train = pd.read_csv(path_train, encoding="ISO-8859-1")
@@ -56,18 +51,21 @@ def load_data():
 
     return df_train, df_test, df_pro_desc, df_attr, df_brand, num_train
 
+
 def merge_data(df_train, df_test):
     df_all = pd.concat((df_train, df_test), axis=0, ignore_index=True)
     return df_all
+
 
 def join_data(df_all, df_pro_desc, df_brand):
     df_all = pd.merge(df_all, df_pro_desc, how='left', on='product_uid')
     df_all = pd.merge(df_all, df_brand, how='left', on='product_uid')
     return df_all
 
+
 def str_stem(s):
     if isinstance(s, str):
-        s = correct(s) ## correct spell typo
+        #s = correct(s) ## correct spell typo
         s = re.sub(r"(\w)\.([A-Z])", r"\1 \2", s) #Split words with a.A
         s = s.lower()
         s = s.replace("  "," ")
@@ -127,6 +125,7 @@ def str_stem(s):
     else:
         return "null"
 
+
 def segmentit(s, txt_arr, t):
     st = s
     r = []
@@ -139,28 +138,30 @@ def segmentit(s, txt_arr, t):
                 r += segmentit(s, txt_arr, False)
     if t:
         i = len(("").join(r))
-        if not i==len(st):
+        if not i == len(st):
             r.append(st[i:])
     return r
+
 
 # search term, product title
 def seg_words(str1, str2):
     str2 = str2.lower()
-    str2 = re.sub("[^a-z0-9./]"," ", str2)
+    str2 = re.sub("[^a-z0-9./]", " ", str2)
     str2 = [z for z in set(str2.split()) if len(z)>2]
     words = str1.lower().split(" ")
     s = []
     for word in words:
-        if len(word)>3:
+        if len(word) > 3:
             s1 = []
             s1 += segmentit(word,str2,True)
-            if len(s)>1:
-                s += [z for z in s1 if z not in ['er','ing','s','less'] and len(z)>1]
+            if len(s) > 1:
+                s += [z for z in s1 if z not in ['er', 'ing', 's', 'less'] and len(z) > 1]
             else:
                 s.append(word)
         else:
             s.append(word)
     return (" ".join(s))
+
 
 def str_common_word(str1, str2):
     words, cnt = str1.split(), 0
@@ -168,7 +169,8 @@ def str_common_word(str1, str2):
         if str2.find(word) >= 0:
             cnt += 1
     return cnt
-    
+
+
 def str_whole_word(str1, str2, i_):
     cnt = 0
     while i_ < len(str2):
@@ -179,6 +181,7 @@ def str_whole_word(str1, str2, i_):
             cnt += 1
             i_ += len(str1)
     return cnt
+
 
 def feature_extraction(df_all, df_brand, num_train):
     # stemming the raw input
@@ -220,6 +223,9 @@ def feature_extraction(df_all, df_brand, num_train):
     df_all['ratio_title'] = df_all['word_in_title']/df_all['len_of_query']
     df_all['ratio_description'] = df_all['word_in_description']/df_all['len_of_query']
     df_all['ratio_brand'] = df_all['word_in_brand']/df_all['len_of_brand']
+
+    df_all['ratio_desc_len'] = df_all['len_of_description'] / df_all['len_of_query']
+    df_all['ratio_title_len'] = df_all['len_of_title'] / df_all['len_of_query']
     print("--- Get Ratio In: %s minutes ---" % round(((time.time() - start_time)/60), 2))
 
     # query last word
@@ -229,23 +235,18 @@ def feature_extraction(df_all, df_brand, num_train):
     print("--- Query Last Word In: %s minutes ---" % round(((time.time() - start_time)/60), 2))
 
     df_brand = pd.unique(df_all.brand.ravel())
-    d={}
+    d = {}
     i = 1000
     for s in df_brand:
-        d[s]=i
-        i+=3
+        d[s] = i
+        i += 3
     df_all['brand_feature'] = df_all['brand'].map(lambda x:d[x])
     df_all['search_term_len'] = df_all['search_term'].map(lambda x:len(x))
-    
-    df_train = df_all.iloc[:num_train]
-    df_test = df_all.iloc[num_train:]
-    id_test = df_test['id']
-    y_train = df_train['relevance'].values
-    X_train =df_train[:]
-    X_test = df_test[:]
+
     print("--- Features Set: %s minutes ---" % round(((time.time() - start_time)/ 60) , 2))
     
     return df_all
+
 
 def build_feature():
     df_train, df_test, df_pro_desc, df_attr, df_brand, num_train = load_data()
@@ -253,22 +254,10 @@ def build_feature():
     df_all = join_data(df_all, df_pro_desc, df_brand)
     df_all = feature_extraction(df_all, df_brand, num_train)
     return df_all
-    
-'''
-    f = open("search_term.csv", "w")
-    f.write("search_term\n")
-    for i in range(len(df_all['search_term'])):
-        f.write(df_all['search_term'][i]+"\n")
-    f.close()
-'''
 
-def dump_all_data(df_all):
-    f = open(all_data_pickle, 'wb')
-    pickle.dump(df_all, f)
-    f.close()
 
-df_all = build_feature()
-dump_all_data(df_all)
+df_all1 = build_feature()
+dump_df_all(df_all1, all_data_pickle)
 
 # meet with advisor
 # bag of word, text->vector, tf-idf  vectorA vectorB, similarity between two vectors 
