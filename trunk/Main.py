@@ -12,6 +12,7 @@ saved_features = "saved_features"
 saved_models = "df_all.p"
 
 
+## TO TEST
 def build_tfidf_sim_features(df_all):    
     print ('building features 1: tf-idf between search_term and product title...')
     df_all['tf-idf_term_title'] = build_similarity(df_all['search_term'], df_all['product_title'])
@@ -23,6 +24,7 @@ def build_tfidf_sim_features(df_all):
     return df_all
 
 
+## TO TEST
 def build_sim_features(df_all):
     df_all = build_tfidf_sim_features(df_all)
     X = [df_all['tf-idf_term_title'], df_all['tf-idf_term_desc'], df_all['tf-idf_term_brand']]
@@ -41,7 +43,14 @@ def training(X, y):
     #print (min(y_test))
     #print (max(y_train))
     #print (min(y_train))
-    
+
+
+# TODO: 1. add more features: word2vec, SVD, tf-idf
+
 df_all = read_saved_df_all(saved_models)
 X, y = build_sim_features(df_all)
 #training(X, y)
+
+
+# TODO: 2. test different models: ridge, kernel, rf
+# TODO: 3. Use grid search to do the parameter search
