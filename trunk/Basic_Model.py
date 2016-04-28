@@ -6,6 +6,8 @@ from sklearn import svm
 from sklearn import tree
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import BaggingRegressor
+from sklearn import pipeline, grid_search
+from loss_func import *
 import numpy as np
 
 
@@ -16,16 +18,36 @@ def get_linear_model_prediction(X_train, y_train, X_test):
     return model.predict(X_test)
 
 
-def get_ridge_regression_prediction(X_train, y_train, X_test, alpha=0.5):
-    model = linear_model.Ridge(alpha)
-    model.fit(X_train, y_train)
+def get_ridge_regression_prediction(X_train, y_train, X_test, alpha=0.2, GS=False):
+    if GS:
+        clf = linear_model.Ridge(alpha)
+        alphas = np.array([x*0.05 for x in range(21)])
+        param_grid=dict(alpha=alphas)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        print("Best parameters found by grid search:")
+        model.fit(X_train, y_train)
+        print(model.best_params_)
+        return model.predict(X_test)
+    else:
+        model = linear_model.Ridge(alpha)
+        model.fit(X_train, y_train)
     return model.predict(X_test)
 
 
-def get_lasso_prediction(X_train, y_train, X_test, alpha=0.5):
-    model = linear_model.Lasso(alpha)
-    model.fit(X_train, y_train)
-    return model.predict(X_test)
+def get_lasso_prediction(X_train, y_train, X_test, alpha=0.5, GS=False):
+    if not GS:
+        model = linear_model.Lasso(alpha)
+        model.fit(X_train, y_train)
+        return model.predict(X_test)
+    else:
+        clf = linear_model.Lasso(alpha)
+        alphas = np.array([x*0.05 for x in range(4)])
+        param_grid=dict(alpha=alphas)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        print("Best parameters found by grid search:")
+        print(model.best_params_)
+        model.fit(X_train, y_train)
+        return model.predict(X_test)
 
 
 def get_logistic_prediction(X_train, y_train, X_test):

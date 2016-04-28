@@ -22,10 +22,15 @@ def train():
     print("X_train_len:%d, y_train_len:%d, X_test_len:%d, y_test_len:%d, X_valid_len:%d, id_valid_len:%d" %
           (X_train.shape[0], y_train.shape[0], X_test.shape[0], y_test.shape[0], X_valid.shape[0], id_valid.shape[0]))
 
-    predictions = get_ridge_regression_prediction(X_train, y_train, X_test, alpha=0.3)
+    predictions = get_ridge_regression_prediction(X_train, y_train, X_test, alpha=1.0, GS=True)
     print("ridge RMSE:%f" % fmean_squared_error(y_test, predictions))
     print ("--ridge regression training use %s minutes --" % show_time(start_time))
 
+    predictions = get_lasso_prediction(X_train, y_train, X_test, alpha=0.2)
+    print("Lasso RMSE:%f" % fmean_squared_error(y_test, predictions))
+    print ("--Lasso regression training use %s minutes --" % show_time(start_time))
+
+    '''
     predictions = get_bagging_prediction(X_train, y_train, X_test)
     print("bagging RMSE:%f" % fmean_squared_error(y_test, predictions))
     print ("--bagging training use %s minutes --" % show_time(start_time))
@@ -35,8 +40,7 @@ def train():
     print ("--random forest training use %s minutes --" % show_time(start_time))
 
     kaggle_test_output(df_all, predictions, N=num_train1)
-
-
+    '''
 
 
 def train_only_tfidf():
@@ -81,6 +85,7 @@ def train_feature_union():
     param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
     model = grid_search.GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1, cv = 2, verbose = 20, scoring=RMSE)
     model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
 
     print("Best parameters found by grid search:")
     print(model.best_params_)
@@ -95,6 +100,6 @@ def train_feature_union():
     print("--- Training & Testing: %s minutes ---" % round(((time.time() - start_time)/60), 2))
 
 
-#train()
-train_feature_union()
-train_only_tfidf()
+train()
+#train_feature_union()
+#train_only_tfidf()
