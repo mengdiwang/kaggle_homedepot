@@ -1,9 +1,5 @@
-import pandas as pd
 import pickle
-import numpy as np
 import time
-
-from tfidf_feature import *
 
 
 def show_time(start_time):
@@ -109,40 +105,4 @@ def load_saved_pickles(saved_features):
     X = pickle.load(open(saved_features, 'rb'))
     print("load %s used %s minutes" % (saved_features, show_time(start_time)))
     return X
-
-
-def load_all_features():
-    saved_models  = "all_data.p"
-    tfidf_features = "tf-idf_features.p"
-
-    df_all = load_saved_pickles(saved_models)
-    df_tfidf = load_saved_pickles(tfidf_features)
-    concat_tf_idf_features(df_all, df_tfidf)
-
-    return df_all
-
-
-from sklearn.base import BaseEstimator, TransformerMixin
-
-
-class cust_regression_vals(BaseEstimator, TransformerMixin):
-    def fit(self, x, y=None):
-        return self
-
-    def transform(self, hd_searches):
-        d_col_drops=['id','relevance','search_term','product_title','product_description','product_info','attr','brand',
-                     'tf-idf_term_title','tf-idf_term_desc','tf-idf_term_brand']
-        hd_searches = hd_searches.drop(d_col_drops, axis=1).values
-        return hd_searches
-
-
-class cust_txt_col(BaseEstimator, TransformerMixin):
-    def __init__(self, key):
-        self.key = key
-
-    def fit(self, x, y=None):
-        return self
-
-    def transform(self, data_dict):
-        return data_dict[self.key].apply(str)
 

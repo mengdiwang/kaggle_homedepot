@@ -1,13 +1,10 @@
 # coding: utf-8
 
 import pandas as pd
-import pickle
-import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from Basic_Model import *
 from Features_NLP import *
-from utils import *
+from utils import show_time
 import time
+import pickle
 
 
 saved_features = "tf-idf_features.p"
