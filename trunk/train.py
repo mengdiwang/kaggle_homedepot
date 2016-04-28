@@ -47,7 +47,7 @@ def train_only_tfidf():
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test(df_all, Todrop=False)
     predictions = get_ridge_regression_prediction(X_train, y_train, X_test, alpha=0.3)
 
-    print("RMSE:%f" % fmean_squared_error(y_test, predictions))
+    print("tfidf: RMSE:%f" % fmean_squared_error(y_test, predictions))
     print ("--training use %s minutes --" % show_time(start_time))
 
 
@@ -95,6 +95,6 @@ def train_feature_union():
     print("--- Training & Testing: %s minutes ---" % round(((time.time() - start_time)/60), 2))
 
 
-train()
+#train()
 train_feature_union()
 train_only_tfidf()

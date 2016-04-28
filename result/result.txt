@@ -1,0 +1,6 @@
+ridge RMSE:0.483996
+bagging RMSE:0.483077
+random forest RMSE:0.485997
+feature union (tfidf+svd) RMSE:0.472526    
+tf-idf RMSE:0.511136
+
