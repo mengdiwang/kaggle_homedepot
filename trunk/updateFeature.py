@@ -11,7 +11,7 @@ saved_features1 = "tf-idf_features1.p"
 
 
 def update_features():
-    X, y = load_saved_features(saved_features)
+    X, y = load_saved_pickles(saved_features)
 
     df_tfidf = pd.DataFrame()
     df_tfidf['tf-idf_term_title'] = X[0]
