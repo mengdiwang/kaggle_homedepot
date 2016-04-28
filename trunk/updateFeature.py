@@ -1,18 +1,26 @@
 # coding: utf-8
 
 from utils import *
+import pandas as pd
 
 
 all_data_pickle = "all_data.p"
+new_all_data_pickle = "all_data1.p"
+saved_features = "tf-idf_features.p"
+saved_features1 = "tf-idf_features1.p"
 
 
 def update_features():
-    df_all = read_saved_df_all(all_data_pickle)
-    df_all['ratio_desc_len'] = df_all['len_of_description'] / df_all['len_of_query']
-    df_all['ratio_title_len'] = df_all['len_of_title'] / df_all['len_of_query']
+    X, y = load_saved_features(saved_features)
 
-    print (df_all[:10])
-    dump_df_all(df_all, all_data_pickle)
+    df_tfidf = pd.DataFrame()
+    df_tfidf['tf-idf_term_title'] = X[0]
+    df_tfidf['tf-idf_term_desc'] = X[1]
+    df_tfidf['tf-idf_term_brand'] = X[2]
+    X = pd.concat([df_tfidf['tf-idf_term_title'], df_tfidf['tf-idf_term_desc'], df_tfidf['tf-idf_term_brand']], axis=1,
+                  keys=['tf-idf_term_title', 'tf-idf_term_desc', 'tf-idf_term_brand'])
 
+    pickle.dump(X, open(saved_features1, 'wb'))
+    #dump_df_all(df_all, new_all_data_pickle)
 
 update_features()

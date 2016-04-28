@@ -69,8 +69,8 @@ def kaggle_test_output(df_all, y, N = 74067):
 
 
 def load_saved_features(saved_features):
-    X, y = pickle.load(open(saved_features, 'rb'))
-    return X, y
+    X = pickle.load(open(saved_features, 'rb'))
+    return X
 
 
 def show_time(start_time):

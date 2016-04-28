@@ -11,7 +11,7 @@ from utils import *
 import time
 start_time = time.time()
 
-saved_features = "saved_features.p"
+saved_features = "tf-idf_features1.p"
 saved_models = "all_data.p"
 
 
@@ -36,11 +36,12 @@ def build_tfidf_sim_features(df_all):
 
 
 ## TO TEST
-def build_sim_features(df_all):
+def build_sim_features(df_all, saved_features):
     df_all = build_tfidf_sim_features(df_all)
-    X = [df_all['tf-idf_term_title'], df_all['tf-idf_term_desc'], df_all['tf-idf_term_brand']]
-    y = df_all['relevance']
-    pickle.dump([X, y], open('tf-idf_features.p', 'wb'))
+    #X = [df_all['tf-idf_term_title'], df_all['tf-idf_term_desc'], df_all['tf-idf_term_brand']]
+    X = pd.concat([df_all['tf-idf_term_title'], df_all['tf-idf_term_desc'], df_all['tf-idf_term_brand']], axis=1,
+                  keys=['tf-idf_term_title', 'tf-idf_term_desc', 'tf-idf_term_brand'])
+    pickle.dump(X, open(saved_features, 'wb'))
     print (X[:10])
     return X, y
 
@@ -58,8 +59,10 @@ def training(X, y):
 
 # TODO: 1. add more features: word2vec, SVD, tf-idf
 
-df_all = read_saved_df_all(saved_models)
-X, y = build_sim_features(df_all)
+#df_all = read_saved_df_all(saved_models)
+#X, y = build_sim_features(df_all)
+X = load_saved_features(saved_features)
+print (X[:10])
 #training(X, y)
 
 
