@@ -4,6 +4,8 @@ from sklearn import linear_model
 #from sklearn.kernel_ridge import KernelRidge
 from sklearn import svm
 from sklearn import tree
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import BaggingRegressor
 import numpy as np
 
 

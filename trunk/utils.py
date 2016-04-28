@@ -58,13 +58,13 @@ def kaggle_test_output(df_all, y, N=74067):
     outfile.close
 
 
-def split_train_test(df_all, num_train=74067, Todrop=True):
+def split_train_test(df_all, num_train=74067, ptg=0.4, Todrop=True):
     # all features engineer finished and drop unused text features
 
     if Todrop:
         df_all = df_all.drop(['search_term', 'product_title', 'product_description', 'product_info', 'attr', 'brand'], axis=1)
 
-    num_train1 = int(num_train * 0.4)
+    num_train1 = int(num_train * ptg)
 
     df_train = df_all.iloc[:num_train1]
     df_test = df_all.iloc[num_train1:num_train]
