@@ -55,8 +55,15 @@ def get_tree_prediction(X_train, y_train, X_test):
 
 
 def get_bagging_prediction(X_train, y_train, X_test):  
-    rf = RandomForestRegressor(n_estimators=15, max_depth=6, random_state=0)  
+    rf = RandomForestRegressor(n_estimators=15, max_depth=6, random_state=0)
     clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
     clf.fit(X_train, y_train)
     y_pred = clf.predict(X_test)
+    return y_pred
+
+
+def get_rf_prediction(X_train, y_train, X_test):
+    rf = RandomForestRegressor(n_estimators=800, n_jobs = -1, max_features=10, max_depth=20, random_state=1301, verbose=1)
+    rf.fit(X_train, y_train)
+    y_pred = rf.predict(X_test)
     return y_pred
