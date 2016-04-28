@@ -6,3 +6,6 @@ Icon
 *.name
 */Icon
 *.pyc
+.gitignore (1)
+
+*.p
