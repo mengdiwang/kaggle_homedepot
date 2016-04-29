@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from sklearn import linear_model
 #from sklearn.kernel_ridge import KernelRidge
@@ -38,8 +38,8 @@ class cust_txt_col(BaseEstimator, TransformerMixin):
         return data_dict[self.key].apply(str)
 
 
-
 #linear model:
+# TODO
 def get_linear_model_prediction(X_train, y_train, X_test):
     model = linear_model.LinearRegression()    
     model.fit(X_train, y_train)
@@ -77,6 +77,8 @@ def get_lasso_prediction(X_train, y_train, X_test, alpha=0.5, GS=False):
         model.fit(X_train, y_train)
         return model.predict(X_test)
 
+
+# TODO
 def get_logistic_prediction(X_train, y_train, X_test):
     model = linear_model.LogisticRegression()
     model.fit(X_train, y_train)
@@ -90,6 +92,7 @@ def get_logistic_prediction(X_train, y_train, X_test):
 #     return model.predict(X_test)
 
 
+# TODO
 #could consider adding kernel function here
 def get_svm_prediction(X_train, y_train, X_test):
     model = svm.SVC()
@@ -97,12 +100,14 @@ def get_svm_prediction(X_train, y_train, X_test):
     return model.predict(X_test)
 
 
+# TODO
 def get_tree_prediction(X_train, y_train, X_test):
     model = tree.DecisionTreeClassifier()
     model.fit(X_train, y_train)
     return model.predict(X_test)
 
 
+# TODO
 def get_bagging_prediction(X_train, y_train, X_test, GS=False):
     if not GS:
         rf = RandomForestRegressor(n_estimators=15, max_depth=6, random_state=0)
@@ -115,6 +120,7 @@ def get_bagging_prediction(X_train, y_train, X_test, GS=False):
         clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
 
 
+# TODO
 def get_rf_prediction(X_train, y_train, X_test):
     rf = RandomForestRegressor(n_estimators=800, n_jobs = -1, max_features=10, max_depth=20, random_state=1301, verbose=1)
     rf.fit(X_train, y_train)
