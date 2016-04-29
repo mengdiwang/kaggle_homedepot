@@ -259,6 +259,7 @@ def build_feature():
 df_all1 = build_feature()
 dump_df_all(df_all1, all_data_pickle)
 
+
 # meet with advisor
 # bag of word, text->vector, tf-idf  vectorA vectorB, similarity between two vectors 
 # word vectorize, text->sparse text
