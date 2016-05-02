@@ -23,4 +23,7 @@ def update_features():
     pickle.dump(X, open(saved_features1, 'wb'))
     #dump_df_all(df_all, new_all_data_pickle)
 
-update_features()
+#update_features()
+
+solutions = load_valid()
+print (solutions)

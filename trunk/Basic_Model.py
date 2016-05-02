@@ -46,7 +46,7 @@ def get_linear_model_prediction(X_train, y_train, X_test):
     return model.predict(X_test)
 
 
-def get_ridge_regression_prediction(X_train, y_train, X_test, alpha=0.2, GS=False):
+def get_ridge_regression_prediction(X_train, y_train, X_test, X_valid=None, alpha=0.2, GS=False):
     if GS:
         clf = linear_model.Ridge(alpha)
         alphas = np.array([x*0.05 for x in range(21)])
@@ -55,18 +55,29 @@ def get_ridge_regression_prediction(X_train, y_train, X_test, alpha=0.2, GS=Fals
         print("Best parameters found by grid search:")
         model.fit(X_train, y_train)
         print(model.best_params_)
-        return model.predict(X_test)
+
+        if X_valid is None:
+            return model.predict(X_test)
+        else:
+            return model.predict(X_test), model.predict(X_valid)
     else:
         model = linear_model.Ridge(alpha)
         model.fit(X_train, y_train)
-    return model.predict(X_test)
+
+        if X_valid is None:
+            return model.predict(X_test)
+        else:
+            return model.predict(X_test), model.predict(X_valid)
 
 
-def get_lasso_prediction(X_train, y_train, X_test, alpha=0.5, GS=False):
+def get_lasso_prediction(X_train, y_train, X_test, X_valid=None, alpha=0.5, GS=False):
     if not GS:
         model = linear_model.Lasso(alpha)
         model.fit(X_train, y_train)
-        return model.predict(X_test)
+        if X_valid is None:
+            return model.predict(X_test)
+        else:
+            return model.predict(X_test), model.predict(X_valid)
     else:
         clf = linear_model.Lasso(alpha)
         alphas = np.array([x*0.05 for x in range(4)])
@@ -75,7 +86,10 @@ def get_lasso_prediction(X_train, y_train, X_test, alpha=0.5, GS=False):
         print("Best parameters found by grid search:")
         print(model.best_params_)
         model.fit(X_train, y_train)
-        return model.predict(X_test)
+        if X_valid is None:
+            return model.predict(X_test)
+        else:
+            return model.predict(X_test), model.predict(X_valid)
 
 
 # TODO
@@ -108,16 +122,27 @@ def get_tree_prediction(X_train, y_train, X_test):
 
 
 # TODO
-def get_bagging_prediction(X_train, y_train, X_test, GS=False):
+def get_bagging_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
     if not GS:
         rf = RandomForestRegressor(n_estimators=15, max_depth=6, random_state=0)
         clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
-        return y_pred
+        if X_valid is None:
+            return y_pred
+        else:
+            return y_pred, clf.predict(X_valid)
     else:
         rf = RandomForestRegressor(n_estimators=15, max_depth=6, random_state=0)
         clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
+        param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+        if X_valid is None:
+            return y_pred
+        else:
+            return y_pred, model.predict(X_valid)
 
 
 # TODO
@@ -128,7 +153,7 @@ def get_rf_prediction(X_train, y_train, X_test):
     return y_pred
 
 
-def get_feature_union_prediction(X_train, y_train, X_test, GS=False):
+def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
     rfr = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=1)
     tfidf = TfidfVectorizer(ngram_range=(1, 1), stop_words='english')
     tsvd = TruncatedSVD(n_components=10, random_state=1301)
@@ -161,8 +186,21 @@ def get_feature_union_prediction(X_train, y_train, X_test, GS=False):
         print(model.best_params_)
         print("Best CV score:")
         print(model.best_score_)
-        return y_pred
+        if X_valid is None:
+            return y_pred
+        else:
+            vy_pred = model.predict(X_valid)
+            return y_pred, vy_pred
     else:
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
-        return y_pred
+        if X_valid is None:
+            return y_pred
+        else:
+            vy_pred = clf.predict(X_valid)
+            return y_pred, vy_pred
+
+
+#TODO
+def get_xgb_prediction(X_train, y_train, X_test, GS=False):
+    pass

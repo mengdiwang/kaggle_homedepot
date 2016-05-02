@@ -1,5 +1,6 @@
 import pickle
 import time
+import pandas as pd
 
 
 def show_time(start_time):
@@ -54,7 +55,7 @@ def kaggle_test_output(df_all, y, N=74067, filename="kaggle_test.csv"):
     outfile.close
 
 
-def split_train_test_with_result(df_all, num_train=74067, ptg=0.4, Todrop=True):
+def split_train_test_with_result(df_all, num_train=74067, ptg=0.8, Todrop=True):
     # all features engineer finished and drop unused text features
 
     if Todrop:
@@ -106,3 +107,10 @@ def load_saved_pickles(saved_features):
     print("load %s used %s minutes" % (saved_features, show_time(start_time)))
     return X
 
+
+def load_valid():
+    path_sol = "../input/solution.csv.txt"
+    df_sol = pd.read_csv(path_sol, encoding="ISO-8859-1")
+    #df_sol['relevance'] = [1.0 if x < 1.0 else x for x in df_sol['relevance']]
+    #df_sol['relevance'] = [3.0 if x > 3.0 else x for x in df_sol['relevance']]
+    return df_sol

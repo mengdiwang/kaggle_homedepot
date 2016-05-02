@@ -21,21 +21,26 @@ def load_all_features():
 def train():
     df_all = load_all_features()
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test(df_all)
+    df_sol = load_valid()
 
     print("X_train_len:%d, y_train_len:%d, X_test_len:%d, y_test_len:%d, X_valid_len:%d, id_valid_len:%d" %
           (X_train.shape[0], y_train.shape[0], X_test.shape[0], y_test.shape[0], X_valid.shape[0], id_valid.shape[0]))
 
-    predictions = get_ridge_regression_prediction(X_train, y_train, X_test, alpha=1.0, GS=True)
+    predictions, valid_pred = get_ridge_regression_prediction(X_train, y_train, X_test, X_valid=X_valid, alpha=1.0, GS=True)
     print("ridge RMSE:%f" % fmean_squared_error(y_test, predictions))
+    print("ridge RMSE validation:%f" % check_valid(df_sol, valid_pred))
     print ("--ridge regression training use %s minutes --" % show_time(start_time))
 
-    predictions = get_lasso_prediction(X_train, y_train, X_test, alpha=0.2)
+    predictions, valid_pred = get_lasso_prediction(X_train, y_train, X_test, X_valid=X_valid, alpha=0.2)
     print("Lasso RMSE:%f" % fmean_squared_error(y_test, predictions))
+    print("Lasso RMSE validation:%f" % check_valid(df_sol, valid_pred))
     print ("--Lasso regression training use %s minutes --" % show_time(start_time))
 
-    predictions = get_bagging_prediction(X_train, y_train, X_test)
+    predictions, valid_pred = get_bagging_prediction(X_train, y_train, X_test, X_valid=X_valid)
     print("bagging RMSE:%f" % fmean_squared_error(y_test, predictions))
+    print("bagging RMSE validation:%f" % check_valid(df_sol, valid_pred))
     print ("--bagging training use %s minutes --" % show_time(start_time))
+
 
     '''
     predictions = get_rf_prediction(X_train, y_train, X_test)
