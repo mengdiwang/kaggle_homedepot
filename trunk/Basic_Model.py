@@ -54,7 +54,7 @@ def get_ridge_regression_prediction(X_train, y_train, X_test, X_valid=None, alph
         clf = linear_model.Ridge(alpha)
         alphas = np.array([x*0.05 for x in range(21)])
         param_grid=dict(alpha=alphas)
-        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=VERBOSE, scoring=RMSE)
         print("Best parameters found by grid search:")
         model.fit(X_train, y_train)
         print(model.best_params_)
@@ -85,7 +85,7 @@ def get_lasso_prediction(X_train, y_train, X_test, X_valid=None, alpha=0.5, GS=F
         clf = linear_model.Lasso(alpha)
         alphas = np.array([x*0.05 for x in range(4)])
         param_grid=dict(alpha=alphas)
-        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=VERBOSE, scoring=RMSE)
         print("Best parameters found by grid search:")
         print(model.best_params_)
         model.fit(X_train, y_train)
@@ -148,16 +148,34 @@ def get_bagging_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
             return y_pred, model.predict(X_valid)
 
 
-# TODO
-def get_rf_prediction(X_train, y_train, X_test):
-    rf = RandomForestRegressor(n_estimators=800, n_jobs = -1, max_features=10, max_depth=20, random_state=1301, verbose=1)
-    rf.fit(X_train, y_train)
-    y_pred = rf.predict(X_test)
-    return y_pred
+def get_rf_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
+    rf = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=20)
+    if GS:
+        param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
+        model = grid_search.GridSearchCV(estimator=rf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model.fit(X_train, y_train)
+        y_pred = model.predict(X_test)
+
+        print("Best parameters found by grid search:")
+        print(model.best_params_)
+        print("Best CV score:")
+        print(model.best_score_)
+        if X_valid is None:
+            return y_pred
+        else:
+            vy_pred = model.predict(X_valid)
+            return y_pred, vy_pred
+    else:
+        rf.fit(X_train, y_train)
+        y_pred = rf.predict(X_test)
+        if X_valid is None:
+            return y_pred
+        else:
+            return y_pred, rf.predict(X_valid)
 
 
 def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
-    rfr = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=1)
+    rfr = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=20)
     tfidf = TfidfVectorizer(ngram_range=(1, 1), stop_words='english')
     tsvd = TruncatedSVD(n_components=10, random_state=1301)
     clf = pipeline.Pipeline([
@@ -237,7 +255,7 @@ def get_xgb_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
 
     if GS:
         param_grid = {'xgb_model__max_depth': [5], 'xgb_model__n_estimators': [10]}
-        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=VERBOSE, scoring=RMSE)
         model.fit(X_train, y_train)
 
         print("Best parameters found by grid search:")

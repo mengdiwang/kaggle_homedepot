@@ -1,8 +1,32 @@
-ridge RMSE:0.483996
-bagging RMSE:0.483077
-random forest RMSE:0.485997
-feature union (tfidf+svd) RMSE:0.472526    
-tf-idf RMSE:0.511136
+------------------------XGB-------------------
+Best parameters found by grid search:
+{'xgb_model__n_estimators': 10, 'xgb_model__max_depth': 5}
+Best CV score:
+-0.486952932833
+-0.0169209400928
 XGB regression RMSE:0.489040
 XGB regression RMSE validation:0.488000
+--XGB regression training use 1.32 minutes --
 
+------------------Ridge Regression-------------
+ridge regression RMSE:0.492814
+ridge regression RMSE validation:0.482674
+--ridge regression training use 1.63 minutes --
+
+------------------Lasso Regression-------------
+lasso regression RMSE:0.532853
+lasso regression RMSE validation:0.531339
+--lasso regression training use 1.89 minutes --
+
+------------------Bagging----------------------
+bagging  RMSE:0.485343
+bagging  RMSE validation:0.477967
+--bagging training use 2.49 minutes --
+
+------------------Random Forest----------------------
+random forest  RMSE:0.481414
+random forest  RMSE validation:0.477545
+
+-------------Tf-idf Similarity Ridge Regression-------
+Feature Union regression RMSE:0.527684
+Feature Union regression RMSE validation:0.505081

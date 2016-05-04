@@ -7,6 +7,15 @@ import time
 start_time = time.time()
 
 
+def normalize_pred(y_pred):
+    for i in range(len(y_pred)):
+        if y_pred[i] < 1.0:
+            y_pred[i] = 1.0
+        if y_pred[i] > 3.0:
+            y_pred[i] = 3.0
+    return y_pred
+
+
 def load_all_features():
     saved_models  = "all_data.p"
     tfidf_features = "tf-idf_features.p"
@@ -36,20 +45,26 @@ def train():
           (X_train.shape[0], y_train.shape[0], X_test.shape[0], y_test.shape[0], X_valid.shape[0], id_valid.shape[0]))
 
     predictions, valid_pred = get_ridge_regression_prediction(X_train, y_train, X_test, X_valid=X_valid, alpha=1.0, GS=False)
-
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("ridge regression", y_test, predictions, df_sol, valid_pred)
 
     predictions, valid_pred = get_lasso_prediction(X_train, y_train, X_test, X_valid=X_valid, alpha=0.2)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("lasso regression", y_test, predictions, df_sol, valid_pred)
 
     predictions, valid_pred = get_bagging_prediction(X_train, y_train, X_test, X_valid=X_valid)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("bagging ", y_test, predictions, df_sol, valid_pred)
 
-    predictions = get_rf_prediction(X_train, y_train, X_test, X_valid=X_valid)
+    predictions, valid_pred = get_rf_prediction(X_train, y_train, X_test, X_valid=X_valid)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("random forest ", y_test, predictions, df_sol, valid_pred)
 
-    kaggle_test_output(df_all, predictions, N=num_train1)
-
+    #kaggle_test_output(df_all, predictions, N=num_train1)
 
 
 def train_only_tfidf():
@@ -61,29 +76,29 @@ def train_only_tfidf():
     df_sol = load_valid()
 
     predictions, valid_pred = get_ridge_regression_prediction(X_train, y_train, X_test, X_valid=X_valid, alpha=0.3, GS=True)
-    print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
+    print_test_and_valid("TF-idf Ridge regression", y_test, predictions, df_sol, valid_pred)
 
 
-# submitted with 0.47326
-def train_feature_union():
+def train_with_result():
     df_all = load_all_features()
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, Todrop=False)
     df_sol = load_valid()
 
+    # feature union
     predictions, valid_pred = get_feature_union_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
 
-
-def train_xgb():
-    df_all = load_all_features()
-    X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, Todrop=False)
-    df_sol = load_valid()
-
+    # XGBoost
     predictions, valid_pred = get_xgb_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("XGB regression", y_test, predictions, df_sol, valid_pred)
 
 
-train_xgb()
-train()
-train_feature_union()
-train_only_tfidf()
+#train()
+train_with_result()
+#train_only_tfidf()
