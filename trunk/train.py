@@ -29,16 +29,17 @@ def load_all_features():
 
 def print_test_and_valid(model_name, y_test, predictions, df_sol, valid_pred=None):
     # check training error
-    print("%s RMSE:%f" % (model_name, fmean_squared_error(y_test, predictions)))
+    print("----------%s training RMSE:%f----------" % (model_name, fmean_squared_error(y_test, predictions)))
     # check validation
     if valid_pred is not None:
-        print("%s RMSE validation:%f" % (model_name, check_valid(df_sol, valid_pred)))
+        print("----------%s RMSE public validation:%f----------" % (model_name, check_valid(df_sol, valid_pred)))
+        print("----------%s RMSE private validation:%f----------" % (model_name, check_valid(df_sol, valid_pred, public=False)))
     print ("--%s training use %s minutes --" % (model_name, show_time(start_time)))
 
 
-def train():
+def train(ptg=0.44):
     df_all = load_all_features()
-    X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test(df_all)
+    X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test(df_all, ptg=ptg)
     df_sol = load_valid()
 
     print("X_train_len:%d, y_train_len:%d, X_test_len:%d, y_test_len:%d, X_valid_len:%d, id_valid_len:%d" %
@@ -93,12 +94,14 @@ def train_with_result():
     print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
 
     # XGBoost
+    '''
     predictions, valid_pred = get_xgb_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
     predictions = normalize_pred(predictions)
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("XGB regression", y_test, predictions, df_sol, valid_pred)
+    '''
 
-
-#train()
+train()
+train(ptg=0.8)
 train_with_result()
 #train_only_tfidf()

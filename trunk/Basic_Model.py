@@ -139,7 +139,7 @@ def get_bagging_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
         rf = RandomForestRegressor(n_estimators=15, max_depth=6, random_state=0)
         clf = BaggingRegressor(rf, n_estimators=45, max_samples=0.1, random_state=25)
         param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
-        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=VERBOSE, scoring=RMSE)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
         if X_valid is None:
@@ -149,10 +149,10 @@ def get_bagging_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
 
 
 def get_rf_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
-    rf = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=20)
+    rf = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=VERBOSE)
     if GS:
         param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
-        model = grid_search.GridSearchCV(estimator=rf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator=rf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=VERBOSE, scoring=RMSE)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
 
@@ -199,7 +199,7 @@ def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=Fals
 
     if GS:
         param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
-        model = grid_search.GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1, cv = 2, verbose=20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=VERBOSE, scoring=RMSE)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
 

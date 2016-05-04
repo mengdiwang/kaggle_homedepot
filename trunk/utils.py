@@ -55,7 +55,7 @@ def kaggle_test_output(df_all, y, N=74067, filename="kaggle_test.csv"):
     outfile.close
 
 
-def split_train_test_with_result(df_all, num_train=74067, ptg=0.8, Todrop=True):
+def split_train_test_with_result(df_all, num_train=74067, ptg=0.44, Todrop=True):
     # all features engineer finished and drop unused text features
 
     if Todrop:
@@ -78,7 +78,7 @@ def split_train_test_with_result(df_all, num_train=74067, ptg=0.8, Todrop=True):
     return X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1
 
 
-def split_train_test(df_all, num_train=74067, ptg=0.8, Todrop=True):
+def split_train_test(df_all, num_train=74067, ptg=0.44, Todrop=True):
     # all features engineer finished and drop unused text features
 
     if Todrop:
