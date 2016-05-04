@@ -33,7 +33,7 @@ path_train = "../input/train.csv"
 path_test = "../input/test.csv"
 path_attr = "../input/attributes.csv"
 path_product = "../input/product_descriptions.csv"
-all_data_pickle = "all_data.p"
+all_data_pickle = "all_data2.p"
 
 stop_words = ['for', 'xbi', 'and', 'in', 'th','on','sku','with','what','from','that','less','er','ing']
 strNum = {'zero':0,'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':0}
@@ -258,7 +258,7 @@ def build_feature():
 
 df_all1 = build_feature()
 dump_df_all(df_all1, all_data_pickle)
-saved_features = "tf-idf_features.p"
+saved_features = "tf-idf_features2.p"
 from tfidf_feature import  build_sim_features
 build_sim_features(df_all1, saved_features)
 
