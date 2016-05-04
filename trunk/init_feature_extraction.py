@@ -65,7 +65,7 @@ def join_data(df_all, df_pro_desc, df_brand):
 
 def str_stem(s):
     if isinstance(s, str):
-        #s = correct(s) ## correct spell typo
+        s = correct(s) ## correct spell typo
         s = re.sub(r"(\w)\.([A-Z])", r"\1 \2", s) #Split words with a.A
         s = s.lower()
         s = s.replace("  "," ")
