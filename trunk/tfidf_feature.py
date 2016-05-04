@@ -45,3 +45,7 @@ def concat_tf_idf_features(df_all, df_tfidf):
     df_all['tf-idf_term_desc'] = df_tfidf['tf-idf_term_desc']
     df_all['tf-idf_term_brand'] = df_tfidf['tf-idf_term_brand']
     return df_all
+
+
+df_all = pd.read_pickle(saved_models)
+build_sim_features(df_all, saved_features)
