@@ -16,6 +16,9 @@ import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 
 
+VERBOSE=0
+
+
 class cust_regression_vals(BaseEstimator, TransformerMixin):
     def fit(self, x, y=None):
         return self
@@ -178,7 +181,7 @@ def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=Fals
 
     if GS:
         param_grid = {'rfr__max_features': [10], 'rfr__max_depth': [20]}
-        model = grid_search.GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1, cv = 2, verbose = 20, scoring=RMSE)
+        model = grid_search.GridSearchCV(estimator = clf, param_grid = param_grid, n_jobs = -1, cv = 2, verbose=20, scoring=RMSE)
         model.fit(X_train, y_train)
         y_pred = model.predict(X_test)
 
@@ -202,5 +205,58 @@ def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=Fals
 
 
 #TODO
-def get_xgb_prediction(X_train, y_train, X_test, GS=False):
-    pass
+import xgboost as xgb
+
+
+def get_xgb_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
+
+    xgb_model = xgb.XGBRegressor(learning_rate=0.25, silent=False, objective="reg:linear", nthread=-1, gamma=0, min_child_weight=1, max_delta_step=0,
+                 subsample=1, colsample_bytree=1, colsample_bylevel=1, reg_alpha=0, reg_lambda=1, scale_pos_weight=1,
+                 base_score=0.5, seed=0, missing=None)
+    tfidf = TfidfVectorizer(ngram_range=(1, 1), stop_words='english')
+    tsvd = TruncatedSVD(n_components=10, random_state = 2016)
+    clf = pipeline.Pipeline([
+        ('union', FeatureUnion(
+                    transformer_list = [
+                        ('cst',  cust_regression_vals()),
+                        ('txt1', pipeline.Pipeline([('s1', cust_txt_col(key='search_term')), ('tfidf1', tfidf), ('tsvd1', tsvd)])),
+                        ('txt2', pipeline.Pipeline([('s2', cust_txt_col(key='product_title')), ('tfidf2', tfidf), ('tsvd2', tsvd)])),
+                        ('txt3', pipeline.Pipeline([('s3', cust_txt_col(key='product_description')), ('tfidf3', tfidf), ('tsvd3', tsvd)])),
+                        ('txt4', pipeline.Pipeline([('s4', cust_txt_col(key='brand')), ('tfidf4', tfidf), ('tsvd4', tsvd)]))
+                        ],
+                    transformer_weights = {
+                        'cst': 1.0,
+                        'txt1': 0.5,
+                        'txt2': 0.25,
+                        'txt3': 0.0,
+                        'txt4': 0.5
+                        },
+                #n_jobs = -1
+                )),
+        ('xgb_model', xgb_model)])
+
+    if GS:
+        param_grid = {'xgb_model__max_depth': [5], 'xgb_model__n_estimators': [10]}
+        model = grid_search.GridSearchCV(estimator=clf, param_grid=param_grid, n_jobs=-1, cv=2, verbose=20, scoring=RMSE)
+        model.fit(X_train, y_train)
+
+        print("Best parameters found by grid search:")
+        print(model.best_params_)
+        print("Best CV score:")
+        print(model.best_score_)
+        print(model.best_score_ + 0.47003199274)
+
+        y_pred = model.predict(X_test)
+        if X_valid is None:
+            return y_pred
+        else:
+            vy_pred = model.predict(X_valid)
+            return y_pred, vy_pred
+    else:
+        clf.fit(X_train, y_train)
+        y_pred = clf.predict(X_test)
+        if X_valid is None:
+            return y_pred
+        else:
+            vy_pred = clf.predict(X_valid)
+            return y_pred, vy_pred
