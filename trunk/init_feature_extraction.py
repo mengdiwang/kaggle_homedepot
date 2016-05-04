@@ -258,7 +258,9 @@ def build_feature():
 
 df_all1 = build_feature()
 dump_df_all(df_all1, all_data_pickle)
-
+saved_features = "tf-idf_features.p"
+from tfidf_feature import  build_sim_features
+build_sim_features(df_all1, saved_features)
 
 # meet with advisor
 # bag of word, text->vector, tf-idf  vectorA vectorB, similarity between two vectors 
