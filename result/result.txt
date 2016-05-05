@@ -41,6 +41,8 @@ random forest  RMSE validation:0.477545
 Feature Union regression RMSE:0.527684
 Feature Union regression RMSE validation:0.505081
 
+=======================================================================
+
 0.44%
 ----------ridge regression training RMSE:0.486112----------
 ----------ridge regression RMSE public validation:0.484451----------
@@ -58,3 +60,29 @@ Feature Union regression RMSE validation:0.505081
 ----------random forest  RMSE public validation:0.486107----------
 ----------random forest  RMSE private validation:0.486506----------
 --random forest  training use 2.66 minutes --
+
+=======================================================================
+https://s3-us-west-2.amazonaws.com/wmdds1003/kaggle/tf-idf_features_corrected.p
+https://s3-us-west-2.amazonaws.com/wmdds1003/kaggle/all_data_corrected.p
+0.44% after correct typo
+
+X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.481441----------
+----------ridge regression RMSE public validation:0.480149----------
+----------ridge regression RMSE private validation:0.479987----------
+--ridge regression training use 0.4 minutes --
+----------lasso regression training RMSE:0.562682----------
+----------lasso regression RMSE public validation:0.550197----------
+----------lasso regression RMSE private validation:0.549635----------
+--lasso regression training use 0.78 minutes --
+----------bagging  training RMSE:0.481770----------
+----------bagging  RMSE public validation:0.479813----------
+----------bagging  RMSE private validation:0.479513----------
+--bagging  training use 1.36 minutes --
+----------random forest  training RMSE:0.481779----------
+----------random forest  RMSE public validation:0.481839----------
+----------random forest  RMSE private validation:0.482101----------
+--random forest  training use 1.87 minutes --
+
+=======================================================================
+0.8% after correct typo
