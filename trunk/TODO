@@ -1,4 +1,8 @@
-TODO: 1. add more features: word2vec, SVD, tf-idf
+TODO: 1. add more features: word2vec,
+     SVD, DONE
+     tf-idf, DONE
+     color,
+     signature(artist, group)
 TODO: 2. test different models: ridge, kernel, rf, DONE
 TODO: 3. Use grid search to do the parameter search, DONE
-TODO: 4. Add XGB model
+TODO: 4. Add XGB model, DONE
