@@ -11,3 +11,11 @@ Icon
 *.p
 
 env/Anaconda3-2.4.1-Linux-x86_64.sh
+
+trunk/all_data_corrected.csv
+
+trunk/kaggle_test.csv
+
+trunk/kaggle_test2_rfr.csv
+
+trunk/rfr_pipline.csv
