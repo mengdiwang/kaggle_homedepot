@@ -1,6 +1,7 @@
 import pickle
 import time
 import pandas as pd
+from config import *
 
 
 def show_time(start_time):
@@ -16,7 +17,7 @@ def read_saved_df_all(file_name):
 
 def dump_df_all(df_all, all_data_pickle):
     f = open(all_data_pickle, 'wb')
-    pickle.dump(df_all, f)
+    pickle.dump(df_all, f, protocol=0)
     f.close()
 
 
@@ -103,7 +104,15 @@ def split_train_test(df_all, num_train=74067, ptg=0.44, Todrop=True):
 
 def load_saved_pickles(saved_features):
     start_time = time.time()
-    X = pickle.load(open(saved_features, 'rb'))
+    myfile = open(saved_features, 'rb')
+    X = pickle.load(myfile)
+    print("load %s used %s minutes" % (saved_features, show_time(start_time)))
+    return X
+
+
+def load_saved_csv(saved_models):
+    start_time = time.time()
+    X = pd.read_csv(saved_models)
     print("load %s used %s minutes" % (saved_features, show_time(start_time)))
     return X
 
@@ -114,3 +123,11 @@ def load_valid():
     #df_sol['relevance'] = [1.0 if x < 1.0 else x for x in df_sol['relevance']]
     #df_sol['relevance'] = [3.0 if x > 3.0 else x for x in df_sol['relevance']]
     return df_sol
+
+
+def pickle3ToCsv():
+    df_all = load_saved_pickles(saved_models)
+    df_all.to_csv(saved_models_csv)
+
+
+#pickle3ToCsv()
