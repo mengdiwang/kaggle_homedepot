@@ -87,19 +87,19 @@ def train_with_result(ptg=0.44):
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, ptg=ptg, Todrop=False)
     df_sol = load_valid()
 
+    '''
     # feature union
     predictions, valid_pred = get_feature_union_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
     predictions = normalize_pred(predictions)
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
+    '''
 
     # XGBoost
-    '''
     predictions, valid_pred = get_xgb_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
     predictions = normalize_pred(predictions)
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("XGB regression", y_test, predictions, df_sol, valid_pred)
-    '''
 
 #train()
 #train(ptg=0.8)
