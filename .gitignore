@@ -1,5 +1,5 @@
 */./idea/*
-*.csv
+input/*.csv
 *.xml
 *.iml
 Icon
