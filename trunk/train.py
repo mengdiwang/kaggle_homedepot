@@ -5,6 +5,7 @@ from utils import *
 from tfidf_feature import *
 import time
 start_time = time.time()
+from config import *
 
 
 def normalize_pred(y_pred):
@@ -17,9 +18,6 @@ def normalize_pred(y_pred):
 
 
 def load_all_features():
-    saved_models  = "all_data_corrected.p"
-    tfidf_features = "tf-idf_features_corrected.p"
-
     df_all = load_saved_pickles(saved_models)
     df_tfidf = load_saved_pickles(tfidf_features)
     concat_tf_idf_features(df_all, df_tfidf)

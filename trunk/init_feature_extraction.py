@@ -28,12 +28,7 @@ stemmer = PorterStemmer()
 from utils import *
 
 from spell_checker import spell_check_dict
-
-path_train = "../input/train.csv"
-path_test = "../input/test.csv"
-path_attr = "../input/attributes.csv"
-path_product = "../input/product_descriptions.csv"
-all_data_pickle = "all_data3.p"
+from config import *
 
 stop_words = ['for', 'xbi', 'and', 'in', 'th','on','sku','with','what','from','that','less','er','ing']
 strNum = {'zero':0,'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':0}
@@ -187,14 +182,13 @@ def feature_extraction(df_all, df_brand, num_train):
 
     # google spell correct
     df_all['search_term'] = df_all['search_term'].map(lambda x: spell_check_dict[x] if x in spell_check_dict.keys() else x)
-
     # stemming the raw input
     df_all['search_term'] = df_all['search_term'].map(lambda x:str_stem(x)) # stemmed search term
     df_all['product_title'] = df_all['product_title'].map(lambda x:str_stem(x)) # stemmed product title
     df_all['product_description'] = df_all['product_description'].map(lambda x:str_stem(x)) # stemmed product description
     df_all['brand'] = df_all['brand'].map(lambda x:str_stem(x)) # stemmed brand
     print("--- Stemming: %s minutes ---" % round(((time.time() - start_time)/60),2))
-    
+
     # product_info = search term + product title + product description
     df_all['product_info'] = df_all['search_term']+"\t"+df_all['product_title'] +"\t"+df_all['product_description']
     print("--- Prod Info: %s minutes ---" % round(((time.time() - start_time)/60),2))
@@ -248,8 +242,6 @@ def feature_extraction(df_all, df_brand, num_train):
     df_all['search_term_len'] = df_all['search_term'].map(lambda x:len(x))
 
     print("--- Features Set: %s minutes ---" % round(((time.time() - start_time)/ 60) , 2))
-
-    #print (df_all[:100])
     return df_all
 
 
@@ -264,10 +256,8 @@ def build_feature():
 df_all1 = build_feature()
 
 dump_df_all(df_all1, all_data_pickle)
-saved_features = "tf-idf_features3.p"
 from tfidf_feature import build_sim_features
 build_sim_features(df_all1, saved_features)
-
 
 # meet with advisor
 # bag of word, text->vector, tf-idf  vectorA vectorB, similarity between two vectors 
