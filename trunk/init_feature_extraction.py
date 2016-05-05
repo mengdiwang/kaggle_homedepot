@@ -65,7 +65,7 @@ def join_data(df_all, df_pro_desc, df_brand):
 
 def str_stem(s):
     if isinstance(s, str):
-        s = correct(s) ## correct spell typo
+        #s = correct(s) ## correct spell typo
         s = re.sub(r"(\w)\.([A-Z])", r"\1 \2", s) #Split words with a.A
         s = s.lower()
         s = s.replace("  "," ")
@@ -244,7 +244,8 @@ def feature_extraction(df_all, df_brand, num_train):
     df_all['search_term_len'] = df_all['search_term'].map(lambda x:len(x))
 
     print("--- Features Set: %s minutes ---" % round(((time.time() - start_time)/ 60) , 2))
-    
+
+    #print (df_all[:100])
     return df_all
 
 
@@ -257,10 +258,12 @@ def build_feature():
 
 
 df_all1 = build_feature()
+'''
 dump_df_all(df_all1, all_data_pickle)
 saved_features = "tf-idf_features2.p"
 from tfidf_feature import  build_sim_features
 build_sim_features(df_all1, saved_features)
+'''
 
 # meet with advisor
 # bag of word, text->vector, tf-idf  vectorA vectorB, similarity between two vectors 

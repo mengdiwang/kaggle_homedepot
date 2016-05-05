@@ -1,0 +1,577 @@
+
+--- Files Loaded: 0.1 minutes ---
+--- Stemming: 10.85 minutes ---
+--- Prod Info: 10.86 minutes ---
+--- Len of: 10.92 minutes ---
+--- Search Term Segment: 11.1 minutes ---
+--- Query In: 11.13 minutes ---
+--- Find common words In: 11.2 minutes ---
+--- Get Ratio In: 11.2 minutes ---
+--- Query Last Word In: 11.25 minutes ---
+--- Features Set: 11.25 minutes ---
+     id                                      product_title  product_uid  \
+0     2                    simpson strong tie 12 gaug angl       100001   
+1     3                    simpson strong tie 12 gaug angl       100001   
+2     9  behr premium textur deckov 1gal. #sc 141 tugbo...       100002   
+3    16  delta vero 1 handl shower onli faucet trim kit...       100005   
+4    17  delta vero 1 handl shower onli faucet trim kit...       100005   
+5    18  whirlpool 1.9cu.ft. over the rang convect micr...       100006   
+6    20  whirlpool 1.9cu.ft. over the rang convect micr...       100006   
+7    21  whirlpool 1.9cu.ft. over the rang convect micr...       100006   
+8    23  lithonia light quantum 2 light black led emerg...       100007   
+9    27  hous of fara 34in. xbi 3in. xbi 8ft. mdf flute...       100009   
+10   34          valley view industri metal stake (4 pack)       100010   
+11   35  toro person pace recycl 22in. variabl speed se...       100011   
+12   37  toro person pace recycl 22in. variabl speed se...       100011   
+13   38  toro person pace recycl 22in. variabl speed se...       100011   
+14   48  hampton bay caramel simpl weav bamboo rollup s...       100012   
+15   51  insinker sinktop switch singl outlet for insin...       100013   
+16   65  sunjoy calai 8ft. xbi 5ft. xbi 8ft. steel tile...       100016   
+17   69  md build product 36in. xbi 36in. cloverleaf al...       100017   
+18   75  md build product 36in. xbi 36in. cloverleaf al...       100017   
+19   81  md build product 36in. xbi 36in. cloverleaf al...       100017   
+20   85  md build product 36in. xbi 36in. cloverleaf al...       100017   
+21   88  hous of fara 8 linear ft mdf overlap wainscot ...       100019   
+22   90  hous of fara 8 linear ft mdf overlap wainscot ...       100019   
+23   92  hous of fara 8 linear ft mdf overlap wainscot ...       100019   
+24  101  hous of fara 8 linear ft mdf overlap wainscot ...       100019   
+25  105  hous of fara 8 linear ft mdf overlap wainscot ...       100019   
+26  106  hous of fara 8 linear ft mdf overlap wainscot ...       100019   
+27  113  1804 dual spray half pattern 4in. pop up spray...       100021   
+28  114  1804 dual spray half pattern 4in. pop up spray...       100021   
+29  117  samsung 4.2cu.ft. front load washer with steam...       100022   
+..  ...                                                ...          ...   
+70  255  sumner street home hardwar grayson 2 12in. oil...       100045   
+71  257       hdx 6ft. heavi duti steel green paint t post       100046   
+72  259       hdx 6ft. heavi duti steel green paint t post       100046   
+73  261       hdx 6ft. heavi duti steel green paint t post       100046   
+74  266       hdx 6ft. heavi duti steel green paint t post       100046   
+75  270       hdx 6ft. heavi duti steel green paint t post       100046   
+76  272  crown bolt 24in. xbi 12in. xbi 12in. plain met...       100047   
+77  275  crown bolt 24in. xbi 12in. xbi 12in. plain met...       100047   
+78  276  crown bolt 24in. xbi 12in. xbi 12in. plain met...       100047   
+79  284                 henri 587 4.75gal. white roof coat       100049   
+80  290  hampton bay beverli patio dine arm chair with ...       100050   
+81  293  hampton bay spring haven brown all weather wic...       100051   
+82  294  hampton bay spring haven brown all weather wic...       100051   
+83  297  hampton bay spring haven brown all weather wic...       100051   
+84  305                       60in. xbi 150ft. 1010 remesh       100053   
+85  314  stanley door 36in. xbi 80in. chatham 34 lite 1...       100054   
+86  318  stanley door 36in. xbi 80in. chatham 34 lite 1...       100054   
+87  319  stanley door 36in. xbi 80in. chatham 34 lite 1...       100054   
+88  323  moen essi singl handl pull down sprayer kitche...       100055   
+89  327  moen essi singl handl pull down sprayer kitche...       100055   
+90  331  moen essi singl handl pull down sprayer kitche...       100055   
+91  334  moen essi singl handl pull down sprayer kitche...       100055   
+92  335  moen essi singl handl pull down sprayer kitche...       100055   
+93  340          bare ground 4gal. liquid de icer (case 4)       100056   
+94  341  owen corn r 19 kraft face insul batt 15in. xbi...       100057   
+95  343  owen corn r 19 kraft face insul batt 15in. xbi...       100057   
+96  346  owen corn r 19 kraft face insul batt 15in. xbi...       100057   
+97  347  owen corn r 19 kraft face insul batt 15in. xbi...       100057   
+98  350  owen corn r 19 kraft face insul batt 15in. xbi...       100057   
+99  351  gama sonic 40 led recharg batteri power emerg ...       100058   
+
+    relevance                         search_term  \
+0        3.00                        angl bracket   
+1        2.50                           l bracket   
+2        3.00                           deck over   
+3        2.33                    rain shower head   
+4        2.67                  shower onli faucet   
+5        3.00                         convect otr   
+6        2.67                 microwav over stove   
+7        3.00                            microwav   
+8        2.67                         emerg light   
+9        3.00                              mdf 34   
+10       2.67                         steel stake   
+11       3.00       brigg and stratton lawn mower   
+12       3.00                              ga mow   
+13       2.00                         honda mower   
+14       2.67  hampton bay chestnut pull up shade   
+15       2.67                              dispos   
+16       3.00                        grill gazebo   
+17       1.00                          door guard   
+18       1.67              metal plate cover gcfi   
+19       2.33                        radiat grate   
+20       2.33                       window screen   
+21       1.33             1 xbi 1 rail decor wood   
+22       2.67             4 xbi 8 beadboard panel   
+23       2.33                  4 xbi 8 wood panel   
+24       1.33                         mdf 4 xbi 8   
+25       2.33                 wainscot chair rail   
+26       2.33                wainscot plank panel   
+27       2.00                      lawn sprkinler   
+28       2.33                  rainbird sprinkler   
+29       2.67                 platform for washer   
+..        ...                                 ...   
+70       2.33                             grayson   
+71       2.00                             6 stell   
+72       2.00                     fece post metal   
+73       2.33               green paint pop rivet   
+74       2.67                                post   
+75       1.67                 wire fenc 6ft. high   
+76       3.00                   bolt 12in. xbi 12   
+77       2.33                         metal sheet   
+78       3.00                         sheet metal   
+79       2.00                 elastomer roof coat   
+80       2.67                        outdoor dine   
+81       3.00                cushion outdoorloung   
+82       3.00                  hampton bay spring   
+83       2.33                     outdoorfurnitur   
+84       3.00                            wiremesh   
+85       3.00                          front door   
+86       3.00                  prehung steel door   
+87       2.67                        stanley door   
+88       2.33        kingsley moen kitchen faucet   
+89       3.00                 kitchen sink faucet   
+90       2.00     pricepfist kitchen faucet g 135   
+91       2.67                        soap dispens   
+92       2.00                soap dispens kitchen   
+93       1.33                         roof melter   
+94       2.33                  6 kraft face insul   
+95       2.33                    fiberglass insul   
+96       2.00                       owen corn 7 3   
+97       1.33                                r 15   
+98       3.00                       r 19in. sulat   
+99       3.00                     batteri lantern   
+
+                                  product_description  \
+0   not onli do angl make joint stronger they also...   
+1   not onli do angl make joint stronger they also...   
+2   behr premium textur deckov is an innov solid c...   
+3   updat your bathroom with the delta vero singl ...   
+4   updat your bathroom with the delta vero singl ...   
+5   achiev delici result is almost effortless with...   
+6   achiev delici result is almost effortless with...   
+7   achiev delici result is almost effortless with...   
+8   the quantum adjust 2 light led black emerg lig...   
+9   get the hous of fara 34in. xbi 3in. xbi 8ft. m...   
+10  valley view industri metal stake (4 pack) are ...   
+11  recycl 22in. person pace variabl speed self pr...   
+12  recycl 22in. person pace variabl speed self pr...   
+13  recycl 22in. person pace variabl speed self pr...   
+14  the 96in. wide caramel simpl weav rollup bambo...   
+15  the insinker sinktop switch singl outlet for i...   
+16  make grill great with thi handsom and function...   
+17  the md build product 36in. xbi 36in. xbi 150in...   
+18  the md build product 36in. xbi 36in. xbi 150in...   
+19  the md build product 36in. xbi 36in. xbi 150in...   
+20  the md build product 36in. xbi 36in. xbi 150in...   
+21  the hous of fara 8 linear ft prime mdf overlap...   
+22  the hous of fara 8 linear ft prime mdf overlap...   
+23  the hous of fara 8 linear ft prime mdf overlap...   
+24  the hous of fara 8 linear ft prime mdf overlap...   
+25  the hous of fara 8 linear ft prime mdf overlap...   
+26  the hous of fara 8 linear ft prime mdf overlap...   
+27  instal in park and backyard across the globe r...   
+28  instal in park and backyard across the globe r...   
+29  the samsung 4.2cu.ft. front load washer with s...   
+..                                                ...   
+70  the grayson collect from thomasvil bring a cus...   
+71  the hdx 6ft. long heavi duti steel green paint...   
+72  the hdx 6ft. long heavi duti steel green paint...   
+73  the hdx 6ft. long heavi duti steel green paint...   
+74  the hdx 6ft. long heavi duti steel green paint...   
+75  the hdx 6ft. long heavi duti steel green paint...   
+76  thi expand sheet metal can be alter in shape a...   
+77  thi expand sheet metal can be alter in shape a...   
+78  thi expand sheet metal can be alter in shape a...   
+79  henri 587 durabrit white elastomer roof coat i...   
+80  sit back and relax in comfort and style in the...   
+81  soak in the outdoor in the spring haven brown ...   
+82  soak in the outdoor in the spring haven brown ...   
+83  soak in the outdoor in the spring haven brown ...   
+84  the 60in. xbi 150ft. 1010 remesh provid expans...   
+85  stanley door help you creat an entranc that is...   
+86  stanley door help you creat an entranc that is...   
+87  stanley door help you creat an entranc that is...   
+88  the essi faucet in spot resist stainless ha a ...   
+89  the essi faucet in spot resist stainless ha a ...   
+90  the essi faucet in spot resist stainless ha a ...   
+91  the essi faucet in spot resist stainless ha a ...   
+92  the essi faucet in spot resist stainless ha a ...   
+93  bare ground liquid deicer is the most environm...   
+94  ecotouch insul is the reinvent of fiberglass i...   
+95  ecotouch insul is the reinvent of fiberglass i...   
+96  ecotouch insul is the reinvent of fiberglass i...   
+97  ecotouch insul is the reinvent of fiberglass i...   
+98  ecotouch insul is the reinvent of fiberglass i...   
+99  thi recharg emerg lamp is a must have in everi...   
+
+                         brand  \
+0           simpson strong tie   
+1           simpson strong tie   
+2   behr premium textur deckov   
+3                        delta   
+4                        delta   
+5                    whirlpool   
+6                    whirlpool   
+7                    whirlpool   
+8               lithonia light   
+9                 hous of fara   
+10        valley view industri   
+11                        toro   
+12                        toro   
+13                        toro   
+14                 hampton bay   
+15                    insinker   
+16                      sunjoy   
+17            md build product   
+18            md build product   
+19            md build product   
+20            md build product   
+21                hous of fara   
+22                hous of fara   
+23                hous of fara   
+24                hous of fara   
+25                hous of fara   
+26                hous of fara   
+27                   rain bird   
+28                   rain bird   
+29                     samsung   
+..                         ...   
+70  sumner street home hardwar   
+71                         hdx   
+72                         hdx   
+73                         hdx   
+74                         hdx   
+75                         hdx   
+76                  crown bolt   
+77                  crown bolt   
+78                  crown bolt   
+79                       henri   
+80                 hampton bay   
+81                 hampton bay   
+82                 hampton bay   
+83                 hampton bay   
+84                     unbrand   
+85                stanley door   
+86                stanley door   
+87                stanley door   
+88                        moen   
+89                        moen   
+90                        moen   
+91                        moen   
+92                        moen   
+93                 bare ground   
+94                   owen corn   
+95                   owen corn   
+96                   owen corn   
+97                   owen corn   
+98                   owen corn   
+99                  gama sonic   
+
+                                         product_info  len_of_query  \
+0   angl bracket\tsimpson strong tie 12 gaug angl\...             2   
+1   l bracket\tsimpson strong tie 12 gaug angl\tno...             2   
+2   deck over\tbehr premium textur deckov 1gal. #s...             2   
+3   rain shower head\tdelta vero 1 handl shower on...             3   
+4   shower onli faucet\tdelta vero 1 handl shower ...             3   
+5   convect otr\twhirlpool 1.9cu.ft. over the rang...             2   
+6   microwav over stove\twhirlpool 1.9cu.ft. over ...             3   
+7   microwav\twhirlpool 1.9cu.ft. over the rang co...             1   
+8   emerg light\tlithonia light quantum 2 light bl...             2   
+9   mdf 34\thous of fara 34in. xbi 3in. xbi 8ft. m...             2   
+10  steel stake\tvalley view industri metal stake ...             2   
+11  brigg and stratton lawn mower\ttoro person pac...             5   
+12  ga mow\ttoro person pace recycl 22in. variabl ...             2   
+13  honda mower\ttoro person pace recycl 22in. var...             2   
+14  hampton bay chestnut pull up shade\thampton ba...             6   
+15  dispos\tinsinker sinktop switch singl outlet f...             1   
+16  grill gazebo\tsunjoy calai 8ft. xbi 5ft. xbi 8...             2   
+17  door guard\tmd build product 36in. xbi 36in. c...             2   
+18  metal plate cover gcfi\tmd build product 36in....             4   
+19  radiat grate\tmd build product 36in. xbi 36in....             2   
+20  window screen\tmd build product 36in. xbi 36in...             2   
+21  1 xbi 1 rail decor wood\thous of fara 8 linear...             6   
+22  4 xbi 8 beadboard panel\thous of fara 8 linear...             5   
+23  4 xbi 8 wood panel\thous of fara 8 linear ft m...             5   
+24  mdf 4 xbi 8\thous of fara 8 linear ft mdf over...             4   
+25  wainscot chair rail\thous of fara 8 linear ft ...             3   
+26  wainscot plank panel\thous of fara 8 linear ft...             3   
+27  lawn sprkinler\t1804 dual spray half pattern 4...             2   
+28  rainbird sprinkler\t1804 dual spray half patte...             2   
+29  platform for washer\tsamsung 4.2cu.ft. front l...             3   
+..                                                ...           ...   
+70  grayson\tsumner street home hardwar grayson 2 ...             1   
+71  6 stell\thdx 6ft. heavi duti steel green paint...             2   
+72  fece post metal\thdx 6ft. heavi duti steel gre...             3   
+73  green paint pop rivet\thdx 6ft. heavi duti ste...             4   
+74  post\thdx 6ft. heavi duti steel green paint t ...             1   
+75  wire fenc 6ft. high\thdx 6ft. heavi duti steel...             4   
+76  bolt 12in. xbi 12\tcrown bolt 24in. xbi 12in. ...             4   
+77  metal sheet\tcrown bolt 24in. xbi 12in. xbi 12...             2   
+78  sheet metal\tcrown bolt 24in. xbi 12in. xbi 12...             2   
+79  elastomer roof coat\thenri 587 4.75gal. white ...             3   
+80  outdoor dine\thampton bay beverli patio dine a...             2   
+81  cushion outdoorloung\thampton bay spring haven...             2   
+82  hampton bay spring\thampton bay spring haven b...             3   
+83  outdoorfurnitur\thampton bay spring haven brow...             1   
+84  wiremesh\t60in. xbi 150ft. 1010 remesh\tthe 60...             1   
+85  front door\tstanley door 36in. xbi 80in. chath...             2   
+86  prehung steel door\tstanley door 36in. xbi 80i...             3   
+87  stanley door\tstanley door 36in. xbi 80in. cha...             2   
+88  kingsley moen kitchen faucet\tmoen essi singl ...             4   
+89  kitchen sink faucet\tmoen essi singl handl pul...             3   
+90  pricepfist kitchen faucet g 135\tmoen essi sin...             5   
+91  soap dispens\tmoen essi singl handl pull down ...             2   
+92  soap dispens kitchen\tmoen essi singl handl pu...             3   
+93  roof melter\tbare ground 4gal. liquid de icer ...             2   
+94  6 kraft face insul\towen corn r 19 kraft face ...             4   
+95  fiberglass insul\towen corn r 19 kraft face in...             2   
+96  owen corn 7 3\towen corn r 19 kraft face insul...             4   
+97  r 15\towen corn r 19 kraft face insul batt 15i...             2   
+98  r 19in. sulat\towen corn r 19 kraft face insul...             3   
+99  batteri lantern\tgama sonic 40 led recharg bat...             2   
+
+    len_of_title       ...         ratio_title  ratio_description  \
+0              6       ...            0.500000           0.500000   
+1              6       ...            0.500000           0.500000   
+2             12       ...            0.500000           0.500000   
+3             14       ...            0.333333           0.333333   
+4             14       ...            1.000000           1.000000   
+5             13       ...            0.500000           1.000000   
+6             13       ...            0.666667           0.666667   
+7             13       ...            1.000000           1.000000   
+8             10       ...            1.000000           1.000000   
+9             11       ...            1.000000           1.000000   
+10             7       ...            0.500000           1.000000   
+11            17       ...            0.800000           1.000000   
+12            17       ...            1.000000           1.000000   
+13            17       ...            0.500000           0.500000   
+14            13       ...            0.666667           0.500000   
+15             8       ...            1.000000           1.000000   
+16            12       ...            1.000000           1.000000   
+17            10       ...            0.000000           0.500000   
+18            10       ...            0.000000           0.000000   
+19            10       ...            0.000000           0.000000   
+20            10       ...            0.000000           1.000000   
+21            12       ...            0.000000           0.666667   
+22            12       ...            0.400000           0.400000   
+23            12       ...            0.400000           0.400000   
+24            12       ...            0.500000           0.500000   
+25            12       ...            0.333333           1.000000   
+26            12       ...            0.666667           0.666667   
+27            10       ...            0.000000           0.500000   
+28            10       ...            0.000000           0.500000   
+29            11       ...            0.333333           0.666667   
+..           ...       ...                 ...                ...   
+70            12       ...            1.000000           1.000000   
+71             9       ...            0.500000           0.500000   
+72             9       ...            0.333333           0.333333   
+73             9       ...            0.500000           0.500000   
+74             9       ...            1.000000           1.000000   
+75             9       ...            0.250000           0.750000   
+76            11       ...            1.000000           0.750000   
+77            11       ...            1.000000           1.000000   
+78            11       ...            1.000000           1.000000   
+79             6       ...            0.666667           1.000000   
+80            12       ...            0.500000           1.000000   
+81            15       ...            0.500000           0.500000   
+82            15       ...            1.000000           1.000000   
+83            15       ...            0.000000           0.000000   
+84             5       ...            0.000000           0.000000   
+85            15       ...            1.000000           0.500000   
+86            15       ...            1.000000           0.666667   
+87            15       ...            1.000000           1.000000   
+88            16       ...            0.750000           0.500000   
+89            16       ...            0.666667           0.666667   
+90            16       ...            0.600000           0.600000   
+91            16       ...            1.000000           1.000000   
+92            16       ...            1.000000           1.000000   
+93             8       ...            0.000000           0.000000   
+94            11       ...            0.750000           1.000000   
+95            11       ...            0.500000           1.000000   
+96            11       ...            0.750000           1.000000   
+97            11       ...            1.000000           1.000000   
+98            11       ...            0.333333           0.333333   
+99             9       ...            1.000000           0.000000   
+
+    ratio_brand  ratio_desc_len ratio_title_len  query_last_word_in_title  \
+0          0.00       67.500000        3.000000                         0   
+1          0.00       67.500000        3.000000                         0   
+2          0.25       84.500000        6.000000                         0   
+3          0.00       36.333333        4.666667                         0   
+4          0.00       36.333333        4.666667                         1   
+5          0.00      252.500000        6.500000                         0   
+6          0.00      168.333333        4.333333                         0   
+7          0.00      505.000000       13.000000                         1   
+8          0.50       67.500000        5.000000                         1   
+9          0.00       40.500000        5.500000                         1   
+10         0.00       60.500000        3.500000                         1   
+11         0.00       49.800000        3.400000                         1   
+12         0.00      124.500000        8.500000                         1   
+13         0.00      124.500000        8.500000                         1   
+14         1.00       63.500000        2.166667                         1   
+15         0.00       87.000000        8.000000                         1   
+16         0.00       67.000000        6.000000                         1   
+17         0.00       39.000000        5.000000                         0   
+18         0.00       19.500000        2.500000                         0   
+19         0.00       39.000000        5.000000                         0   
+20         0.00       39.000000        5.000000                         0   
+21         0.00       15.333333        2.000000                         0   
+22         0.00       18.400000        2.400000                         1   
+23         0.00       18.400000        2.400000                         1   
+24         0.00       23.000000        3.000000                         1   
+25         0.00       30.666667        4.000000                         0   
+26         0.00       30.666667        4.000000                         1   
+27         0.00       91.500000        5.000000                         0   
+28         0.00       91.500000        5.000000                         0   
+29         0.00      116.000000        3.666667                         1   
+..          ...             ...             ...                       ...   
+70         0.00      132.000000       12.000000                         1   
+71         0.00       71.000000        4.500000                         0   
+72         0.00       47.333333        3.000000                         0   
+73         0.00       35.500000        2.250000                         0   
+74         0.00      142.000000        9.000000                         1   
+75         0.00       35.500000        2.250000                         0   
+76         0.50       13.000000        2.750000                         1   
+77         0.00       26.000000        5.500000                         1   
+78         0.00       26.000000        5.500000                         1   
+79         0.00       41.333333        2.000000                         1   
+80         0.00       93.000000        6.000000                         1   
+81         0.00       66.000000        7.500000                         0   
+82         1.00       44.000000        5.000000                         1   
+83         0.00      132.000000       15.000000                         0   
+84         0.00       62.000000        5.000000                         0   
+85         0.50      132.000000        7.500000                         1   
+86         0.50       88.000000        5.000000                         1   
+87         1.00      132.000000        7.500000                         1   
+88         1.00       35.750000        4.000000                         1   
+89         0.00       47.666667        5.333333                         1   
+90         0.00       28.600000        3.200000                         0   
+91         0.00       71.500000        8.000000                         1   
+92         0.00       47.666667        5.333333                         1   
+93         0.00       53.000000        4.000000                         0   
+94         0.00       47.500000        2.750000                         1   
+95         0.00       95.000000        5.500000                         1   
+96         1.00       47.500000        2.750000                         1   
+97         0.50       95.000000        5.500000                         1   
+98         0.50       63.333333        3.666667                         0   
+99         0.00       42.500000        4.500000                         1   
+
+    query_last_word_in_description  query_last_word_in_brand  brand_feature  \
+0                                0                         0           1000   
+1                                0                         0           1000   
+2                                0                         0           1003   
+3                                0                         0           1006   
+4                                1                         0           1006   
+5                                1                         0           1009   
+6                                0                         0           1009   
+7                                1                         0           1009   
+8                                1                         1           1012   
+9                                1                         0           1015   
+10                               1                         0           1018   
+11                               1                         0           1021   
+12                               1                         0           1021   
+13                               1                         0           1021   
+14                               1                         0           1024   
+15                               1                         0           1027   
+16                               1                         0           1030   
+17                               0                         0           1033   
+18                               0                         0           1033   
+19                               0                         0           1033   
+20                               1                         0           1033   
+21                               0                         0           1015   
+22                               1                         0           1015   
+23                               1                         0           1015   
+24                               1                         0           1015   
+25                               1                         0           1015   
+26                               1                         0           1015   
+27                               0                         0           1036   
+28                               1                         0           1036   
+29                               1                         0           1039   
+..                             ...                       ...            ...   
+70                               1                         0           1081   
+71                               0                         0           1060   
+72                               0                         0           1060   
+73                               0                         0           1060   
+74                               1                         0           1060   
+75                               1                         0           1060   
+76                               1                         0           1084   
+77                               1                         0           1084   
+78                               1                         0           1084   
+79                               1                         0           1087   
+80                               1                         0           1024   
+81                               0                         0           1024   
+82                               1                         0           1024   
+83                               0                         0           1024   
+84                               0                         0           1057   
+85                               1                         1           1090   
+86                               1                         1           1090   
+87                               1                         1           1090   
+88                               1                         0           1093   
+89                               1                         0           1093   
+90                               0                         0           1093   
+91                               1                         0           1093   
+92                               1                         0           1093   
+93                               0                         0           1096   
+94                               1                         0           1099   
+95                               1                         0           1099   
+96                               1                         0           1099   
+97                               1                         0           1099   
+98                               0                         0           1099   
+99                               0                         0           1102   
+
+    search_term_len  
+0                12  
+1                 9  
+2                 9  
+3                16  
+4                18  
+5                11  
+6                19  
+7                 8  
+8                11  
+9                 6  
+10               11  
+11               29  
+12                6  
+13               11  
+14               34  
+15                6  
+16               12  
+17               10  
+18               22  
+19               12  
+20               13  
+21               23  
+22               23  
+23               18  
+24               11  
+25               19  
+26               20  
+27               14  
+28               18  
+29               19  
+..              ...  
+70                7  
+71                7  
+72               15  
+73               21  
+74                4  
+75               19  
+76               17  
+77               11  
+78               11  
+79               19  
+80               12  
+81               20  
+82               18  
+83               15  
+84                8  
+85               10  
+86               18  
+87               12  
+88               28  
+89               19  
+90               31  
+91               12  
+92               20  
+93               11  
+94               18  
+95               16  
+96               13  
+97                4  
+98               13  
+99               15  
