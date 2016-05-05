@@ -1,6 +1,6 @@
 #https://github.com/Fob/home-depot
 
-mport gensim
+import gensim
 import numpy as np
 from gensim.models.doc2vec import TaggedLineDocument, LabeledSentence
 from collections import namedtuple
