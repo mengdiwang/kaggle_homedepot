@@ -82,9 +82,9 @@ def train_only_tfidf():
     print_test_and_valid("TF-idf Ridge regression", y_test, predictions, df_sol, valid_pred)
 
 
-def train_with_result():
+def train_with_result(ptg=0.44):
     df_all = load_all_features()
-    X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, Todrop=False)
+    X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, ptg=ptg, Todrop=False)
     df_sol = load_valid()
 
     # feature union
@@ -101,7 +101,8 @@ def train_with_result():
     print_test_and_valid("XGB regression", y_test, predictions, df_sol, valid_pred)
     '''
 
-train()
-train(ptg=0.8)
-#train_with_result()
+#train()
+#train(ptg=0.8)
+train_with_result()
+train_with_result(ptg=0.8)
 #train_only_tfidf()
