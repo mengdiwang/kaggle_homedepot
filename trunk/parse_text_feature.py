@@ -48,25 +48,6 @@ def sentence_statistics(s):
     return len(word_list), len(meaningful_word_list), 1.0*sum([len(word) for word in word_list])/len(word_list), 1.0*vowels/letters
 
 
-def getremove_brand_or_material_from_str(s,df, replace_brand_dict={}):
-    items_found=[]
-    df=df.sort_values(['nwords'],ascending=[0])
-    key_list=df['nwords'].keys()
-    #start with several-word brands or materials
-    #assert df['nwords'][key_list[0]]>1
-    for i in range(0,len(key_list)):
-        item=df['name'][key_list[i]]
-        if item in s:
-            if re.search(r'\b'+item+r'\b',s)!=None:
-                s=re.sub(r'\b'+item+r'\b', '', s)
-                if item in replace_brand_dict.keys():
-                    items_found.append(replace_brand_dict[item])
-                else:
-                    items_found.append(item)
-
-    return " ".join(s.split()), ";".join(items_found)
-
-
 def extract_text_feature():
     df_all, brand_df, material_df = pt_load_previous_feature()
 

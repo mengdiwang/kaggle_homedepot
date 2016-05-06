@@ -23,6 +23,9 @@ def train_load_all_features():
     concat_tf_idf_features(df_all, df_tfidf)
     df_tmp = df_all.iloc[:10]
     df_tmp.to_csv("temp_dump.csv")
+
+    #df_attr_bullets = pd.read_csv(bullet_features)
+
     return df_all
 
 
