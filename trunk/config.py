@@ -3,8 +3,8 @@ path_train = "../input/train.csv"
 path_test = "../input/test.csv"
 path_attr = "../input/attributes.csv"
 path_product = "../input/product_descriptions.csv"
-all_data_pickle = "all_data.p"
-saved_features = "tf-idf_features3.p"
+all_data_pickle = "all_data_corrected.p"
+saved_features = "tf-idf_features_corrected.p"
 
 ################## train ####################
 saved_models = "all_data_corrected.p"

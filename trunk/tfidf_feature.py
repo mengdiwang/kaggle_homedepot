@@ -5,11 +5,7 @@ from Features_NLP import *
 from utils import show_time
 import time
 import pickle
-
-
-saved_features = "tf-idf_features.p"
-saved_models = "all_data.p"
-
+from config import *
 
 def build_tfidf_sim_features(df_all):
     start_time = time.time()

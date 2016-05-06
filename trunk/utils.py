@@ -102,11 +102,11 @@ def split_train_test(df_all, num_train=74067, ptg=0.44, Todrop=True):
     return X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1
 
 
-def load_saved_pickles(saved_features):
+def load_saved_pickles(_saved_features):
     start_time = time.time()
-    myfile = open(saved_features, 'rb')
+    myfile = open(_saved_features, 'rb')
     X = pickle.load(myfile)
-    print("load %s used %s minutes" % (saved_features, show_time(start_time)))
+    print("load %s used %s minutes" % (_saved_features, show_time(start_time)))
     return X
 
 
