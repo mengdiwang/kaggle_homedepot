@@ -2,8 +2,8 @@ Baseline
 tfidf Similarity feature using ridge regression, RMSE 0.50365
 
 -------------Tf-idf Similarity Ridge Regression-------
-Feature Union regression RMSE:0.527684
-Feature Union regression RMSE validation:0.505081
+RandomForest+tfidf+SVD+Weigth regression RMSE:0.527684
+RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.505081
 =======================================================================
 Preprocessing
 
@@ -28,14 +28,14 @@ XGB regression RMSE:0.489040
 XGB regression RMSE validation:0.488000
 --XGB regression training use 1.32 minutes --
 
----------------Feature Union-------------------
+---------------RandomForest+tfidf+SVD+Weigth-------------------
 rfr__max_features=10, rfr__max_depth=20, score=-0.463359 - 1.0min
-Feature Union regression RMSE:0.474657
-Feature Union regression RMSE validation:0.472850
---Feature Union regression training use 3.44 minutes --
+RandomForest+tfidf+SVD+Weigth regression RMSE:0.474657
+RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.472850
+--RandomForest+tfidf+SVD+Weigth regression training use 3.44 minutes --
 
-Feature Union regression RMSE:0.477133
-Feature Union regression RMSE validation:0.473159
+RandomForest+tfidf+SVD+Weigth regression RMSE:0.477133
+RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.473159
 
 ------------------Ridge Regression-------------
 ridge regression RMSE:0.492814
@@ -103,9 +103,9 @@ X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_vali
 ----------random forest  RMSE private validation:0.482101----------
 --random forest  training use 1.87 minutes --
 
-----------Feature Union regression training RMSE:0.470295----------
-----------Feature Union regression RMSE public validation:0.475237----------
-----------Feature Union regression RMSE private validation:0.475178----------
+----------RandomForest+tfidf+SVD+Weigth regression training RMSE:0.470295----------
+----------RandomForest+tfidf+SVD+Weigth regression RMSE public validation:0.475237----------
+----------RandomForest+tfidf+SVD+Weigth regression RMSE private validation:0.475178----------
 
 
 =======================================================================
@@ -135,10 +135,10 @@ X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_vali
 ----------random forest  RMSE private validation:0.472990----------
 --random forest  training use 2.66 minutes --
 
-----------Feature Union regression training RMSE:0.469630----------
-----------Feature Union regression RMSE public validation:0.468416----------
-----------Feature Union regression RMSE private validation:0.468259----------
---Feature Union regression training use 1.76 minutes --
+----------RandomForest+tfidf+SVD+Weigth regression training RMSE:0.469630----------
+----------RandomForest+tfidf+SVD+Weigth regression RMSE public validation:0.468416----------
+----------RandomForest+tfidf+SVD+Weigth regression RMSE private validation:0.468259----------
+--RandomForest+tfidf+SVD+Weigth regression training use 1.76 minutes --
 
 =======================================================================
 Add Brand and material
