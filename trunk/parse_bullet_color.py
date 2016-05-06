@@ -44,7 +44,8 @@ def parse_bullet():
         if df_attr['name'][i][0:6]=="Bullet":
             dict_attr[int(df_attr['product_uid'][i])]['attribute_bullets'].append(df_attr['value'][i])
 
-    del(dict_attr[0])
+    if 0 in dict_attr:
+        del(dict_attr[0])
 
     for item in dict_attr.keys():
         if len(dict_attr[item]['attribute_bullets'])>0:
