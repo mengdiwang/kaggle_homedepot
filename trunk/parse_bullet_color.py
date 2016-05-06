@@ -25,12 +25,11 @@ def parse_bullet():
     df_all = load_saved_pickles(saved_models)
 
     '''test'''
-    '''
+
     df_all = df_all.iloc[:10]
     brand_df = brand_df.iloc[:10]
     df_attr = df_attr.iloc[:10]
     material_df = material_df.iloc[:10]
-    '''
 
     df_attr['product_uid']=df_attr['product_uid'].fillna(0)
     df_attr['value']=df_attr['value'].fillna("")
@@ -135,6 +134,44 @@ def parse_bullet():
     df_all['word_in_bullets_string_only_letratio'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[4])
     df_all['word_in_bullets_string_only_string'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[5])
     df_all=df_all.drop(['word_in_bullets_string_only_tuple'],axis=1)
+
+    ## parse color
+    color_columns = ["product_color", "Color Family", "Color/Finish", "Color/Finish Family"]
+    df_Color = df_attr[df_attr.name.isin(color_columns)][["product_uid", "value"]].rename(columns={"value": "product_color"})
+    df_Color.dropna(how="all", inplace=True)
+    _agg_color = lambda df: " ".join(list(set(df["product_color"])))
+    df_Color = df_Color.groupby("product_uid").apply(_agg_color)
+    df_Color = df_Color.reset_index(name="product_color")
+    df_Color["product_color"] = df_Color["product_color"].values.astype(str)
+    df_all = pd.merge(df_all, df_Color, on="product_uid", how="left")
+    df_all.fillna("MISSINGVALUE", inplace=True)
+
+    df_all['color_in_search_term_only_tuple'] = df_all.apply(lambda x:\
+                str_common_word(x['product_color'],x['search_term'], string_only=True), axis=1)
+    df_all['color_in_search_term_string_only_num']      = df_all['color_in_search_term_only_tuple'].map(lambda x:x[0])
+    df_all['color_in_search_term_string_only_sum']      = df_all['color_in_search_term_only_tuple'].map(lambda x:x[1])
+    df_all['color_in_search_term_string_only_numratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[3])
+    df_all['color_in_search_term_string_only_letratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[4])
+    df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
+
+
+    df_all['color_in_search_term_only_tuple'] = df_all.apply(lambda x:\
+                str_common_word(x['product_color'],x['search_term_with_stemmed'], string_only=True), axis=1)
+    df_all['color_in_search_term_with_string_only_num'] =  df_all['color_in_search_term_only_tuple'].map(lambda x:x[0])
+    df_all['color_in_search_term_with_string_only_sum'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[1])
+    df_all['color_in_search_term_with_string_only_numratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[3])
+    df_all['color_in_search_term_with_string_only_letratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[4])
+    df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
+
+    df_all['color_in_search_term_only_tuple'] = df_all.apply(lambda x:\
+                str_common_word(x['product_color'],x['search_term_without_stemmed'], string_only=True), axis=1)
+    df_all['color_in_search_term_without_string_only_num'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[0])
+    df_all['color_in_search_term_without_string_only_sum'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[1])
+    df_all['color_in_search_term_without_string_only_numratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[3])
+    df_all['color_in_search_term_without_string_only_letratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[4])
+    df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
+
+    del df_Color
 
     dump_df_all(df_all, 'df_all_text_parsed_bullet.p')
 
