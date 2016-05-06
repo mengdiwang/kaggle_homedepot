@@ -25,7 +25,7 @@ class cust_regression_vals(BaseEstimator, TransformerMixin):
 
     def transform(self, hd_searches):
         d_col_drops=['id','relevance','search_term','product_title','product_description','product_info','attr','brand',
-                     'tf-idf_term_title','tf-idf_term_desc','tf-idf_term_brand']
+                     'tf-idf_term_title','tf-idf_term_desc','tf-idf_term_brand','search_term_parsed_woBrand','brands_in_search_term','search_term_parsed_woBM','materials_in_search_term','product_title_parsed_woBrand','brands_in_product_title','product_title_parsed_woBM','materials_in_product_title','search_term_for','search_term_for_stemmed','search_term_with','search_term_with_stemmed','product_title_parsed_without','product_title_without_stemmed']
         hd_searches = hd_searches.drop(d_col_drops, axis=1).values
         return hd_searches
 
