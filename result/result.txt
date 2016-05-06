@@ -152,7 +152,9 @@ material in search term
 =======================================================================
 Add word2vec
 
+http://textminingonline.com/getting-started-with-word2vec-and-glove-in-python
 
+http://radimrehurek.com/gensim/models/word2vec.html
 
 
 =======================================================================
