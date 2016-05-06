@@ -19,7 +19,7 @@ from homedepot_functions import *
 t0 = time()
 
 
-def load_previous_feature():
+def pt_load_previous_feature():
     df_all = load_saved_pickles(saved_models)
     brand_df = load_saved_csv(brand_df_csv)
     material_df = load_saved_csv(material_df_csv)
@@ -68,7 +68,7 @@ def getremove_brand_or_material_from_str(s,df, replace_brand_dict={}):
 
 
 def extract_text_feature():
-    df_all, brand_df, material_df = load_previous_feature()
+    df_all, brand_df, material_df = pt_load_previous_feature()
 
     '''test'''
 #    df_all = df_all.iloc[:10]
@@ -141,7 +141,7 @@ def extract_text_feature():
     df_all['ratio_vowels_in_query'] = df_all['query_sentence_stats_tuple'].map(lambda x: x[3])
     df_all = df_all.drop(['query_sentence_stats_tuple'], axis=1)
 
-    print (df_all[:10])
+    #print (df_all[:10])
     dump_df_all(df_all, prased_features)
 
 
