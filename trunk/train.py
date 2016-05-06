@@ -21,10 +21,6 @@ def train_load_all_features():
     df_all = load_saved_pickles(saved_models)
     df_tfidf = load_saved_pickles(train_tfidf_features)
     concat_tf_idf_features(df_all, df_tfidf)
-    df_tmp = df_all.iloc[:10]
-    df_tmp.to_csv("temp_dump.csv")
-
-    #df_attr_bullets = pd.read_csv(bullet_features)
 
     return df_all
 
@@ -89,26 +85,25 @@ def train_with_result(ptg=0.44):
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, ptg=ptg, Todrop=False)
     df_sol = load_valid()
 
-    '''
     # feature union
     predictions, valid_pred = get_feature_union_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
     predictions = normalize_pred(predictions)
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
-    '''
 
+    '''
     # XGBoost
     predictions, valid_pred = get_xgb_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True)
     predictions = normalize_pred(predictions)
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("XGB regression", y_test, predictions, df_sol, valid_pred)
-
+    '''
 
 def main():
-    train()
-    train(ptg=0.8)
-    #train_with_result()
-    #train_with_result(ptg=0.8)
+#    train()
+#    train(ptg=0.8)
+    train_with_result()
+    train_with_result(ptg=0.8)
     #train_only_tfidf()
 
 
