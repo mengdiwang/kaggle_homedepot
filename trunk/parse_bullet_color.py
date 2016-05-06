@@ -23,7 +23,8 @@ def parse_bullet():
     material_df = pd.read_csv(material_df_csv)
     df_attr = pd.read_csv(path_attr)
     df_all = load_saved_pickles(saved_models)
-
+    print ('load time:',round((time()-t0)/60,1) ,'minutes\n')
+    t0 = time()
     '''test'''
 
     df_all = df_all.iloc[:10]
@@ -71,16 +72,17 @@ def parse_bullet():
     print ('extract brands from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
     t0 = time()
 
-    df_attr_bullets['attribute_bullets_stemmed']=df_attr_bullets['attribute_bullets_parsed'].map(lambda x:str_stemmer_wo_parser(x))
-    df_attr_bullets['attribute_bullets_stemmed_woBM']=df_attr_bullets['attribute_bullets_parsed_woBM'].map(lambda x:str_stemmer_wo_parser(x))
-    df_attr_bullets['attribute_bullets_stemmed_woBrand']=df_attr_bullets['attribute_bullets_parsed_woBrand'].map(lambda x:str_stemmer_wo_parser(x))
-
-
     ### ... and materials from text...
     df_attr_bullets['attribute_bullets_tuple']= df_attr_bullets['attribute_bullets_parsed_woBrand'].map(lambda x: getremove_brand_or_material_from_str(x,material_df))
     df_attr_bullets['attribute_bullets_parsed_woBM']= df_attr_bullets['attribute_bullets_tuple'].map(lambda x: x[0])
     df_attr_bullets['materials_in_attribute_bullets']= df_attr_bullets['attribute_bullets_tuple'].map(lambda x: x[1])
     df_attr_bullets=df_attr_bullets.drop(['attribute_bullets_tuple'],axis=1)
+
+    df_attr_bullets['attribute_bullets_stemmed']=df_attr_bullets['attribute_bullets_parsed'].map(lambda x:str_stemmer_wo_parser(x))
+    df_attr_bullets['attribute_bullets_stemmed_woBM']=df_attr_bullets['attribute_bullets_parsed_woBM'].map(lambda x:str_stemmer_wo_parser(x))
+    df_attr_bullets['attribute_bullets_stemmed_woBrand']=df_attr_bullets['attribute_bullets_parsed_woBrand'].map(lambda x:str_stemmer_wo_parser(x))
+
+
     print ('extract materials from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
 
 
