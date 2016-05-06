@@ -7,7 +7,7 @@ all_data_pickle = "all_data_corrected.p"
 saved_features = "tf-idf_features_corrected.p"
 
 ################## train ####################
-saved_models = "all_data_corrected.p"
+saved_models = "all_data_text_parsed.p"
 train_tfidf_features = "tf-idf_features_corrected.p"
 
 ############# brand ###########
