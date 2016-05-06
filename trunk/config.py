@@ -18,3 +18,7 @@ brand_df_csv = "processing_text/brand_statistics.csv"
 
 ############## parse text ##########
 prased_features = "all_data_text_parsed.p"
+
+
+## parse color and bullet ###
+df_all_text_color_bullet = "df_all_text_parsed_bullet.py"
