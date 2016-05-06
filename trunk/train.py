@@ -17,9 +17,9 @@ def normalize_pred(y_pred):
     return y_pred
 
 
-def load_all_features():
+def train_load_all_features():
     df_all = load_saved_pickles(saved_models)
-    df_tfidf = load_saved_pickles(tfidf_features)
+    df_tfidf = load_saved_pickles(train_tfidf_features)
     concat_tf_idf_features(df_all, df_tfidf)
 
     return df_all
@@ -36,7 +36,7 @@ def print_test_and_valid(model_name, y_test, predictions, df_sol, valid_pred=Non
 
 
 def train(ptg=0.44):
-    df_all = load_all_features()
+    df_all = train_load_all_features()
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test(df_all, ptg=ptg)
     df_sol = load_valid()
 
@@ -67,7 +67,7 @@ def train(ptg=0.44):
 
 
 def train_only_tfidf():
-    df_all = load_all_features()
+    df_all = train_load_all_features()
     df_all = pd.concat([df_all['id'], df_all['tf-idf_term_title'], df_all['tf-idf_term_desc'], df_all['tf-idf_term_brand'], df_all['relevance']], axis=1,
                   keys=['id', 'tf-idf_term_title', 'tf-idf_term_desc', 'tf-idf_term_brand', 'relevance'])
 
@@ -81,7 +81,7 @@ def train_only_tfidf():
 
 
 def train_with_result(ptg=0.44):
-    df_all = load_all_features()
+    df_all = train_load_all_features()
     X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, ptg=ptg, Todrop=False)
     df_sol = load_valid()
 
@@ -99,8 +99,14 @@ def train_with_result(ptg=0.44):
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("XGB regression", y_test, predictions, df_sol, valid_pred)
 
-#train()
-#train(ptg=0.8)
-train_with_result()
-train_with_result(ptg=0.8)
-#train_only_tfidf()
+
+def main():
+    #train()
+    #train(ptg=0.8)
+    train_with_result()
+    train_with_result(ptg=0.8)
+    #train_only_tfidf()
+
+
+if __name__ == "__main__":
+    main()

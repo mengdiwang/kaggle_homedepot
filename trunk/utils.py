@@ -110,10 +110,10 @@ def load_saved_pickles(_saved_features):
     return X
 
 
-def load_saved_csv(saved_models):
+def load_saved_csv(_df_saved_models):
     start_time = time.time()
-    X = pd.read_csv(saved_models)
-    print("load %s used %s minutes" % (saved_features, show_time(start_time)))
+    X = pd.read_csv(_df_saved_models)
+    print("load %s used %s minutes" % (_df_saved_models, show_time(start_time)))
     return X
 
 

@@ -8,7 +8,7 @@ saved_features = "tf-idf_features_corrected.p"
 
 ################## train ####################
 saved_models = "all_data_corrected.p"
-tfidf_features = "tf-idf_features_corrected.p"
+train_tfidf_features = "tf-idf_features_corrected.p"
 
 ############# brand ###########
 saved_models_csv = "all_data_corrected.csv"
