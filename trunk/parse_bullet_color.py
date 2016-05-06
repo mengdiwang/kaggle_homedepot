@@ -22,7 +22,6 @@ def parse_bullet():
     brand_df = pd.read_csv(brand_df_csv)
     material_df = pd.read_csv(material_df_csv)
     df_attr = pd.read_csv(path_attr)
-    df_all = load_saved_pickles(saved_models)
     print ('load time:',round((time()-t0)/60,1) ,'minutes\n')
     t0 = time()
     '''test'''
@@ -83,8 +82,12 @@ def parse_bullet():
     df_attr_bullets['attribute_bullets_stemmed_woBrand']=df_attr_bullets['attribute_bullets_parsed_woBrand'].map(lambda x:str_stemmer_wo_parser(x))
 
     print ('extract materials from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
-    df_attr_bullets.to_csv("processing_text/df_attribute_bullets_processed.csv", index=False)
+    df_attr_bullets.to_csv(df_attr_bullet_path, index=False)
+    t0 = time()
+    return df_attr_bullets
 
+
+def extract_bullet_features(df_all, df_attr_bullets):
     ## reload dump and continue
 
     df_attr_bullets['has_attributes_dummy']=1
@@ -136,15 +139,23 @@ def parse_bullet():
     df_all['word_in_bullets_string_only_letratio'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[4])
     df_all['word_in_bullets_string_only_string'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[5])
     df_all=df_all.drop(['word_in_bullets_string_only_tuple'],axis=1)
+    return df_all
 
-    ## parse color
+
+## parse color
+def parse_color(df_attr):
     color_columns = ["product_color", "Color Family", "Color/Finish", "Color/Finish Family"]
     df_Color = df_attr[df_attr.name.isin(color_columns)][["product_uid", "value"]].rename(columns={"value": "product_color"})
     df_Color.dropna(how="all", inplace=True)
-    _agg_color = lambda df: " ".join(list(set(df["product_color"])))
+    _agg_color = lambda df: " ".join(map(str, list(set(df["product_color"]))))
     df_Color = df_Color.groupby("product_uid").apply(_agg_color)
     df_Color = df_Color.reset_index(name="product_color")
     df_Color["product_color"] = df_Color["product_color"].values.astype(str)
+    df_Color.to_csv(df_attr_color_path, index=False)
+    return df_Color
+
+
+def parse_color_feature(df_all, df_Color):
     df_all = pd.merge(df_all, df_Color, on="product_uid", how="left")
     df_all.fillna("MISSINGVALUE", inplace=True)
 
@@ -155,7 +166,6 @@ def parse_bullet():
     df_all['color_in_search_term_string_only_numratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[3])
     df_all['color_in_search_term_string_only_letratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[4])
     df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
-
 
     df_all['color_in_search_term_only_tuple'] = df_all.apply(lambda x:\
                 str_common_word(x['product_color'],x['search_term_with_stemmed'], string_only=True), axis=1)
@@ -174,9 +184,19 @@ def parse_bullet():
     df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
 
     del df_Color
+    print ('feature built from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
 
-    dump_df_all(df_all, 'df_all_text_parsed_bullet.p')
+    dump_df_all(df_all, 'df_all_text_parsed_bullet_color.p')
+    return df_all
 
 
 if __name__ == "__main__":
-    parse_bullet()
+    #parse_bullet()
+    df_attr = pd.read_csv(path_attr)
+    df_all = load_saved_pickles(saved_models)
+    #df_Color = parse_color(df_attr)
+    df_Color = load_saved_csv(df_attr_color_path)
+
+    df_attr_bullets = load_saved_csv(df_attr_bullet_path)
+    df_all = extract_bullet_features(df_all, df_attr_bullets)
+    parse_color_feature(df_all, df_Color)

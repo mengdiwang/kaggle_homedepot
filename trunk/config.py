@@ -21,4 +21,9 @@ prased_features = "all_data_text_parsed.p"
 
 
 ## parse color and bullet ###
-df_all_text_color_bullet = "df_all_text_parsed_bullet.py"
+df_all_text_color_bullet = "df_all_text_parsed_bullet.p"
+
+
+df_materials_path = "processing_text/df_material_processed.csv"
+df_attr_bullet_path = "processing_text/df_attribute_bullets_processed.csv"
+df_attr_color_path = "processing_text/df_color_processed.csv"

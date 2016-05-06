@@ -18,22 +18,30 @@ import re
 import os
 import math as m
 import pandas as pd
+from parse_material import merge_df_all_df_material
 from gensim import models
+from utils import *
+from config import *
+
 
 #loading data
-df_all= pd.read_csv("processing_text/df_train_and_test_processed.csv", encoding="ISO-8859-1")
-df_all1=pd.read_csv("processing_text/df_product_descriptions_processed.csv", encoding="ISO-8859-1")
-df_all2 = pd.merge(df_all, df_all1, how="left", on="product_uid")
-df_all =
-df_all1 = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
-df_all2 = pd.merge(df_all, df_all1, how="left", on="product_uid")
-df_all = df_all2
+def w2v_load_data():
+    t0 = time.time()
 
+    df_all= load_saved_pickles(df_all_text_color_bullet)
+    df_materials = pd.read_csv('data/attributes.csv', encoding="ISO-8859-1")
+    df_all1 = merge_df_all_df_material(df_all, df_materials)
 
-#repalce nan
-p = df_all.keys()
-for i in range(len(p)):
-    print p[i]
+    df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
+    df_all2 = pd.merge(df_all1, df_bullet, how="left", on="product_uid")
+
+    #repalce nan
+    p = df_all2.keys()
+    for i in range(len(p)):
+        print p[i]
+    print ('extract materials from product titles time:', round((time()-t0)/60,1), 'minutes\n')
+
+    return df_all2
 
 
 def replace_nan(s):
@@ -42,7 +50,9 @@ def replace_nan(s):
     return s
 
 
-df_all['search_term_stemmed'] = df_all['search_term_stemmed'].map(lambda x:replace_nan(x))
+df_all = w2v_load_data()
+
+df_all['search_term'] = df_all['search_term_stemmed'].map(lambda x:replace_nan(x))
 df_all['product_title_stemmed'] = df_all['product_title_stemmed'].map(lambda x:replace_nan(x))
 df_all['product_description_stemmed'] = df_all['product_description_stemmed'].map(lambda x:replace_nan(x))
 df_all['brand_parsed'] = df_all['brand_parsed'].map(lambda x:replace_nan(x))
@@ -50,7 +60,7 @@ df_all['material_parsed'] = df_all['material_parsed'].map(lambda x:replace_nan(x
 df_all['attribute_bullets_stemmed'] = df_all['attribute_bullets_stemmed'].map(lambda x:replace_nan(x))
 df_all['attribute_stemmed'] = df_all['attribute_stemmed'].map(lambda x:replace_nan(x))
 
-df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
+df_all['search_term_unstemmed'] = df_all['search_term'].map(lambda x:replace_nan(x))
 df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
 df_all['product_description'] = df_all['product_description'].map(lambda x:replace_nan(x))
 df_all['brand'] = df_all['brand'].map(lambda x:replace_nan(x))
@@ -60,7 +70,7 @@ df_all['value'] = df_all['value'].map(lambda x:replace_nan(x))
 
 
 #build a set of sentenxes in 4 way
-st = df_all["search_term_stemmed"]
+st = df_all["search_term"]
 pt = df_all["product_title_stemmed"]
 pd = df_all["product_description_stemmed"]
 br = df_all["brand_parsed"]
@@ -102,7 +112,7 @@ for i in range(len(st)):
 print "second vocab"
 
 #st + pt +pd +br + mr vocab w/o pars
-st1 = df_all["search_term"]
+st1 = df_all["search_term_unstemmed"]
 pt1 = df_all["product_title"]
 pd1 = df_all["product_description"]
 br1 = df_all["brand"]

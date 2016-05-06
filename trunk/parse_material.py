@@ -29,7 +29,7 @@ def change_material(s):
     return s
 
 
-def load_material(df_attr):
+def extract_material_from_attr(df_attr):
     tmp_material=df_attr[df_attr['name']=="Material"][['product_uid','value']]
     tmp_material=tmp_material[tmp_material['value']!="Other"]
     tmp_material=tmp_material[tmp_material['value']!="*"]
@@ -80,7 +80,7 @@ def merge_df_all_df_material(df_all, _df_materials):
 def add_material_to_df_all():
     df_all = load_saved_pickles(prased_features)
     df_attr = pd.read_csv('data/attributes.csv', encoding="ISO-8859-1")
-    df_materials = load_material(df_attr)
+    df_materials = extract_material_from_attr(df_attr)
     new_df_all = merge_df_all_df_material(df_all, df_materials)
     dump_df_all(new_df_all, 'df_all_with_material')
 
@@ -88,4 +88,4 @@ def add_material_to_df_all():
 if __name__ == "__main__":
     # here we only load and do not merge with df_all
     df_attr = pd.read_csv('data/attributes.csv', encoding="ISO-8859-1")
-    df_materials = load_material(df_attr)
+    df_materials = extract_material_from_attr(df_attr)
