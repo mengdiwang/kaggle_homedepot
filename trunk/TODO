@@ -3,6 +3,8 @@ TODO: 1. add more features: word2vec,
      tf-idf, DONE
      color,
      signature(artist, group)
+     bullet
 TODO: 2. test different models: ridge, kernel, rf, DONE
 TODO: 3. Use grid search to do the parameter search, DONE
 TODO: 4. Add XGB model, DONE
+TODO: 5. Feature Union for with, without and for

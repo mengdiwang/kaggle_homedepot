@@ -148,6 +148,46 @@ average word length in search term
 brand in search term
 material in search term
 
+0.44
+load tf-idf_features_corrected.p used 0.0 minutes
+X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.480952----------
+----------ridge regression RMSE public validation:0.479536----------
+----------ridge regression RMSE private validation:0.479371----------
+--ridge regression training use 0.46 minutes --
+----------lasso regression training RMSE:0.562682----------
+----------lasso regression RMSE public validation:0.550197----------
+----------lasso regression RMSE private validation:0.549635----------
+--lasso regression training use 0.85 minutes --
+----------bagging  training RMSE:0.480865----------
+----------bagging  RMSE public validation:0.479059----------
+----------bagging  RMSE private validation:0.478514----------
+--bagging  training use 1.45 minutes --
+----------random forest  training RMSE:0.477104----------
+----------random forest  RMSE public validation:0.479134----------
+----------random forest  RMSE private validation:0.478675----------
+--random forest  training use 1.94 minutes --
+load all_data_text_parsed.p used 0.05 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+
+0.8
+X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.484423----------
+----------ridge regression RMSE public validation:0.477269----------
+----------ridge regression RMSE private validation:0.477067----------
+--ridge regression training use 2.39 minutes --
+----------lasso regression training RMSE:0.532851----------
+----------lasso regression RMSE public validation:0.531336----------
+----------lasso regression RMSE private validation:0.530820----------
+--lasso regression training use 2.78 minutes --
+----------bagging  training RMSE:0.476622----------
+----------bagging  RMSE public validation:0.472816----------
+----------bagging  RMSE private validation:0.472290----------
+--bagging  training use 3.46 minutes --
+----------random forest  training RMSE:0.472112----------
+----------random forest  RMSE public validation:0.470684----------
+----------random forest  RMSE private validation:0.469872----------
+--random forest  training use 3.99 minutes --
 
 =======================================================================
 Add word2vec
