@@ -26,11 +26,12 @@ def parse_bullet():
     print ('load time:',round((time()-t0)/60,1) ,'minutes\n')
     t0 = time()
     '''test'''
-
+    '''
     df_all = df_all.iloc[:10]
     brand_df = brand_df.iloc[:10]
     df_attr = df_attr.iloc[:10]
     material_df = material_df.iloc[:10]
+    '''
 
     df_attr['product_uid']=df_attr['product_uid'].fillna(0)
     df_attr['value']=df_attr['value'].fillna("")
