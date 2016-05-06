@@ -71,9 +71,9 @@ def extract_text_feature():
     df_all, brand_df, material_df = load_previous_feature()
 
     '''test'''
-    df_all = df_all.iloc[:10]
-    brand_df = brand_df.iloc[:10]
-    material_df = material_df.iloc[:10]
+#    df_all = df_all.iloc[:10]
+#    brand_df = brand_df.iloc[:10]
+#    material_df = material_df.iloc[:10]
     '''end of test'''
 
     t0 = time()
