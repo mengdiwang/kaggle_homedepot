@@ -137,3 +137,7 @@ def parse_bullet():
     df_all=df_all.drop(['word_in_bullets_string_only_tuple'],axis=1)
 
     dump_df_all(df_all, 'df_all_text_parsed_bullet.p')
+
+
+if __name__ == "__main__":
+    parse_bullet()
