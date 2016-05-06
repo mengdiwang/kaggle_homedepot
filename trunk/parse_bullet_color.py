@@ -56,7 +56,6 @@ def parse_bullet():
         else:
             dict_attr[item]['attribute_bullets']=""
 
-
     df_attr_bullets=pd.DataFrame(dict_attr).transpose()
     df_attr_bullets['attribute_bullets']=df_attr_bullets['attribute_bullets'].map(lambda x: x.replace("..",".").encode('utf-8'))
     print ('create attributes bullets time:',round((time()-t0)/60,1) ,'minutes\n')
@@ -83,11 +82,10 @@ def parse_bullet():
     df_attr_bullets['attribute_bullets_stemmed_woBM']=df_attr_bullets['attribute_bullets_parsed_woBM'].map(lambda x:str_stemmer_wo_parser(x))
     df_attr_bullets['attribute_bullets_stemmed_woBrand']=df_attr_bullets['attribute_bullets_parsed_woBrand'].map(lambda x:str_stemmer_wo_parser(x))
 
-
     print ('extract materials from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
-
-
     df_attr_bullets.to_csv("processing_text/df_attribute_bullets_processed.csv", index=False)
+
+    ## reload dump and continue
 
     df_attr_bullets['has_attributes_dummy']=1
     df_all = pd.merge(df_all, df_attr_bullets[['product_uid','has_attributes_dummy']], how='left', on='product_uid')
