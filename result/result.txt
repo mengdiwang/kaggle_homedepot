@@ -1,7 +1,23 @@
 Baseline
 tfidf Similarity feature using ridge regression, RMSE 0.50365
 
-%0.8
+-------------Tf-idf Similarity Ridge Regression-------
+Feature Union regression RMSE:0.527684
+Feature Union regression RMSE validation:0.505081
+=======================================================================
+Preprocessing
+
+Tfidf 
+SVD
+length of search term, title, brand
+brand
+ratio between search term and description, brand, title
+common words length between search term, description, brand, title
+common whole words length between search term, description, brand, title
+
+Grid search for best parameter
+
+%train/all = 0.8
 ------------------------XGB-------------------
 Best parameters found by grid search:
 {'xgb_model__n_estimators': 10, 'xgb_model__max_depth': 5}
@@ -40,11 +56,8 @@ bagging  RMSE validation:0.477967
 random forest  RMSE:0.481414
 random forest  RMSE validation:0.477545
 
--------------Tf-idf Similarity Ridge Regression-------
-Feature Union regression RMSE:0.527684
-Feature Union regression RMSE validation:0.505081
 
-0.44%
+%train/all =  0.44%
 ----------ridge regression training RMSE:0.486112----------
 ----------ridge regression RMSE public validation:0.484451----------
 ----------ridge regression RMSE private validation:0.484033----------
@@ -66,7 +79,7 @@ Feature Union regression RMSE validation:0.505081
 =======================================================================
 https://s3-us-west-2.amazonaws.com/wmdds1003/kaggle/tf-idf_features_corrected.p
 https://s3-us-west-2.amazonaws.com/wmdds1003/kaggle/all_data_corrected.p
-0.44% after correct typo
+%train/all = 0.44% after correct typo
 
 X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
 
@@ -96,7 +109,9 @@ X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_vali
 
 
 =======================================================================
-0.8% after correct typo
+after correct typo
+
+train/all = 0.8% 
 
 X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
 
@@ -126,4 +141,29 @@ X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_vali
 --Feature Union regression training use 1.76 minutes --
 
 =======================================================================
+Add Brand and material
+search term with : 'for', 'with', 'without', length
+title with : 'for', 'with', 'without', length
+average word length in search term
+brand in search term
+material in search term
+
+
+=======================================================================
+Add word2vec
+
+
+
+
+=======================================================================
+Add color and bullet
+color in search term
+bullet in search term
+
+
+
+
+
+=======================================================================
+TODO:Ensemble different model
 
