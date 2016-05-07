@@ -82,7 +82,7 @@ def replace_nan(s):
     return s
 
 
-df_all = w2v_load_data()
+#df_all = w2v_load_data()
 '''
 df_all = load_saved_pickles("final_model.p")
 df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
@@ -93,7 +93,7 @@ df_tmp = df_all.iloc[:2]
 df_tmp.to_csv("tmp_dump.csv")
 print(df_tmp)
 '''
-
+df_all = load_saved_pickles("final_model.p")
 df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
 df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
 df_all['product_description'] = df_all['product_description'].map(lambda x:replace_nan(x))
