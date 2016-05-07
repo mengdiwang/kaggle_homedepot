@@ -6,6 +6,7 @@ Author: Kostia Omelianchuk
 Team: Turing test
 """
 
+import gc
 import gensim
 import logging
 import numpy as np
@@ -66,7 +67,9 @@ def w2v_load_data():
         print (p[i])
     print ('extract materials from product titles time:%s minutes\n' %(round((time.time()-t0)/60,1)))
 
-
+    df_all2[["search_term","product_title","product_description","brand_parsed","material_parsed",
+                 "attribute_bullets_stemmed","attribute_stemmed","search_term_unstemmed","product_title",
+                 "product_description","brand","material","attribute_bullets","value"]]
     dump_df_all(df_all2, "final_model.p")
     return df_all2
 
@@ -79,6 +82,10 @@ def replace_nan(s):
 
 #df_all = w2v_load_data()
 df_all = load_saved_pickles("final_model.p")
+df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
+                 "attribute_bullets_stemmed","attribute_stemmed","search_term_unstemmed","product_title",
+                 "product_description","brand","material","attribute_bullets","value"]]
+dump_df_all(df_all, "final_model.p")
 
 df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
 df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
@@ -104,7 +111,7 @@ pd = df_all["product_description"]
 br = df_all["brand_parsed"]
 mr = df_all["material_parsed"]
 ab = df_all["attribute_bullets_stemmed"]
-at = df_all["attr"]
+at = df_all["attribute_stemmed"]
 
 
 #st + pt +pd vocab
@@ -130,6 +137,7 @@ for i in range(len(at)):
     p = at[i].split()
     t.append(p)
 
+gc.collect()
 print ("first vocab")
 #st conc pt conc pd vocab
 t1 = list()
@@ -137,6 +145,7 @@ for i in range(len(st)):
     p = st[i].split()+pt[i].split()+pd[i].split()+br[i].split()+mr[i].split()+ab[i].split()+at[i].split()
     t1.append(p)
 
+gc.collect()
 print ("second vocab")
 
 #st + pt +pd +br + mr vocab w/o pars
@@ -170,6 +179,7 @@ for i in range(len(at1)):
     p = at1[i].split()
     t2.append(p)
 
+gc.collect()
 print ("third vocab")
 
 #st conc pt conc pd conc br conc mr vocab w/o pars
@@ -191,6 +201,7 @@ model3 = gensim.models.Word2Vec(t3, sg=1, window=10, sample=1e-5, negative=5, si
 #model7 = gensim.models.Word2Vec(t3, sg=0, hs=1,window=10,   size=300)
 
 print ("model prepared")
+gc.collect()
 
 
 #for each model calculate features^ n_similarity between st and something else
@@ -317,6 +328,7 @@ for j in range(len(n_sim)):
 
 b=df_all[st_names]
 b.to_csv("features/df_word2vec_new.csv", index=False)
+gc.collect()
 
 
 
