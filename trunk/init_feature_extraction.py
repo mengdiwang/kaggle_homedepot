@@ -45,7 +45,7 @@ def load_data():
 def feature_extraction(df_all, df_brand, num_train):
 
     # google spell correct
-    df_all['search_term_unstemmed'] = df_all['search_term']
+    df_all['search_term_unstemmed'] = df_all['search_term'].map(lambda x: spell_check_dict[x] if x in spell_check_dict.keys() else x)
     df_all['product_title_unstemmed'] = df_all['product_title']
     df_all['product_description_unstemmed'] = df_all['product_description']
     df_all['brand_unstemmed'] = df_all['brand']

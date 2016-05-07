@@ -196,7 +196,7 @@ if __name__ == "__main__":
     df_all = load_saved_pickles(saved_models)
     #df_Color = parse_color(df_attr)
     df_Color = load_saved_csv(df_attr_color_path)
-
     df_attr_bullets = load_saved_csv(df_attr_bullet_path)
+
     df_all = extract_bullet_features(df_all, df_attr_bullets)
     parse_color_feature(df_all, df_Color)

@@ -41,8 +41,17 @@ def add_unstemmed():
     dump_df_all(df_all, df_all_path)
 
 
+from spell_checker import spell_check_dict
+def update_typo():
+    df_all_path = prased_features
+    df_all= load_saved_pickles(df_all_path)
+    df_all["search_term_unstemmed"] = df_all['search_term_unstemmed'].map(lambda x: spell_check_dict[x] if x in spell_check_dict.keys() else x)
+    dump_df_all(df_all, df_all_path)
+
+
 if __name__ == "__main__":
-    add_unstemmed()
+    update_typo()
+    #add_unstemmed()
 #update_features()
 
 #solutions = load_valid()
