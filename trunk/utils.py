@@ -66,7 +66,7 @@ def split_train_test_with_result(df_all, num_train=74067, ptg=0.44, Todrop=True)
     # all features engineer finished and drop unused text features
 
     if Todrop:
-        df_all = df_all.drop(['search_term', 'product_title', 'product_description', 'product_info', 'attr', 'brand'], axis=1)
+        df_all = df_all.drop(droplist_for_split, axis=1)
 
     num_train1 = int(num_train * ptg)
 
@@ -89,7 +89,7 @@ def split_train_test(df_all, num_train=74067, ptg=0.44, Todrop=True):
     # all features engineer finished and drop unused text features
 
     if Todrop:
-        df_all = df_all.drop(['search_term', 'product_title', 'product_description', 'product_info', 'attr', 'brand', 'search_term_parsed_woBrand','brands_in_search_term','search_term_parsed_woBM','materials_in_search_term','product_title_parsed_woBrand','brands_in_product_title','product_title_parsed_woBM','materials_in_product_title','search_term_for','search_term_for_stemmed','search_term_with','search_term_with_stemmed','product_title_parsed_without','product_title_without_stemmed'], axis=1)
+        df_all = df_all.drop(droplist_for_split, axis=1)
 
     num_train1 = int(num_train * ptg)
 

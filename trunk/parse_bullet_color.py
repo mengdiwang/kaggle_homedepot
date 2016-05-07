@@ -99,38 +99,38 @@ def extract_bullet_features(df_all, df_attr_bullets):
     df_attr_bullets['has_attributes_dummy']=1
     #df_all = pd.merge(df_all, df_attr_bullets[['product_uid','has_attributes_dummy']], how='left', on='product_uid')
     df_all = pd.merge(df_all, df_attr_bullets, how='left', on='product_uid')
-    df_all['brands_in_attribute_bullets'].to_csv("tmp_dump.csv", index=False)
+    #df_all['attribute_bullets'].to_csv("tmp_dump.csv", index=False)
 
     df_all['has_attributes_dummy']= df_all['has_attributes_dummy'].fillna(0)
-    df_all['no_bullets_dummy'] = df_all['attribute_bullets'].map(lambda x:int(len(x)==0))
+    df_all['no_bullets_dummy'] = df_all['attribute_bullets'].map(lambda x:int(len(str(x))==0))
     df_attr_bullets=df_attr_bullets.drop(list(df_attr_bullets.keys()),axis=1)
 
-    df_all['len_of_attribute_bullets_woBM'] = df_all['attribute_bullets_stemmed_woBM'].map(lambda x:len(x.split())).astype(np.int64)
-    df_all['len_of_brands_in_attribute_bullets'] = df_all['brands_in_attribute_bullets'].map(lambda x:len(x.split())).astype(np.int64)
-    df_all['size_of_brands_in_attribute_bullets'] = df_all['brands_in_attribute_bullets'].map(lambda x:len(x.split(";"))).astype(np.int64)
-    df_all['len_of_materials_in_attribute_bullets'] = df_all['materials_in_attribute_bullets'].map(lambda x:len(x.split())).astype(np.int64)
-    df_all['size_of_materials_in_attribute_bullets'] = df_all['materials_in_attribute_bullets'].map(lambda x:len(x.split(";"))).astype(np.int64)
+    df_all['len_of_attribute_bullets_woBM'] = df_all['attribute_bullets_stemmed_woBM'].map(lambda x:len(str(x).split())).astype(np.int64)
+    df_all['len_of_brands_in_attribute_bullets'] = df_all['brands_in_attribute_bullets'].map(lambda x:len(str(x).split())).astype(np.int64)
+    df_all['size_of_brands_in_attribute_bullets'] = df_all['brands_in_attribute_bullets'].map(lambda x:len(str(x).split(";"))).astype(np.int64)
+    df_all['len_of_materials_in_attribute_bullets'] = df_all['materials_in_attribute_bullets'].map(lambda x:len(str(x).split())).astype(np.int64)
+    df_all['size_of_materials_in_attribute_bullets'] = df_all['materials_in_attribute_bullets'].map(lambda x:len(str(x).split(";"))).astype(np.int64)
     df_all['len_of_attribute_bullets']=df_all['len_of_attribute_bullets_woBM']+df_all['size_of_brands_in_attribute_bullets']+df_all['size_of_materials_in_attribute_bullets']
 
     df_all['wordFor_in_bullets_string_only_tuple']=df_all.apply(lambda x: \
-            str_common_word(x['search_term_for_stemmed'],x['attribute_bullets_stemmed'],string_only=True),axis=1)
+            str_common_word(str(x['search_term_for_stemmed']), str(x['attribute_bullets_stemmed']),string_only=True),axis=1)
     df_all['wordFor_in_bullets_string_only_num'] = df_all['wordFor_in_bullets_string_only_tuple'].map(lambda x: x[0])
     df_all['wordFor_in_bullets_string_only_let'] = df_all['wordFor_in_bullets_string_only_tuple'].map(lambda x: x[2])
     df_all['wordFor_in_bullets_string_only_letratio'] = df_all['wordFor_in_bullets_string_only_tuple'].map(lambda x: x[4])
     df_all=df_all.drop(['wordFor_in_bullets_string_only_tuple'],axis=1)
 
     df_all['wordWith_in_bullets_string_only_tuple']=df_all.apply(lambda x: \
-                str_common_word(x['search_term_with_stemmed'],x['attribute_bullets_stemmed'],string_only=True),axis=1)
+                str_common_word(str(x['search_term_with_stemmed']), str(x['attribute_bullets_stemmed']),string_only=True),axis=1)
     df_all['wordWith_in_bullets_string_only_num'] = df_all['wordWith_in_bullets_string_only_tuple'].map(lambda x: x[0])
     df_all['wordWith_in_bullets_string_only_let'] = df_all['wordWith_in_bullets_string_only_tuple'].map(lambda x: x[2])
     df_all['wordWith_in_bullets_string_only_letratio'] = df_all['wordWith_in_bullets_string_only_tuple'].map(lambda x: x[4])
     df_all=df_all.drop(['wordWith_in_bullets_string_only_tuple'],axis=1)
 
     df_all['query_in_bullets']=df_all.apply(lambda x: \
-                query_in_text(x['search_term'],x['attribute_bullets_stemmed']),axis=1)
+                query_in_text(str(x['search_term']),str(x['attribute_bullets_stemmed'])),axis=1)
 
     df_all['word_in_bullets_tuple']=df_all.apply(lambda x: \
-                str_common_word(x['search_term'],x['attribute_bullets_stemmed']),axis=1)
+                str_common_word(str(x['search_term']), str(x['attribute_bullets_stemmed'])),axis=1)
     df_all['word_in_bullets_num'] = df_all['word_in_bullets_tuple'].map(lambda x: x[0])
     df_all['word_in_bullets_sum'] = df_all['word_in_bullets_tuple'].map(lambda x: x[1])
     df_all['word_in_bullets_let'] = df_all['word_in_bullets_tuple'].map(lambda x: x[2])
@@ -140,7 +140,7 @@ def extract_bullet_features(df_all, df_attr_bullets):
     df_all=df_all.drop(['word_in_bullets_tuple'],axis=1)
 
     df_all['word_in_bullets_string_only_tuple']=df_all.apply(lambda x: \
-                str_common_word(x['search_term'],x['attribute_bullets_stemmed'],string_only=True),axis=1)
+                str_common_word(str(x['search_term']), str(x['attribute_bullets_stemmed']),string_only=True),axis=1)
     df_all['word_in_bullets_string_only_num'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[0])
     df_all['word_in_bullets_string_only_sum'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[1])
     df_all['word_in_bullets_string_only_let'] = df_all['word_in_bullets_string_only_tuple'].map(lambda x: x[2])
@@ -185,18 +185,16 @@ def parse_color_feature(df_all, df_Color):
     df_all['color_in_search_term_with_string_only_letratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[4])
     df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
 
-    df_all['color_in_search_term_only_tuple'] = df_all.apply(lambda x:\
-                str_common_word(x['product_color'],x['search_term_without_stemmed'], string_only=True), axis=1)
+    '''
+    df_all['color_in_search_term_only_tuple'] = df_all.apply(lambda x: str_common_word(x['product_color'],x['search_term_without_stemmed'], string_only=True), axis=1)
     df_all['color_in_search_term_without_string_only_num'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[0])
     df_all['color_in_search_term_without_string_only_sum'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[1])
     df_all['color_in_search_term_without_string_only_numratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[3])
     df_all['color_in_search_term_without_string_only_letratio'] = df_all['color_in_search_term_only_tuple'].map(lambda x:x[4])
     df_all=df_all.drop(['color_in_search_term_only_tuple'],axis=1)
-
+    '''
     del df_Color
     print ('feature built from attribute_bullets time:',round((time()-t0)/60,1) ,'minutes\n')
-
-    dump_df_all(df_all, 'df_all_text_parsed_bullet_color.p')
     return df_all
 
 
@@ -206,8 +204,13 @@ if __name__ == "__main__":
     df_all = load_saved_pickles(saved_models)
     #df_Color = parse_color(df_attr)
     df_Color = load_saved_csv(df_attr_color_path)
-    #df_attr_bullets = load_saved_csv(df_attr_bullet_path)
+    df_attr_bullets = pd.read_csv(df_attr_bullet_path, encoding='utf-8')
 
-    df_attr_bullets = parse_bullet()
+    #df_attr_bullets = parse_bullet()
     df_all = extract_bullet_features(df_all, df_attr_bullets)
-    parse_color_feature(df_all, df_Color)
+
+    #df_tmp = df_all.iloc[:5]
+    #df_tmp.to_csv("tmpdump.csv")
+
+    df_all = parse_color_feature(df_all, df_Color)
+    dump_df_all(df_all, df_all_text_color_bullet)

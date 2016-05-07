@@ -18,7 +18,9 @@ def normalize_pred(y_pred):
 
 
 def train_load_all_features():
-    df_all = load_saved_pickles(saved_models)
+    #loadpath = saved_models
+    loadpath = df_all_text_color_bullet
+    df_all = load_saved_pickles(loadpath)
     df_tfidf = load_saved_pickles(train_tfidf_features)
     concat_tf_idf_features(df_all, df_tfidf)
 
@@ -100,8 +102,8 @@ def train_with_result(ptg=0.44):
     '''
 
 def main():
-#    train()
-#    train(ptg=0.8)
+    train()
+    train(ptg=0.8)
     train_with_result()
     train_with_result(ptg=0.8)
     #train_only_tfidf()

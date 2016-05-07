@@ -49,8 +49,15 @@ def update_typo():
     dump_df_all(df_all, df_all_path)
 
 
+def tmp_read():
+    df_all= load_saved_pickles('df_all_text_parsed_bullet_color.p')
+    tmpdfall = df_all.iloc[:10]
+    tmpdfall.to_csv("tmp_dump.csv")
+
+
 if __name__ == "__main__":
-    update_typo()
+    tmp_read()
+    #update_typo()
     #add_unstemmed()
 #update_features()
 
