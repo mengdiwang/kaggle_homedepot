@@ -90,8 +90,14 @@ def parse_bullet():
 def extract_bullet_features(df_all, df_attr_bullets):
     ## reload dump and continue
 
+    #df_all=df_all.iloc[:10]
+    #df_attr_bullets = df_attr_bullets.iloc[:10]
+
     df_attr_bullets['has_attributes_dummy']=1
-    df_all = pd.merge(df_all, df_attr_bullets[['product_uid','has_attributes_dummy']], how='left', on='product_uid')
+    #df_all = pd.merge(df_all, df_attr_bullets[['product_uid','has_attributes_dummy']], how='left', on='product_uid')
+    df_all = pd.merge(df_all, df_attr_bullets, how='left', on='product_uid')
+    df_all['brands_in_attribute_bullets'].to_csv("tmp_dump.csv", index=False)
+
     df_all['has_attributes_dummy']= df_all['has_attributes_dummy'].fillna(0)
     df_all['no_bullets_dummy'] = df_all['attribute_bullets'].map(lambda x:int(len(x)==0))
     df_attr_bullets=df_attr_bullets.drop(list(df_attr_bullets.keys()),axis=1)
@@ -156,6 +162,7 @@ def parse_color(df_attr):
 
 
 def parse_color_feature(df_all, df_Color):
+    t0 = time()
     df_all = pd.merge(df_all, df_Color, on="product_uid", how="left")
     df_all.fillna("MISSINGVALUE", inplace=True)
 
@@ -196,7 +203,8 @@ if __name__ == "__main__":
     df_all = load_saved_pickles(saved_models)
     #df_Color = parse_color(df_attr)
     df_Color = load_saved_csv(df_attr_color_path)
-    df_attr_bullets = load_saved_csv(df_attr_bullet_path)
-
+    #df_attr_bullets = load_saved_csv(df_attr_bullet_path)
+    
+    df_attr_bullets = parse_bullet()
     df_all = extract_bullet_features(df_all, df_attr_bullets)
     parse_color_feature(df_all, df_Color)

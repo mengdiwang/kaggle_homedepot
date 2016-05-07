@@ -25,9 +25,6 @@ from utils import *
 from spell_checker import spell_check_dict
 from config import *
 
-stop_words = ['for', 'xbi', 'and', 'in', 'th','on','sku','with','what','from','that','less','er','ing']
-strNum = {'zero':0,'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7,'eight':8,'nine':0}
-
 
 def load_data():
     df_train = pd.read_csv(path_train, encoding="ISO-8859-1")
