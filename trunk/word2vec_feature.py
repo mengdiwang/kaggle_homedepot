@@ -24,12 +24,13 @@ from utils import *
 from config import *
 
 
+
 #loading data
 def w2v_load_data():
     t0 = time.time()
 
     df_all= load_saved_pickles(df_all_text_color_bullet)
-    df_materials = pd.read_csv('data/attributes.csv', encoding="ISO-8859-1")
+    df_materials = pd.read_csv('processing_text/df_material_processed.csv', encoding="ISO-8859-1")
     df_all1 = merge_df_all_df_material(df_all, df_materials)
 
     df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
@@ -38,8 +39,8 @@ def w2v_load_data():
     #repalce nan
     p = df_all2.keys()
     for i in range(len(p)):
-        print p[i]
-    print ('extract materials from product titles time:', round((time()-t0)/60,1), 'minutes\n')
+        print (p[i])
+    print ('extract materials from product titles time:%s minutes\n' %(round((time.time()-t0)/60,1)))
 
     return df_all2
 
@@ -52,17 +53,17 @@ def replace_nan(s):
 
 df_all = w2v_load_data()
 
-df_all['search_term'] = df_all['search_term_stemmed'].map(lambda x:replace_nan(x))
-df_all['product_title'] = df_all['product_title_stemmed'].map(lambda x:replace_nan(x))
-df_all['product_description'] = df_all['product_description_stemmed'].map(lambda x:replace_nan(x))
+df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
+df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
+df_all['product_description'] = df_all['product_description'].map(lambda x:replace_nan(x))
 df_all['brand_parsed'] = df_all['brand_parsed'].map(lambda x:replace_nan(x))
 df_all['material_parsed'] = df_all['material_parsed'].map(lambda x:replace_nan(x))
 df_all['attribute_bullets_stemmed'] = df_all['attribute_bullets_stemmed'].map(lambda x:replace_nan(x))
 df_all['attribute_stemmed'] = df_all['attribute_stemmed'].map(lambda x:replace_nan(x))
 
-df_all['search_term_unstemmed'] = df_all['search_term'].map(lambda x:replace_nan(x))
-df_all['product_title_unstemmed'] = df_all['product_title'].map(lambda x:replace_nan(x))
-df_all['product_description_unstemmed'] = df_all['product_description'].map(lambda x:replace_nan(x))
+df_all['search_term_unstemmed'] = df_all['search_term_unstemmed'].map(lambda x:replace_nan(x))
+df_all['product_title_unstemmed'] = df_all['product_title_unstemmed'].map(lambda x:replace_nan(x))
+df_all['product_description_unstemmed'] = df_all['product_description_unstemmed'].map(lambda x:replace_nan(x))
 df_all['brand'] = df_all['brand'].map(lambda x:replace_nan(x))
 df_all['material'] = df_all['material'].map(lambda x:replace_nan(x))
 df_all['attribute_bullets'] = df_all['attribute_bullets'].map(lambda x:replace_nan(x))
@@ -102,14 +103,14 @@ for i in range(len(at)):
     p = at[i].split()
     t.append(p)
 
-print "first vocab"
+print ("first vocab")
 #st conc pt conc pd vocab
 t1 = list()
 for i in range(len(st)):
     p = st[i].split()+pt[i].split()+pd[i].split()+br[i].split()+mr[i].split()+ab[i].split()+at[i].split()
     t1.append(p)
 
-print "second vocab"
+print ("second vocab")
 
 #st + pt +pd +br + mr vocab w/o pars
 st1 = df_all["search_term_unstemmed"]
@@ -142,7 +143,7 @@ for i in range(len(at1)):
     p = at1[i].split()
     t2.append(p)
 
-print "third vocab"
+print ("third vocab")
 
 #st conc pt conc pd conc br conc mr vocab w/o pars
 t3 = list()
@@ -150,7 +151,7 @@ for i in range(len(st)):
     p = st1[i].split()+pt1[i].split()+pd1[i].split()+br1[i].split()+mr1[i].split()+ab1[i].split()+at1[i].split()
     t3.append(p)
 
-print "fourth vocab"
+print ("fourth vocab")
 
 #trin models
 model0 = gensim.models.Word2Vec(t, sg=1, window=10, sample=1e-5, negative=5, size=300)
@@ -162,7 +163,7 @@ model3 = gensim.models.Word2Vec(t3, sg=1, window=10, sample=1e-5, negative=5, si
 #model6 = gensim.models.Word2Vec(t2, sg=0, hs=1, window=10,   size=300)
 #model7 = gensim.models.Word2Vec(t3, sg=0, hs=1,window=10,   size=300)
 
-print "model prepared"
+print ("model prepared")
 
 
 #for each model calculate features^ n_similarity between st and something else
@@ -278,7 +279,7 @@ for model in model_list:
         else:
             n_sim_ptpd.append(model.n_similarity(d1,d2))
     n_sim.append(n_sim_ptpd)
-    print "model features done"
+    print ("model features done")
 
 st_names=["id"]
 for j in range(len(n_sim)):

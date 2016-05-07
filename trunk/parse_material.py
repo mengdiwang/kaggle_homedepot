@@ -60,7 +60,7 @@ def extract_material_from_attr(df_attr):
 ### merge created 'material' column with df_all
 def merge_df_all_df_material(df_all, _df_materials):
     df_all = pd.merge(df_all, _df_materials[['product_uid', 'material']], how='left', on='product_uid')
-    df_all['material'] = df_all['material'].fillna("").map(lambda x: x.encode('utf-8'))
+    df_all['material'] = df_all['material'].fillna("")#.map(lambda x: x.encode('utf-8'))
     df_all['material_parsed']=col_parser(df_all['material'].map(lambda x: x.replace("Other","").replace("*", "")),
                                          parse_material=True, add_space_stop_list=[])
 
