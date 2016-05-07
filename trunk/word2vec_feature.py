@@ -53,12 +53,15 @@ def w2v_load_data():
 
     df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
     df_all2 = pd.merge(df_all1, df_bullet, how="left", on="product_uid")
+    from parse_brand import get_parsed_brand_col
+    df_all2['brand_parsed'] = get_parsed_brand_col(df_all2)
 
     #repalce nan
     p = df_all2.keys()
     for i in range(len(p)):
         print (p[i])
     print ('extract materials from product titles time:%s minutes\n' %(round((time.time()-t0)/60,1)))
+
 
     dump_df_all(df_all2, "final_model.p")
     return df_all2
@@ -72,9 +75,6 @@ def replace_nan(s):
 
 df_all = w2v_load_data()
 
-
-from parse_brand import get_parsed_brand_col
-df_all['brand_parsed'] = get_parsed_brand_col(df_all)
 df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
 df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
 df_all['product_description'] = df_all['product_description'].map(lambda x:replace_nan(x))
