@@ -154,7 +154,7 @@ strNum = {'zero':0,'one':1,'two':2,'three':3,'four':4,'five':5,'six':6,'seven':7
 def str_stem(s):
     if not isinstance(s, str):
         s = str(s)
-        
+
     #s = correct(s) ## correct spell typo
     s = re.sub(r"(\w)\.([A-Z])", r"\1 \2", s) #Split words with a.A
     s = s.lower()

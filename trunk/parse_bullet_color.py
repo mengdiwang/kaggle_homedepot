@@ -61,6 +61,9 @@ def parse_bullet():
 
     t0 = time()
     df_attr_bullets['attribute_bullets_parsed'] = df_attr_bullets['attribute_bullets'].map(lambda x:str_stem(x))
+    #origin
+    #df_attr_bullets['attribute_bullets_parsed'] = df_attr_bullets['attribute_bullets'].map(lambda x:str_parser(x,add_space_stop_list=[]))
+
     print ('attribute bullets parsing time:',round((time()-t0)/60,1),'minutes\n')
 
     t0 = time()
