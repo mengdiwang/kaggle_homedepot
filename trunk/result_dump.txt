@@ -1,4 +1,42 @@
-load all_data_text_parsed.p used 0.05 minutes
+load df_all_text_parsed_bullet_color.p used 0.08 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.478570----------
+----------ridge regression RMSE public validation:0.478171----------
+----------ridge regression RMSE private validation:0.478077----------
+--ridge regression training use 0.47 minutes --
+----------lasso regression training RMSE:0.562682----------
+----------lasso regression RMSE public validation:0.550197----------
+----------lasso regression RMSE private validation:0.549635----------
+--lasso regression training use 0.86 minutes --
+----------bagging  training RMSE:0.480823----------
+----------bagging  RMSE public validation:0.478991----------
+----------bagging  RMSE private validation:0.478464----------
+--bagging  training use 1.49 minutes --
+----------random forest  training RMSE:0.473939----------
+----------random forest  RMSE public validation:0.476908----------
+----------random forest  RMSE private validation:0.476567----------
+--random forest  training use 1.96 minutes --
+load df_all_text_parsed_bullet_color.p used 0.07 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.483142----------
+----------ridge regression RMSE public validation:0.476574----------
+----------ridge regression RMSE private validation:0.476507----------
+--ridge regression training use 2.43 minutes --
+----------lasso regression training RMSE:0.532851----------
+----------lasso regression RMSE public validation:0.531336----------
+----------lasso regression RMSE private validation:0.530820----------
+--lasso regression training use 2.83 minutes --
+----------bagging  training RMSE:0.476674----------
+----------bagging  RMSE public validation:0.472747----------
+----------bagging  RMSE private validation:0.472279----------
+--bagging  training use 3.54 minutes --
+----------random forest  training RMSE:0.468865----------
+----------random forest  RMSE public validation:0.469185----------
+----------random forest  RMSE private validation:0.468543----------
+--random forest  training use 4.03 minutes --
+load df_all_text_parsed_bullet_color.p used 0.08 minutes
 load tf-idf_features_corrected.p used 0.0 minutes
 building tree 1 of 800
 building tree 2 of 800
@@ -801,14 +839,14 @@ building tree 798 of 800
 building tree 799 of 800
 building tree 800 of 800
 Best parameters found by grid search:
-{'rfr__max_depth': 20, 'rfr__max_features': 10}
+{'rfr__max_features': 10, 'rfr__max_depth': 20}
 Best CV score:
--0.464885927803
-----------Feature Union regression training RMSE:0.468613----------
-----------Feature Union regression RMSE public validation:0.474270----------
-----------Feature Union regression RMSE private validation:0.473896----------
---Feature Union regression training use 1.42 minutes --
-load all_data_text_parsed.p used 0.05 minutes
+-0.465136325728
+----------Feature Union regression training RMSE:0.469433----------
+----------Feature Union regression RMSE public validation:0.474520----------
+----------Feature Union regression RMSE private validation:0.474358----------
+--Feature Union regression training use 5.51 minutes --
+load df_all_text_parsed_bullet_color.p used 0.08 minutes
 load tf-idf_features_corrected.p used 0.0 minutes
 building tree 1 of 800
 building tree 2 of 800
@@ -1611,10 +1649,10 @@ building tree 798 of 800
 building tree 799 of 800
 building tree 800 of 800
 Best parameters found by grid search:
-{'rfr__max_depth': 20, 'rfr__max_features': 10}
+{'rfr__max_features': 10, 'rfr__max_depth': 20}
 Best CV score:
--0.460190002931
-----------Feature Union regression training RMSE:0.467652----------
-----------Feature Union regression RMSE public validation:0.467439----------
-----------Feature Union regression RMSE private validation:0.466905----------
---Feature Union regression training use 3.15 minutes --
+-0.460159482566
+----------Feature Union regression training RMSE:0.468417----------
+----------Feature Union regression RMSE public validation:0.467670----------
+----------Feature Union regression RMSE private validation:0.467451----------
+--Feature Union regression training use 7.3 minutes --
