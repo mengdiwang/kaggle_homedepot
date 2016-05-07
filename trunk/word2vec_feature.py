@@ -66,10 +66,12 @@ def w2v_load_data():
     for i in range(len(p)):
         print (p[i])
     print ('extract materials from product titles time:%s minutes\n' %(round((time.time()-t0)/60,1)))
-
+    
+    '''
     df_all2[["search_term","product_title","product_description","brand_parsed","material_parsed",
                  "attribute_bullets_stemmed","attribute_stemmed","search_term_unstemmed","product_title",
                  "product_description","brand","material","attribute_bullets","value"]]
+    '''
     dump_df_all(df_all2, "final_model.p")
     return df_all2
 
@@ -80,12 +82,17 @@ def replace_nan(s):
     return s
 
 
-#df_all = w2v_load_data()
+df_all = w2v_load_data()
+'''
 df_all = load_saved_pickles("final_model.p")
 df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
                  "attribute_bullets_stemmed","attribute_stemmed","search_term_unstemmed","product_title",
                  "product_description","brand","material","attribute_bullets","value"]]
 dump_df_all(df_all, "final_model.p")
+df_tmp = df_all.iloc[:2]
+df_tmp.to_csv("tmp_dump.csv")
+print(df_tmp)
+'''
 
 df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
 df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
