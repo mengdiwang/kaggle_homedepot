@@ -30,6 +30,24 @@ def w2v_load_data():
     t0 = time.time()
 
     df_all= load_saved_pickles(df_all_text_color_bullet)
+    df_all['attribute_bullets']                  =    df_all['attribute_bullets_y']
+    df_all['attribute_bullets_parsed']           =    df_all['attribute_bullets_parsed_y']
+    df_all['attribute_bullets_parsed_woBrand']   =    df_all['attribute_bullets_parsed_woBrand_y']
+    df_all['brands_in_attribute_bullets']        =    df_all['brands_in_attribute_bullets_y']
+    df_all['attribute_bullets_parsed_woBM']      =    df_all['attribute_bullets_parsed_woBM_y']
+    df_all['materials_in_attribute_bullets']     =    df_all['materials_in_attribute_bullets_y']
+    df_all['attribute_bullets_stemmed']          =    df_all['attribute_bullets_stemmed_y']
+    df_all['attribute_bullets_stemmed_woBM']     =    df_all['attribute_bullets_stemmed_woBM_y']
+    df_all['attribute_bullets_stemmed_woBrand']  =    df_all['attribute_bullets_stemmed_woBrand_y']
+    df_all.drop(['attribute_bullets_x','attribute_bullets_parsed_x','attribute_bullets_parsed_woBrand_x',
+                 'brands_in_attribute_bullets_x','attribute_bullets_parsed_woBM_x','materials_in_attribute_bullets_x',
+                 'attribute_bullets_stemmed_x','attribute_bullets_stemmed_woBM_x','attribute_bullets_stemmed_woBrand_x',
+                 'attribute_bullets_y','attribute_bullets_parsed_y','attribute_bullets_parsed_woBrand_y',
+                 'brands_in_attribute_bullets_y','attribute_bullets_parsed_woBM_y','materials_in_attribute_bullets_y',
+                 'attribute_bullets_stemmed_y','attribute_bullets_stemmed_woBM_y',
+                 'attribute_bullets_stemmed_woBrand_y'],axis=1)
+
+
     df_materials = pd.read_csv('processing_text/df_material_processed.csv', encoding="ISO-8859-1")
     df_all1 = merge_df_all_df_material(df_all, df_materials)
 
@@ -42,6 +60,7 @@ def w2v_load_data():
         print (p[i])
     print ('extract materials from product titles time:%s minutes\n' %(round((time.time()-t0)/60,1)))
 
+    dump_df_all(df_all2, "final_model.p")
     return df_all2
 
 
