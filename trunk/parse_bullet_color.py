@@ -208,9 +208,10 @@ if __name__ == "__main__":
 
     #df_attr_bullets = parse_bullet()
     df_all = extract_bullet_features(df_all, df_attr_bullets)
-
+    dump_df_all(df_all, df_all_text_bullet)
     #df_tmp = df_all.iloc[:5]
     #df_tmp.to_csv("tmpdump.csv")
 
-    df_all = parse_color_feature(df_all, df_Color)
-    dump_df_all(df_all, df_all_text_color_bullet)
+    ## add color features
+    #df_all = parse_color_feature(df_all, df_Color)
+    #dump_df_all(df_all, df_all_text_color_bullet)
