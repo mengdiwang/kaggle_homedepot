@@ -208,7 +208,9 @@ def str_stem(s):
     s = s.replace("rustoleum","rust-oleum")
     s = s.replace("whirpool","whirlpool")
     s = s.replace("whirlpoolga", "whirlpool ga")
-    s = s.replace("whirlpoolstainless","whirlpool stainless")   return s
+    s = s.replace("whirlpoolstainless","whirlpool stainless")
+
+    return s
 #    else:
 #        return "null"
 
