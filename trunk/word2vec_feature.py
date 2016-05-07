@@ -52,8 +52,10 @@ def w2v_load_data():
     df_materials = pd.read_csv('processing_text/df_material_processed.csv', encoding="ISO-8859-1")
     df_all1 = merge_df_all_df_material(df_all, df_materials)
 
-    df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
-    df_all2 = pd.merge(df_all1, df_bullet, how="left", on="product_uid")
+#    df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
+#    df_all2 = pd.merge(df_all1, df_bullet, how="left", on="product_uid")
+    
+    df_all2 = df_all1
     from parse_brand import get_parsed_brand_col
     df_all2['brand_parsed'] = get_parsed_brand_col(df_all2)
 
@@ -82,7 +84,7 @@ df_all['product_description'] = df_all['product_description'].map(lambda x:repla
 df_all['brand_parsed'] = df_all['brand_parsed'].map(lambda x:replace_nan(x))
 df_all['material_parsed'] = df_all['material_parsed'].map(lambda x:replace_nan(x))
 df_all['attribute_bullets_stemmed'] = df_all['attribute_bullets_stemmed'].map(lambda x:replace_nan(x))
-df_all['attribute_stemmed'] = df_all['attribute_stemmed'].map(lambda x:replace_nan(x))
+df_all['attr'] = df_all['attr'].map(lambda x:replace_nan(x))
 
 df_all['search_term_unstemmed'] = df_all['search_term_unstemmed'].map(lambda x:replace_nan(x))
 df_all['product_title_unstemmed'] = df_all['product_title_unstemmed'].map(lambda x:replace_nan(x))
@@ -100,7 +102,7 @@ pd = df_all["product_description"]
 br = df_all["brand_parsed"]
 mr = df_all["material_parsed"]
 ab = df_all["attribute_bullets_stemmed"]
-at = df_all["attribute_stemmed"]
+at = df_all["attr"]
 
 
 #st + pt +pd vocab
