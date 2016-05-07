@@ -71,8 +71,8 @@ df_all['value'] = df_all['value'].map(lambda x:replace_nan(x))
 
 #build a set of sentenxes in 4 way
 st = df_all["search_term"]
-pt = df_all["product_title_stemmed"]
-pd = df_all["product_description_stemmed"]
+pt = df_all["product_title"]
+pd = df_all["product_description"]
 br = df_all["brand_parsed"]
 mr = df_all["material_parsed"]
 ab = df_all["attribute_bullets_stemmed"]
