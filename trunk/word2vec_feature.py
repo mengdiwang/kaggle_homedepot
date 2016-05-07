@@ -30,6 +30,7 @@ def w2v_load_data():
     t0 = time.time()
 
     df_all= load_saved_pickles(df_all_text_color_bullet)
+    '''
     df_all['attribute_bullets']                  =    df_all['attribute_bullets_y']
     df_all['attribute_bullets_parsed']           =    df_all['attribute_bullets_parsed_y']
     df_all['attribute_bullets_parsed_woBrand']   =    df_all['attribute_bullets_parsed_woBrand_y']
@@ -46,7 +47,7 @@ def w2v_load_data():
                  'brands_in_attribute_bullets_y','attribute_bullets_parsed_woBM_y','materials_in_attribute_bullets_y',
                  'attribute_bullets_stemmed_y','attribute_bullets_stemmed_woBM_y',
                  'attribute_bullets_stemmed_woBrand_y'],axis=1)
-
+    '''
 
     df_materials = pd.read_csv('processing_text/df_material_processed.csv', encoding="ISO-8859-1")
     df_all1 = merge_df_all_df_material(df_all, df_materials)

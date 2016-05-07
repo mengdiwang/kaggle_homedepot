@@ -38,7 +38,7 @@ droplist_for_split = ['search_term', 'product_title', 'product_description', 'pr
                       'attribute_bullets','attribute_bullets_parsed','attribute_bullets_parsed_woBrand',
                       'brands_in_attribute_bullets','attribute_bullets_parsed_woBM','materials_in_attribute_bullets',
                       'attribute_bullets_stemmed','attribute_bullets_stemmed_woBM','attribute_bullets_stemmed_woBrand',
-                      'word_in_bullets_string','word_in_bullets_string_only_string', 'product_color']
+                      'word_in_bullets_string','word_in_bullets_string_only_string', 'product_color', 'brand_parsed']
 
 droplist_for_cust = ['id','relevance','search_term','product_title','product_description','product_info','attr','brand',
                      'tf-idf_term_title','tf-idf_term_desc','tf-idf_term_brand','search_term_parsed_woBrand',
@@ -50,4 +50,4 @@ droplist_for_cust = ['id','relevance','search_term','product_title','product_des
                      'attribute_bullets','attribute_bullets_parsed','attribute_bullets_parsed_woBrand',
                      'brands_in_attribute_bullets','attribute_bullets_parsed_woBM','materials_in_attribute_bullets',
                      'attribute_bullets_stemmed','attribute_bullets_stemmed_woBM','attribute_bullets_stemmed_woBrand',
-                     'word_in_bullets_string','word_in_bullets_string_only_string', 'product_color']
+                     'word_in_bullets_string','word_in_bullets_string_only_string', 'product_color', 'brand_parsed']
