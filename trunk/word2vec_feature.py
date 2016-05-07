@@ -77,7 +77,8 @@ def replace_nan(s):
     return s
 
 
-df_all = w2v_load_data()
+#df_all = w2v_load_data()
+df_all = load_saved_pickles("final_model.p")
 
 df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
 df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
