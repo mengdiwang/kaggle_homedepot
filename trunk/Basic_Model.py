@@ -174,7 +174,7 @@ def get_rf_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
 
 
 def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
-    rfr = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=20)
+    rfr = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=VERBOSE)
     tfidf = TfidfVectorizer(ngram_range=(1, 1), stop_words='english')
     tsvd = TruncatedSVD(n_components=10, random_state=1301)
     clf = pipeline.Pipeline([

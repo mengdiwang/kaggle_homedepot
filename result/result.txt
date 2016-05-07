@@ -217,11 +217,58 @@ http://textminingonline.com/getting-started-with-word2vec-and-glove-in-python
 http://radimrehurek.com/gensim/models/word2vec.html
 http://rare-technologies.com/word2vec-tutorial/
 
+=======================================================================
+Add bullet
+
+
+
+
+
 
 =======================================================================
 Add color and bullet
 color in search term
 bullet in search term
+
+load df_all_text_parsed_bullet_color.p used 0.08 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.478570----------
+----------ridge regression RMSE public validation:0.478171----------
+----------ridge regression RMSE private validation:0.478077----------
+--ridge regression training use 0.47 minutes --
+----------lasso regression training RMSE:0.562682----------
+----------lasso regression RMSE public validation:0.550197----------
+----------lasso regression RMSE private validation:0.549635----------
+--lasso regression training use 0.86 minutes --
+----------bagging  training RMSE:0.480823----------
+----------bagging  RMSE public validation:0.478991----------
+----------bagging  RMSE private validation:0.478464----------
+--bagging  training use 1.49 minutes --
+----------random forest  training RMSE:0.473939----------
+----------random forest  RMSE public validation:0.476908----------
+----------random forest  RMSE private validation:0.476567----------
+--random forest  training use 1.96 minutes --
+load df_all_text_parsed_bullet_color.p used 0.07 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.483142----------
+----------ridge regression RMSE public validation:0.476574----------
+----------ridge regression RMSE private validation:0.476507----------
+--ridge regression training use 2.43 minutes --
+----------lasso regression training RMSE:0.532851----------
+----------lasso regression RMSE public validation:0.531336----------
+----------lasso regression RMSE private validation:0.530820----------
+--lasso regression training use 2.83 minutes --
+----------bagging  training RMSE:0.476674----------
+----------bagging  RMSE public validation:0.472747----------
+----------bagging  RMSE private validation:0.472279----------
+--bagging  training use 3.54 minutes --
+----------random forest  training RMSE:0.468865----------
+----------random forest  RMSE public validation:0.469185----------
+----------random forest  RMSE private validation:0.468543----------
+--random forest  training use 4.03 minutes --
+
 
 
 
