@@ -218,3 +218,28 @@ def get_brand_and_material():
 
 
     #print ('extract brands from query time:',round((time()-t0)/60,1) ,'minutes\n')
+
+
+def get_parsed_brand_col(df_all):
+
+    add_space_stop_list=[]
+    uniq_brands = list(set(list(df_all['brand'])))
+    for i in range(0,len(uniq_brands)):
+        uniq_brands[i]=simple_parser(uniq_brands[i])
+        if re.search(r'[a-z][A-Z][a-z]',uniq_brands[i])!=None:
+            for word in uniq_brands[i].split():
+                if re.search(r'[a-z][A-Z][a-z]',word)!=None:
+                    add_space_stop_list.append(word.lower())
+
+    uniq_titles=list(set(list(df_all['product_title'])))
+    for i in range(0,len(uniq_titles)):
+        uniq_titles[i]=simple_parser(uniq_titles[i])
+        if re.search(r'[a-z][A-Z][a-z]', uniq_titles[i]) != None:
+            for word in uniq_titles[i].split():
+                if re.search(r'[a-z][A-Z][a-z]', word) != None:
+                    add_space_stop_list.append(word.lower())
+
+    add_space_stop_list=list(set(add_space_stop_list))
+    df_all['brand_parsed']=col_parser(df_all['brand'].map(lambda x: re.sub('^[t|T]he ', '', x.replace(".N/A","").replace("N.A.","").replace("n/a","").replace("Generic Unbranded","").replace("Unbranded","").replace("Generic",""))),add_space_stop_list=add_space_stop_list)
+    df_all['brand_parsed']=df_all['brand_parsed'].map(lambda x: replace_brand_dict[x] if x in replace_brand_dict.keys() else x)
+    return df_all['brand_parsed']
