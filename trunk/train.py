@@ -103,9 +103,12 @@ def train_with_result(ptg=0.44):
     '''
 
 def main():
+    print ("train with 0.44 trainning set")
     train()
-    train(ptg=0.8)
     train_with_result()
+    print ("------------------------------")
+    print ("train with 0.8trainning set")
+    train(ptg=0.8)
     train_with_result(ptg=0.8)
     #train_only_tfidf()
 
