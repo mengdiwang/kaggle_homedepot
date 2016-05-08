@@ -85,12 +85,13 @@ def replace_nan(s):
 def build_model_1(st, pt, pd0, ab, at):
     #st + pt +pd vocab
     t = list()
-    st.map(lambda x: t.append(x))
-    pt.map(lambda x: t.append(x))
-    pd0.map(lambda x: t.append(x))
-    ab.map(lambda x: t.append(x))
-    at.map(lambda x: t.append(x))
-    model0 = gensim.models.Word2Vec(t, sg=1, window=10, sample=1e-5, negative=5, size=300)
+    '''
+    st.map(lambda x: t.append(x.split()))
+    pt.map(lambda x: t.append(x.split()))
+    pd0.map(lambda x: t.append(x.split()))
+    ab.map(lambda x: t.append(x.split()))
+    at.map(lambda x: t.append(x.split()))
+
     '''
     for i in range(len(st)):
          p = st[i].split()
@@ -112,7 +113,9 @@ def build_model_1(st, pt, pd0, ab, at):
     for i in range(len(at)):
         p = at[i].split()
         t.append(p)
-    '''
+
+    model0 = gensim.models.Word2Vec(t, sg=1, window=10, sample=1e-5, negative=5, size=300)
+    gc.collect()
     print ("first vocab Done")
     return model0
 
@@ -121,18 +124,20 @@ def build_model_2(st, pt, tpd, br, mr, ab, at):
     #st conc pt conc pd vocab
     t1 = list()
     for i in range(len(st)):
-        p = st[i]+pt[i]+tpd[i]+br[i]+mr[i]+ab[i]+at[i]
+        p = st[i].split()+pt[i].split()+tpd[i].split()+br[i].split()+mr[i].split()+ab[i].split()+at[i].split()
         t1.append(p)
 
     model1 = gensim.models.Word2Vec(t1, sg=1, window=10, sample=1e-5, negative=5, size=300)
     print ("second vocab Done")
+    gc.collect()
     return model1
+
 
 def get_sim_between_models(model, search, given):
     n_sim=list()
     for i in range(len(search)):
-        w1=search[i]
-        w2=given[i]
+        w1=search[i].split()
+        w2=given[i].split()
         d1=[]
         d2=[]
         for j in range(len(w1)):
@@ -145,14 +150,15 @@ def get_sim_between_models(model, search, given):
             n_sim.append(0)
         else:
             n_sim.append(model.n_similarity(d1,d2))
+    gc.collect()
     return n_sim
 
 
-def get_sim_all(model, pt, pd0, br, mr, ab, at):
+def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
     n_sim_all=list()
     for i in range(len(st)):
-        w1=st[i]
-        w2=pt[i]+pd0[i]+br[i]+mr[i]+ab[i]+at[i]
+        w1=st[i].split()
+        w2=pt[i].split()+pd0[i].split()+br[i].split()+mr[i].split()+ab[i].split()+at[i].split()
         d1=[]
         d2=[]
         for j in range(len(w1)):
@@ -165,6 +171,7 @@ def get_sim_all(model, pt, pd0, br, mr, ab, at):
             n_sim_all.append(0)
         else:
             n_sim_all.append(model.n_similarity(d1,d2))
+    gc.collect()
     return n_sim_all
 
 
@@ -197,23 +204,25 @@ def run():
     df_all['attribute_bullets'] = df_all['attribute_bullets'].map(lambda x:replace_nan(x))
     df_all['value'] = df_all['value'].map(lambda x:replace_nan(x))
 
+    print('finish replace')
+
     # build a set of sentenxes in 4 way
-    st = df_all["search_term"].map(lambda x:x.split())
-    pt = df_all["product_title"].map(lambda x:x.split())
-    pd0 = df_all["product_description"].map(lambda x:x.split())
-    br = df_all["brand_parsed"].map(lambda x:x.split())
-    mr = df_all["material_parsed"].map(lambda x:x.split())
-    ab = df_all["attribute_bullets_stemmed"].map(lambda x:x.split())
-    at = df_all["attribute_stemmed"].map(lambda x:x.split())
+    st = df_all["search_term"]
+    pt = df_all["product_title"]
+    pd0 = df_all["product_description"]
+    br = df_all["brand_parsed"]
+    mr = df_all["material_parsed"]
+    ab = df_all["attribute_bullets_stemmed"]
+    at = df_all["attribute_stemmed"]
     
     # st + pt +pd +br + mr vocab w/o pars
-    st1 = df_all["search_term_unstemmed"].map(lambda x:x.split())
-    pt1 = df_all["product_title"].map(lambda x:x.split())
-    pd1 = df_all["product_description"].map(lambda x:x.split())
-    br1 = df_all["brand"].map(lambda x:x.split())
-    mr1 = df_all["material"].map(lambda x:x.split())
-    ab1 = df_all["attribute_bullets"].map(lambda x:x.split())
-    at1 = df_all["value"].map(lambda x:x.split())
+    st1 = df_all["search_term_unstemmed"]
+    pt1 = df_all["product_title"]
+    pd1 = df_all["product_description"]
+    br1 = df_all["brand"]
+    mr1 = df_all["material"]
+    ab1 = df_all["attribute_bullets"]
+    at1 = df_all["value"]
 
     model0 = build_model_1(st, pt, pd0, ab, at)
     dump_df_all(model0, "model0.p")
@@ -239,9 +248,9 @@ def run():
         n_sim.append(n_sim_at)
         n_sim_ptpd = get_sim_between_models(model, pt, pd0)
         n_sim.append(n_sim_ptpd)
-        n_sim_all=get_sim_all(model, pt, pd0, br, mr, ab, at)
+        n_sim_all=get_sim_all(model, st, pt, pd0, br, mr, ab, at)
         n_sim.append(n_sim_all)
-        n_sim_all1=get_sim_all(model, pt1, pd1, br1, mr1, ab1, at1)
+        n_sim_all1=get_sim_all(model, st1, pt1, pd1, br1, mr1, ab1, at1)
         n_sim.append(n_sim_all1)
         
         print ("model features done")
