@@ -94,7 +94,7 @@ def build_model_1(st, pt, pd0, ab, at):
 
     '''
     for i in range(len(st)):
-         p = st[i].split()
+        p = st[i].split()
         t.append(p)
 
     for i in range(len(pt)):
