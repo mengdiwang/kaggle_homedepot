@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Code for calculating word2vec features.
-Competition: HomeDepot Search Relevance
-Author: Kostia Omelianchuk
-Team: Turing test
-"""
-
+import sys
 import gc
 import gensim
 import logging
@@ -174,7 +168,7 @@ def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
     return n_sim_all
 
 
-def run():
+def prepare():
     #df_all = w2v_load_data()
     '''
     df_all = load_saved_pickles("final_model.p")
@@ -203,8 +197,12 @@ def run():
     df_all['attribute_bullets'] = df_all['attribute_bullets'].map(lambda x:replace_nan(x))
     df_all['value'] = df_all['value'].map(lambda x:replace_nan(x))
 
-    print('finish replace')
 
+    print('finish replace')
+    return df_all
+
+
+def run(df_all):
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
     pt = df_all["product_title"]
@@ -234,6 +232,31 @@ def run():
     print ("model prepared")
 
     return
+
+
+def train_sim_model_w2c(m0p, m1p, m2p, m3p, df_all):
+    model0 = load_saved_pickles(m0p)
+    model1 = load_saved_pickles(m1p)
+    model2 = load_saved_pickles(m2p)
+    model3 = load_saved_pickles(m3p)
+
+    # build a set of sentenxes in 4 way
+    st = df_all["search_term"]
+    pt = df_all["product_title"]
+    pd0 = df_all["product_description"]
+    br = df_all["brand_parsed"]
+    mr = df_all["material_parsed"]
+    ab = df_all["attribute_bullets_stemmed"]
+    at = df_all["attribute_stemmed"]
+
+    # st + pt +pd +br + mr vocab w/o pars
+    st1 = df_all["search_term_unstemmed"]
+    pt1 = df_all["product_title"]
+    pd1 = df_all["product_description"]
+    br1 = df_all["brand"]
+    mr1 = df_all["material"]
+    ab1 = df_all["attribute_bullets"]
+    at1 = df_all["value"]
 
     #for each model calculate features^ n_similarity between st and something else
     model_list=[model0,model1,model2,model3]
@@ -267,4 +290,14 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+
+    if len(sys.argv) < 2:
+        print ('%s b|t\n(b: build model, t: train model)' % sys.argv[0])
+        sys.exit()
+
+    df_all = prepare()
+
+    if 'b' in sys.argv[1]:
+        run(df_all)
+    if 't' in sys.argv[1]:
+        train_sim_model_w2c("model0.p","model1.p","model2.p","model3.p",df_all)
