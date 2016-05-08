@@ -3,9 +3,11 @@ TODO: 1. add more features: word2vec,
      tf-idf, DONE
      color, DONE
      material, DONE
-     bullet, signature(artist, group)
-     word2vec,
+     bullet, signature(artist, group) DONE
+     word2vec, DONE, too large to process
 TODO: 2. test different models: ridge, kernel, rf, DONE
 TODO: 3. Use grid search to do the parameter search, DONE
 TODO: 4. Add XGB model, DONE
 TODO: 5. Feature Union for with, without and for
+TODO: 6. apply ridge svm to pipline
+TODO: 7. add bulllet tfidf into pipline
