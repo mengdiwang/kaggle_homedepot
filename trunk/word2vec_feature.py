@@ -203,6 +203,7 @@ def prepare():
 
 
 def run(df_all):
+    '''
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
     pt = df_all["product_title"]
@@ -211,7 +212,13 @@ def run(df_all):
     mr = df_all["material_parsed"]
     ab = df_all["attribute_bullets_stemmed"]
     at = df_all["attribute_stemmed"]
-    
+
+    model0 = build_model_1(st, pt, pd0, ab, at)
+    dump_df_all(model0, "model0.p")
+    model1 = build_model_2(st, pt, pd0, br, mr, ab, at)
+    dump_df_all(model1, "model1.p")    
+    '''
+
     # st + pt +pd +br + mr vocab w/o pars
     st1 = df_all["search_term_unstemmed"]
     pt1 = df_all["product_title"]
@@ -221,10 +228,6 @@ def run(df_all):
     ab1 = df_all["attribute_bullets"]
     at1 = df_all["value"]
 
-#    model0 = build_model_1(st, pt, pd0, ab, at)
-#    dump_df_all(model0, "model0.p")
-#    model1 = build_model_2(st, pt, pd0, br, mr, ab, at)
-#    dump_df_all(model1, "model1.p")
     model2 = build_model_1(st1, pt1, pd1, ab1, at1)
     dump_df_all(model2, "model2.p")
     model3 = build_model_2(st1, pt1, pd1, br1, mr1, ab1, at1)
