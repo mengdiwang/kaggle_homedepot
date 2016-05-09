@@ -243,6 +243,7 @@ def train_sim_model_w2c(mlist, df_all):
         model_list.append(model)
 
     df_all = df_all.iloc[:10]
+    df_all.to_csv("tmp_dump.csv")
 
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
