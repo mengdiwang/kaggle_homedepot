@@ -25,6 +25,7 @@ def w2v_load_data():
     t0 = time.time()
 
     df_all= load_saved_pickles(df_all_text_color_bullet)
+    df_all.iloc[:10].to_csv("tmp/tmp.csv")
     '''
     df_all['attribute_bullets']                  =    df_all['attribute_bullets_y']
     df_all['attribute_bullets_parsed']           =    df_all['attribute_bullets_parsed_y']
@@ -46,14 +47,17 @@ def w2v_load_data():
 
     df_materials = pd.read_csv('processing_text/df_material_processed.csv', encoding="ISO-8859-1")
     df_all1 = merge_df_all_df_material(df_all, df_materials)
+    df_all1.iloc[:10].to_csv("tmp/tmp1.csv")
 
     df_attr = pd.read_csv(path_attr)
 #    df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
     df_all2 = pd.merge(df_all1, df_attr, how="left", on="product_uid")
+    df_all2.iloc[:10].to_csv("tmp/tmp2.csv")
 
     from parse_brand import get_parsed_brand_col
     df_all2['brand_parsed'] = get_parsed_brand_col(df_all2)
     df_all2['attribute_stemmed'] = df_all2['value'].map(lambda x:str_stem(x))
+    df_all2.iloc[:10].to_csv("tmp/tmp3.csv")
 
     #repalce nan
     p = df_all2.keys()
@@ -66,7 +70,8 @@ def w2v_load_data():
                  "attribute_bullets_stemmed","attribute_stemmed","search_term_unstemmed","product_title",
                  "product_description","brand","material","attribute_bullets","value"]]
     '''
-    dump_df_all(df_all2, "final_model.p")
+    df_all2.iloc[:10].to_csv("tmp/tmp4.csv")
+    #dump_df_all(df_all2, "final_model.p")
     return df_all2
 
 
@@ -169,7 +174,10 @@ def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
 
 
 def prepare():
-    #df_all = w2v_load_data()
+    '''tmp'''
+    df_all = w2v_load_data()
+    return df_all
+    
     '''
     df_all = load_saved_pickles("final_model.p")
     df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
