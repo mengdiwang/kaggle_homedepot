@@ -127,7 +127,7 @@ def build_model_2(st, pt, tpd, br, mr, ab, at):
 
 
 def get_sim_between_models(model, search, given):
-    n_sim=list()
+    n_sim_local=list()
     for i in range(len(search)):
         w1=search[i].split()
         w2=given[i].split()
@@ -140,11 +140,11 @@ def get_sim_between_models(model, search, given):
             if w2[j] in model.vocab:
                 d2.append(w2[j])
         if d1==[] or d2==[]:
-            n_sim.append(0)
+            n_sim_local.append(0)
         else:
-            n_sim.append(model.n_similarity(d1,d2))
+            n_sim_local.append(model.n_similarity(d1,d2))
     gc.collect()
-    return n_sim
+    return n_sim_local
 
 
 def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
@@ -270,7 +270,6 @@ def train_sim_model_w2c(mlist, df_all):
     #model_list=[model0,model1,model2,model3]
     n_sim=list()
     for model in model_list:
-        n_sim_pt=list()
         n_sim_pt = get_sim_between_models(model, st, pt)
         n_sim.append(n_sim_pt)
         n_sim_pd = get_sim_between_models(model, st, pd0)

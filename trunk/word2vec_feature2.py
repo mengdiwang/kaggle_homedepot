@@ -241,10 +241,8 @@ def train_sim_model_w2c(mlist, df_all):
     for mpath in mlist:
         model = load_saved_pickles(mpath)
         model_list.append(model)
-    '''
-    model2 = load_saved_pickles(m2p)
-    model3 = load_saved_pickles(m3p)
-    '''
+
+    df_all = df_all.iloc[:10]
 
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
@@ -256,7 +254,7 @@ def train_sim_model_w2c(mlist, df_all):
     at = df_all["attribute_stemmed"]
 
     # st + pt +pd +br + mr vocab w/o pars
-    '''
+
     st1 = df_all["search_term_unstemmed"]
     pt1 = df_all["product_title"]
     pd1 = df_all["product_description"]
@@ -264,7 +262,7 @@ def train_sim_model_w2c(mlist, df_all):
     mr1 = df_all["material"]
     ab1 = df_all["attribute_bullets"]
     at1 = df_all["value"]
-    '''    
+
     #for each model calculate features^ n_similarity between st and something else
     #model_list=[model0,model1,model2,model3]
     n_sim=list()
@@ -280,10 +278,9 @@ def train_sim_model_w2c(mlist, df_all):
         n_sim.append(n_sim_ptpd)
         n_sim_all=get_sim_all(model, st, pt, pd0, br, mr, ab, at)
         n_sim.append(n_sim_all)
-        '''
         n_sim_all1=get_sim_all(model, st1, pt1, pd1, br1, mr1, ab1, at1)
         n_sim.append(n_sim_all1)
-        '''
+
         print ("model features done")
 
     st_names = ["id"]
@@ -293,7 +290,7 @@ def train_sim_model_w2c(mlist, df_all):
 
     #save features
     b=df_all[st_names]
-    b.to_csv("features/df_word2vec_new.csv", index=False)
+    b.to_csv("features/df_word2vec_4.csv", index=False)
 
 
 if __name__ == "__main__":
@@ -307,4 +304,4 @@ if __name__ == "__main__":
     if 'b' in sys.argv[1]:
         run(df_all)
     if 't' in sys.argv[1]:
-        train_sim_model_w2c(["model0.p","model1.p"], df_all)
+        train_sim_model_w2c(["model0.p","model1.p","model2.p", "model3.p"], df_all)
