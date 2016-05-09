@@ -238,6 +238,7 @@ def run(df_all):
 
 
 def train_sim_model_w2c(mlist, df_all):
+    model_list = []
     for mpath in mlist:
         model = load_saved_pickles(mpath)
         model_list.append(model)
