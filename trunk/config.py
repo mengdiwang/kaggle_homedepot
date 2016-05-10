@@ -53,3 +53,5 @@ droplist_for_cust = ['id','relevance','search_term','product_title','product_des
                      'attribute_bullets_stemmed','attribute_bullets_stemmed_woBM','attribute_bullets_stemmed_woBrand',
                      'word_in_bullets_string','word_in_bullets_string_only_string', 'product_color', 'brand_parsed',
                      'attribute_stemmed', 'value']
+
+processed_attr = "processing_text/df_attributes.csv"

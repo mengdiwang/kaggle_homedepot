@@ -49,7 +49,7 @@ def w2v_load_data():
     df_all1 = merge_df_all_df_material(df_all, df_materials)
     df_all1.iloc[:10].to_csv("tmp/tmp1.csv")
 
-    df_attr = pd.read_csv(path_attr)
+    df_attr = pd.read_csv(processed_attr)
 #    df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
     df_all2 = pd.merge(df_all1, df_attr, how="left", on="product_uid")
     df_all2.iloc[:10].to_csv("tmp/tmp2.csv")
@@ -177,7 +177,7 @@ def prepare():
     '''tmp'''
     df_all = w2v_load_data()
     return df_all
-    
+
     '''
     df_all = load_saved_pickles("final_model.p")
     df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
