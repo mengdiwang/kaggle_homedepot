@@ -240,7 +240,7 @@ def run(df_all):
     model2 = build_model_1(st1, pt1, pd1, ab1, at1)
     dump_df_all(model2, "model2.p")
     model3 = build_model_2(st1, pt1, pd1, br1, mr1, ab1, at1)
-    dump_df_all(model3, "model32.p")
+    dump_df_all(model3, "model3.p")
     print ("model prepared")
     return
 
