@@ -49,3 +49,7 @@ def parse_attr():
     #use Igor stemmer for process attributes from 'homedepot_fuctions.py'
     df_atrr['attribute_stemmed']=df_atrr['value'].map(lambda x:str_stemmer(x))
     df_atrr.to_csv(processed_attr,  index=False, encoding="utf-8")
+
+
+if __name__ == "__main__":
+    parse_attr()
