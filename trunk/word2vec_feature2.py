@@ -71,7 +71,7 @@ def w2v_load_data():
                  "product_description","brand","material","attribute_bullets","value"]]
     '''
     df_all2.iloc[:10].to_csv("tmp/tmp4.csv")
-    #dump_df_all(df_all2, "final_model.p")
+    dump_df_all(df_all2, "final_model.p")
     return df_all2
 
 
@@ -173,11 +173,8 @@ def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
     return n_sim_all
 
 
-def prepare():
+def prepare(NewModel = False):
     '''tmp'''
-    df_all = w2v_load_data()
-    return df_all
-
     '''
     df_all = load_saved_pickles("final_model.p")
     df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
@@ -188,7 +185,12 @@ def prepare():
     df_tmp.to_csv("tmp_dump.csv")
     print(df_tmp)
     '''
-    df_all = load_saved_pickles("final_model.p")
+    df_all = pd.DataFrame()
+    if NewModel:
+        df_all = w2v_load_data()
+    #    return df_all
+    else:
+        df_all = load_saved_pickles("final_model.p")
     df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
     df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
     df_all['product_description'] = df_all['product_description'].map(lambda x:replace_nan(x))
@@ -211,7 +213,7 @@ def prepare():
 
 
 def run(df_all):
-    '''
+
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
     pt = df_all["product_title"]
@@ -224,8 +226,7 @@ def run(df_all):
     model0 = build_model_1(st, pt, pd0, ab, at)
     dump_df_all(model0, "model0.p")
     model1 = build_model_2(st, pt, pd0, br, mr, ab, at)
-    dump_df_all(model1, "model1.p")    
-    '''
+    dump_df_all(model1, "model1.p")
 
     # st + pt +pd +br + mr vocab w/o pars
     st1 = df_all["search_term_unstemmed"]
@@ -236,8 +237,8 @@ def run(df_all):
     ab1 = df_all["attribute_bullets"]
     at1 = df_all["value"]
 
-    #model2 = build_model_1(st1, pt1, pd1, ab1, at1)
-    #dump_df_all(model2, "model2.p")
+    model2 = build_model_1(st1, pt1, pd1, ab1, at1)
+    dump_df_all(model2, "model2.p")
     model3 = build_model_2(st1, pt1, pd1, br1, mr1, ab1, at1)
     dump_df_all(model3, "model32.p")
     print ("model prepared")
@@ -305,10 +306,14 @@ def train_sim_model_w2c(mlist, df_all):
 if __name__ == "__main__":
 
     if len(sys.argv) < 2:
-        print ('%s b|t\n(b: build model, t: train model)' % sys.argv[0])
+        print ('%s b|t\n(b: build model, t: train model, n: new model)' % sys.argv[0])
         sys.exit()
 
-    df_all = prepare()
+    NewModel = False
+    if 'n' in sys.argv[1]:
+        NewModel = True
+
+    df_all = prepare(NewModel=NewModel)
 
     if 'b' in sys.argv[1]:
         run(df_all)
