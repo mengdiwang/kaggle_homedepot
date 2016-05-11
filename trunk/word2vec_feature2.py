@@ -251,8 +251,8 @@ def train_sim_model_w2c(mlist, df_all):
         model = load_saved_pickles(mpath)
         model_list.append(model)
 
-    df_all = df_all.iloc[:10]
-    df_all.to_csv("tmp_dump.csv")
+#    df_all = df_all.iloc[:10]
+#    df_all.to_csv("tmp_dump.csv")
 
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
@@ -300,7 +300,7 @@ def train_sim_model_w2c(mlist, df_all):
 
     #save features
     b=df_all[st_names]
-    b.to_csv("features/df_word2vec_4.csv", index=False)
+    b.to_csv("features/df_word2vec_all.csv", index=False)
 
 
 if __name__ == "__main__":
