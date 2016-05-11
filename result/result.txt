@@ -377,6 +377,82 @@ Best CV score:
 ----------XGB regression RMSE private validation:0.482950----------
 --XGB regression training use 9.78 minutes --
 
+=======================================================================
+Add Word2Vec
+
+load df_all_text_parsed_bullet.p used 0.08 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+train with 0.44 trainning set
+X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.466961----------
+----------ridge regression RMSE public validation:0.467669----------
+----------ridge regression RMSE private validation:0.466979----------
+--ridge regression training use 0.51 minutes --
+----------lasso regression training RMSE:0.562682----------
+----------lasso regression RMSE public validation:0.550197----------
+----------lasso regression RMSE private validation:0.549635----------
+--lasso regression training use 0.9 minutes --
+----------bagging  training RMSE:0.471252----------
+----------bagging  RMSE public validation:0.469788----------
+----------bagging  RMSE private validation:0.469298----------
+--bagging  training use 1.79 minutes --
+----------random forest  training RMSE:0.459573----------
+----------random forest  RMSE public validation:0.463360----------
+----------random forest  RMSE private validation:0.462923----------
+--random forest  training use 2.31 minutes --
+Best parameters found by grid search:
+{'rfr__max_features': 10, 'rfr__max_depth': 20}
+Best CV score:
+-0.456436617922
+----------Feature Union regression training RMSE:0.458975----------
+----------Feature Union regression RMSE public validation:0.463256----------
+----------Feature Union regression RMSE private validation:0.462884----------
+--Feature Union regression training use 3.87 minutes --
+Best parameters found by grid search:
+{'xgb_model__max_depth': 5, 'xgb_model__n_estimators': 10}
+Best CV score:
+-0.484433048789
+-0.0144010560487
+----------XGB regression training RMSE:0.464851----------
+----------XGB regression RMSE public validation:0.471038----------
+----------XGB regression RMSE private validation:0.471827----------
+--XGB regression training use 4.96 minutes --
+------------------------------
+train with 0.8 trainning set
+X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.471457----------
+----------ridge regression RMSE public validation:0.465949----------
+----------ridge regression RMSE private validation:0.465256----------
+--ridge regression training use 5.38 minutes --
+----------lasso regression training RMSE:0.532851----------
+----------lasso regression RMSE public validation:0.531336----------
+----------lasso regression RMSE private validation:0.530820----------
+--lasso regression training use 5.81 minutes --
+----------bagging  training RMSE:0.470237----------
+----------bagging  RMSE public validation:0.464157----------
+----------bagging  RMSE private validation:0.463886----------
+--bagging  training use 7.04 minutes --
+----------random forest  training RMSE:0.458606----------
+----------random forest  RMSE public validation:0.457904----------
+----------random forest  RMSE private validation:0.457815----------
+--random forest  training use 7.63 minutes --
+Best parameters found by grid search:
+{'rfr__max_features': 10, 'rfr__max_depth': 20}
+Best CV score:
+-0.452538512505
+----------Feature Union regression training RMSE:0.459140----------
+----------Feature Union regression RMSE public validation:0.457741----------
+----------Feature Union regression RMSE private validation:0.457557----------
+--Feature Union regression training use 9.51 minutes --
+Best parameters found by grid search:
+{'xgb_model__max_depth': 5, 'xgb_model__n_estimators': 10}
+Best CV score:
+-0.472320077162
+-0.0022880844224
+----------XGB regression training RMSE:0.469112----------
+----------XGB regression RMSE public validation:0.472708----------
+----------XGB regression RMSE private validation:0.473031----------
+--XGB regression training use 10.71 minutes --
 
 =======================================================================
 TODO:Ensemble different model

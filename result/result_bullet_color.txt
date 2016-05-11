@@ -1,0 +1,93 @@
+load df_all_text_parsed_bullet_color.p used 0.08 minutes
+load tf-idf_features_corrected.p used 0.0 minutes
+train with 0.44 trainning set
+X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.478570----------
+----------ridge regression RMSE public validation:0.478171----------
+----------ridge regression RMSE private validation:0.478077----------
+--ridge regression training use 0.47 minutes --
+----------lasso regression training RMSE:0.562682----------
+----------lasso regression RMSE public validation:0.550197----------
+----------lasso regression RMSE private validation:0.549635----------
+--lasso regression training use 0.85 minutes --
+----------bagging  training RMSE:0.480823----------
+----------bagging  RMSE public validation:0.478991----------
+----------bagging  RMSE private validation:0.478464----------
+--bagging  training use 1.49 minutes --
+----------random forest  training RMSE:0.473939----------
+----------random forest  RMSE public validation:0.476908----------
+----------random forest  RMSE private validation:0.476567----------
+--random forest  training use 1.97 minutes --
+Best parameters found by grid search:
+{'rfr__max_depth': 20, 'rfr__max_features': 10}
+Best CV score:
+-0.465136325728
+----------Feature Union regression training RMSE:0.469433----------
+----------Feature Union regression RMSE public validation:0.474520----------
+----------Feature Union regression RMSE private validation:0.474358----------
+--Feature Union regression training use 3.46 minutes --
+Best parameters found by grid search:
+{'xgb_model__max_depth': 5, 'xgb_model__n_estimators': 10}
+Best CV score:
+-0.507909395176
+-0.0378774024362
+----------XGB regression training RMSE:0.476678----------
+----------XGB regression RMSE public validation:0.482145----------
+----------XGB regression RMSE private validation:0.482364----------
+--XGB regression training use 4.54 minutes --
+------------------------------
+train with 0.8 trainning set
+X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
+----------ridge regression training RMSE:0.483142----------
+----------ridge regression RMSE public validation:0.476574----------
+----------ridge regression RMSE private validation:0.476507----------
+--ridge regression training use 5.02 minutes --
+----------lasso regression training RMSE:0.532851----------
+----------lasso regression RMSE public validation:0.531336----------
+----------lasso regression RMSE private validation:0.530820----------
+--lasso regression training use 5.43 minutes --
+----------bagging  training RMSE:0.476674----------
+----------bagging  RMSE public validation:0.472747----------
+----------bagging  RMSE private validation:0.472279----------
+--bagging  training use 6.16 minutes --
+----------random forest  training RMSE:0.468865----------
+----------random forest  RMSE public validation:0.469185----------
+----------random forest  RMSE private validation:0.468543----------
+--random forest  training use 6.66 minutes --
+Best parameters found by grid search:
+{'rfr__max_depth': 20, 'rfr__max_features': 10}
+Best CV score:
+-0.460159482566
+----------Feature Union regression training RMSE:0.468417----------
+----------Feature Union regression RMSE public validation:0.467670----------
+----------Feature Union regression RMSE private validation:0.467451----------
+--Feature Union regression training use 8.51 minutes --
+Best parameters found by grid search:
+{'xgb_model__max_depth': 5, 'xgb_model__n_estimators': 10}
+Best CV score:
+-0.481266052808
+-0.0112340600682
+----------XGB regression training RMSE:0.480824----------
+----------XGB regression RMSE public validation:0.482742----------
+----------XGB regression RMSE private validation:0.482950----------
+--XGB regression training use 9.78 minutes --
+tree prunning end, 1 roots, 58 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 60 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 60 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 60 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 60 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 60 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 60 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
+tree prunning end, 1 roots, 62 extra nodes, 0 pruned nodes ,max_depth=5
