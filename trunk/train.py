@@ -26,7 +26,7 @@ def train_load_all_features(loadpath):
     df_tfidf = load_saved_pickles(train_tfidf_features)
     concat_tf_idf_features(df_all, df_tfidf)
 
-    df_word2vec = pd.read_csv('features/df_word2vec_new.csv', encoding="utf-8")
+    df_word2vec = pd.read_csv('features/df_word2vec_all.csv', encoding="utf-8")
     df_all = pd.merge(df_all, df_word2vec, how='left', on='id')
 
     return df_all
