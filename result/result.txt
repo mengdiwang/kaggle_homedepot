@@ -7,7 +7,7 @@ RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.505081
 =======================================================================
 Preprocessing
 
-Tfidf 
+Tfidf
 SVD
 length of search term, title, brand
 brand
@@ -33,9 +33,6 @@ rfr__max_features=10, rfr__max_depth=20, score=-0.463359 - 1.0min
 RandomForest+tfidf+SVD+Weigth regression RMSE:0.474657
 RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.472850
 --RandomForest+tfidf+SVD+Weigth regression training use 3.44 minutes --
-
-RandomForest+tfidf+SVD+Weigth regression RMSE:0.477133
-RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.473159
 
 ------------------Ridge Regression-------------
 ridge regression RMSE:0.492814
@@ -73,8 +70,9 @@ random forest  RMSE validation:0.477545
 ----------random forest  training RMSE:0.487010----------
 ----------random forest  RMSE public validation:0.486107----------
 ----------random forest  RMSE private validation:0.486506----------
-
 --random forest  training use 2.66 minutes --
+RandomForest+tfidf+SVD+Weigth regression RMSE:0.477133
+RandomForest+tfidf+SVD+Weigth regression RMSE validation:0.473159
 
 =======================================================================
 https://s3-us-west-2.amazonaws.com/wmdds1003/kaggle/tf-idf_features_corrected.p
@@ -111,7 +109,7 @@ X_train_len:32589, y_train_len:32589, X_test_len:41478, y_test_len:41478, X_vali
 =======================================================================
 after correct typo
 
-train/all = 0.8% 
+train/all = 0.8%
 
 X_train_len:59253, y_train_len:59253, X_test_len:14814, y_test_len:14814, X_valid_len:166693, id_valid_len:166693
 
@@ -382,4 +380,3 @@ Best CV score:
 
 =======================================================================
 TODO:Ensemble different model
-
