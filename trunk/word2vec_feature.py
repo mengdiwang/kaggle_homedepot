@@ -25,6 +25,7 @@ def w2v_load_data():
     t0 = time.time()
 
     df_all= load_saved_pickles(df_all_text_color_bullet)
+    df_all.iloc[:10].to_csv("tmp/tmp.csv")
     '''
     df_all['attribute_bullets']                  =    df_all['attribute_bullets_y']
     df_all['attribute_bullets_parsed']           =    df_all['attribute_bullets_parsed_y']
@@ -46,14 +47,17 @@ def w2v_load_data():
 
     df_materials = pd.read_csv('processing_text/df_material_processed.csv', encoding="ISO-8859-1")
     df_all1 = merge_df_all_df_material(df_all, df_materials)
+    df_all1.iloc[:10].to_csv("tmp/tmp1.csv")
 
-    df_attr = pd.read_csv(path_attr)
+    df_attr = pd.read_csv(processed_attr)
 #    df_bullet = pd.read_csv("processing_text/df_attribute_bullets_processed.csv", encoding="ISO-8859-1")
     df_all2 = pd.merge(df_all1, df_attr, how="left", on="product_uid")
+    df_all2.iloc[:10].to_csv("tmp/tmp2.csv")
 
     from parse_brand import get_parsed_brand_col
     df_all2['brand_parsed'] = get_parsed_brand_col(df_all2)
     df_all2['attribute_stemmed'] = df_all2['value'].map(lambda x:str_stem(x))
+    df_all2.iloc[:10].to_csv("tmp/tmp3.csv")
 
     #repalce nan
     p = df_all2.keys()
@@ -66,6 +70,7 @@ def w2v_load_data():
                  "attribute_bullets_stemmed","attribute_stemmed","search_term_unstemmed","product_title",
                  "product_description","brand","material","attribute_bullets","value"]]
     '''
+    df_all2.iloc[:10].to_csv("tmp/tmp4.csv")
     dump_df_all(df_all2, "final_model.p")
     return df_all2
 
@@ -127,7 +132,7 @@ def build_model_2(st, pt, tpd, br, mr, ab, at):
 
 
 def get_sim_between_models(model, search, given):
-    n_sim_local=list()
+    n_sim=list()
     for i in range(len(search)):
         w1=search[i].split()
         w2=given[i].split()
@@ -140,11 +145,11 @@ def get_sim_between_models(model, search, given):
             if w2[j] in model.vocab:
                 d2.append(w2[j])
         if d1==[] or d2==[]:
-            n_sim_local.append(0)
+            n_sim.append(0)
         else:
-            n_sim_local.append(model.n_similarity(d1,d2))
+            n_sim.append(model.n_similarity(d1,d2))
     gc.collect()
-    return n_sim_local
+    return n_sim
 
 
 def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
@@ -168,8 +173,8 @@ def get_sim_all(model, st, pt, pd0, br, mr, ab, at):
     return n_sim_all
 
 
-def prepare():
-    #df_all = w2v_load_data()
+def prepare(NewModel = False):
+    '''tmp'''
     '''
     df_all = load_saved_pickles("final_model.p")
     df_all = df_all[["search_term","product_title","product_description","brand_parsed","material_parsed",
@@ -180,7 +185,12 @@ def prepare():
     df_tmp.to_csv("tmp_dump.csv")
     print(df_tmp)
     '''
-    df_all = load_saved_pickles("final_model.p")
+    df_all = pd.DataFrame()
+    if NewModel:
+        df_all = w2v_load_data()
+    #    return df_all
+    else:
+        df_all = load_saved_pickles("final_model.p")
     df_all['search_term'] = df_all['search_term'].map(lambda x:replace_nan(x))
     df_all['product_title'] = df_all['product_title'].map(lambda x:replace_nan(x))
     df_all['product_description'] = df_all['product_description'].map(lambda x:replace_nan(x))
@@ -216,9 +226,8 @@ def run(df_all):
     model0 = build_model_1(st, pt, pd0, ab, at)
     dump_df_all(model0, "model0.p")
     model1 = build_model_2(st, pt, pd0, br, mr, ab, at)
-    dump_df_all(model1, "model1.p")    
+    dump_df_all(model1, "model1.p")
 
-    '''
     # st + pt +pd +br + mr vocab w/o pars
     st1 = df_all["search_term_unstemmed"]
     pt1 = df_all["product_title"]
@@ -232,7 +241,6 @@ def run(df_all):
     dump_df_all(model2, "model2.p")
     model3 = build_model_2(st1, pt1, pd1, br1, mr1, ab1, at1)
     dump_df_all(model3, "model3.p")
-    '''
     print ("model prepared")
     return
 
@@ -242,10 +250,9 @@ def train_sim_model_w2c(mlist, df_all):
     for mpath in mlist:
         model = load_saved_pickles(mpath)
         model_list.append(model)
-    '''
-    model2 = load_saved_pickles(m2p)
-    model3 = load_saved_pickles(m3p)
-    '''
+
+#    df_all = df_all.iloc[:10]
+#    df_all.to_csv("tmp_dump.csv")
 
     # build a set of sentenxes in 4 way
     st = df_all["search_term"]
@@ -257,7 +264,7 @@ def train_sim_model_w2c(mlist, df_all):
     at = df_all["attribute_stemmed"]
 
     # st + pt +pd +br + mr vocab w/o pars
-    '''
+
     st1 = df_all["search_term_unstemmed"]
     pt1 = df_all["product_title"]
     pd1 = df_all["product_description"]
@@ -265,11 +272,12 @@ def train_sim_model_w2c(mlist, df_all):
     mr1 = df_all["material"]
     ab1 = df_all["attribute_bullets"]
     at1 = df_all["value"]
-    '''    
+
     #for each model calculate features^ n_similarity between st and something else
     #model_list=[model0,model1,model2,model3]
     n_sim=list()
     for model in model_list:
+        n_sim_pt=list()
         n_sim_pt = get_sim_between_models(model, st, pt)
         n_sim.append(n_sim_pt)
         n_sim_pd = get_sim_between_models(model, st, pd0)
@@ -280,10 +288,9 @@ def train_sim_model_w2c(mlist, df_all):
         n_sim.append(n_sim_ptpd)
         n_sim_all=get_sim_all(model, st, pt, pd0, br, mr, ab, at)
         n_sim.append(n_sim_all)
-        '''
         n_sim_all1=get_sim_all(model, st1, pt1, pd1, br1, mr1, ab1, at1)
         n_sim.append(n_sim_all1)
-        '''
+
         print ("model features done")
 
     st_names = ["id"]
@@ -293,18 +300,22 @@ def train_sim_model_w2c(mlist, df_all):
 
     #save features
     b=df_all[st_names]
-    b.to_csv("features/df_word2vec_new.csv", index=False)
+    b.to_csv("features/df_word2vec_all.csv", index=False)
 
 
 if __name__ == "__main__":
 
     if len(sys.argv) < 2:
-        print ('%s b|t\n(b: build model, t: train model)' % sys.argv[0])
+        print ('%s b|t\n(b: build model, t: train model, n: new model)' % sys.argv[0])
         sys.exit()
 
-    df_all = prepare()
+    NewModel = False
+    if 'n' in sys.argv[1]:
+        NewModel = True
+
+    df_all = prepare(NewModel=NewModel)
 
     if 'b' in sys.argv[1]:
         run(df_all)
     if 't' in sys.argv[1]:
-        train_sim_model_w2c(["model0.p","model1.p"], df_all)
+        train_sim_model_w2c(["model0.p","model1.p","model2.p", "model3.p"], df_all)
