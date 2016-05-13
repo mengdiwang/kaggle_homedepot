@@ -1,0 +1,4 @@
+data source on mw3265@s3://wmdds1003/kaggle/final_data.tar.gz
+https://s3-us-west-2.amazonaws.com/wmdds1003/kaggle/final_data.tar.gz
+
+training, python3 train.py df_all_text_parsed_bullet.p

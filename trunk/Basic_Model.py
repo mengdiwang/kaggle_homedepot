@@ -216,7 +216,7 @@ def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=Fals
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
         if PFR and names is not None:
-            frlist = sorted(zip(map(lambda x: round(x, 4), clf.feature_importances_), names), reverse=True)
+            frlist = sorted(zip(map(lambda x: round(x, 4), rfr.feature_importances_), names), reverse=True)
 
         if X_valid is None:
             return y_pred, frlist
