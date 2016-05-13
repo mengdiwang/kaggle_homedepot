@@ -1,4 +1,4 @@
-/trunk/processing_text/df_attribute_bullets_processed.csv
+/src/processing_text/df_attribute_bullets_processed.csv
 */./idea/*
 input/*.csv
 *.xml
@@ -8,7 +8,7 @@ Icon
 */Icon
 *.pyc
 .gitignore (1)
-
+src/*.csv
 *.p
 
 env/Anaconda3-2.4.1-Linux-x86_64.sh
