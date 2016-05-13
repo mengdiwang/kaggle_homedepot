@@ -121,7 +121,8 @@ def test_best(loadpath):
 
     # feature union
     names = X_train.keys()
-    predictions, valid_pred, feature_list = get_feature_union_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True, PFR=True, names=names)
+
+    predictions, valid_pred, feature_list = get_feature_union_prediction(X_train, y_train, X_test, X_valid=X_valid, PFR=True, names=names)
     predictions = normalize_pred(predictions)
     valid_pred = normalize_pred(valid_pred)
     print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
@@ -129,5 +130,6 @@ def test_best(loadpath):
 
 
 if __name__ == "__main__":
+    # df_all_text_parsed_bullet.p
     #main(sys.argv[1])
     test_best(sys.argv[1])

@@ -207,22 +207,22 @@ def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=Fals
         print("Best CV score:")
         print(model.best_score_)
 
+        if X_valid is None:
+            return y_pred
+        else:
+            vy_pred = model.predict(X_valid)
+            return y_pred, vy_pred
+    else:
+        clf.fit(X_train, y_train)
+        y_pred = clf.predict(X_test)
         if PFR and names is not None:
-            frlist = sorted(zip(map(lambda x: round(x, 4), model.feature_importances_), names), reverse=True)
+            frlist = sorted(zip(map(lambda x: round(x, 4), clf.feature_importances_), names), reverse=True)
 
         if X_valid is None:
             return y_pred, frlist
         else:
-            vy_pred = model.predict(X_valid)
-            return y_pred, vy_pred, frlist
-    else:
-        clf.fit(X_train, y_train)
-        y_pred = clf.predict(X_test)
-        if X_valid is None:
-            return y_pred
-        else:
             vy_pred = clf.predict(X_valid)
-            return y_pred, vy_pred
+            return y_pred, vy_pred, frlist
 
 
 #TODO
