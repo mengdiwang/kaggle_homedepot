@@ -114,5 +114,20 @@ def main(loadpath):
     #train_only_tfidf()
 
 
+def test_best(loadpath):
+    df_all = train_load_all_features(loadpath)
+    X_train, y_train,  X_test, y_test, X_valid, id_valid, num_train1 = split_train_test_with_result(df_all, ptg=0.8, Todrop=False)
+    df_sol = load_valid()
+
+    # feature union
+    names = X_train.keys()
+    predictions, valid_pred, feature_list = get_feature_union_prediction(X_train, y_train, X_test, X_valid=X_valid, GS=True, PFR=True, names)
+    predictions = normalize_pred(predictions)
+    valid_pred = normalize_pred(valid_pred)
+    print_test_and_valid("Feature Union regression", y_test, predictions, df_sol, valid_pred)
+    print(feature_list)
+
+
 if __name__ == "__main__":
-    main(sys.argv[1])
+    #main(sys.argv[1])
+    test_best(sys.argv[1])

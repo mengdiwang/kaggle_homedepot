@@ -173,7 +173,7 @@ def get_rf_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
             return y_pred, rf.predict(X_valid)
 
 
-def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=False):
+def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=False, names=None, PFR=False):
     rfr = RandomForestRegressor(n_estimators=800, n_jobs=-1, max_features=10, max_depth=20, random_state=1301, verbose=VERBOSE)
     tfidf = TfidfVectorizer(ngram_range=(1, 1), stop_words='english')
     tsvd = TruncatedSVD(n_components=10, random_state=1301)
@@ -206,11 +206,15 @@ def get_feature_union_prediction(X_train, y_train, X_test, X_valid=None, GS=Fals
         print(model.best_params_)
         print("Best CV score:")
         print(model.best_score_)
+
+        if PFR and names is not None:
+            frlist = sorted(zip(map(lambda x: round(x, 4), model.feature_importances_), names), reverse=True)
+
         if X_valid is None:
-            return y_pred
+            return y_pred, frlist
         else:
             vy_pred = model.predict(X_valid)
-            return y_pred, vy_pred
+            return y_pred, vy_pred, frlist
     else:
         clf.fit(X_train, y_train)
         y_pred = clf.predict(X_test)
